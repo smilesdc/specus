@@ -8,4 +8,4 @@ package net.tomasherman.specus.server.net.packet
  * To change this template use File | Settings | File Templates.
  */
 
-sealed abstract class packets(val id:Byte)
+sealed abstract class Packet(val id:Byte)

@@ -21,6 +21,6 @@ package net.tomasherman.specus.api.net.packet
 
 /**
  * Parent class of all packet case classes.
- * @param opcode Identifier of packet. Must be unique in the whole build
+ * @param id Identifier of packet. Must be unique in the whole build
  */
-abstract class Packet(opcode:Byte)
+abstract class Packet(id:Byte)

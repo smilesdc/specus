@@ -24,3 +24,8 @@ package net.tomasherman.specus.api.net.packet
  * @param id Identifier of packet. Must be unique in the whole build
  */
 abstract class Packet(id:Byte)
+
+case class KeepAlive extends Packet(0x00)
+case class LoginRequest(protocolVersion:Int,username:String,mapSeed:Long,dimension:Byte) extends Packet(0x01)
+case class Handshake(content:String) extends Packet(0x02)
+case class ChatMsg(content:String) extends Packet(0x03)

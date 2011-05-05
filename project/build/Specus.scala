@@ -12,7 +12,7 @@ class SpecusProject(info:ProjectInfo) extends ParentProject(info) with IdeaProje
   class ApiProject(info:ProjectInfo) extends DefaultProject(info) with IdeaProject with AkkaProject{
     val jbossRepo = "jBoss repository" at "https://repository.jboss.org/nexus/content/repositories/releases/"
     val netty = "org.jboss.netty" % "netty" % "3.2.4.Final" //Apache2
-
+    val scalatest = "org.scalatest" % "scalatest" % "1.3" % "test"
   }
 
   class ServerProject(info:ProjectInfo) extends DefaultProject(info) with IdeaProject with AkkaProject{

@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.net.packet
+package net.tomasherman.specus.api.net.packet
 
 /**
  * This file is part of Specus.
@@ -19,5 +19,8 @@ package net.tomasherman.specus.server.net.packet
  *
  */
 
-
-sealed abstract class Packet(val id:Byte)
+/**
+ * Parent class of all packet case classes.
+ * @param opcode Identifier of packet. Must be unique in the whole build
+ */
+abstract class Packet(opcode:Byte)

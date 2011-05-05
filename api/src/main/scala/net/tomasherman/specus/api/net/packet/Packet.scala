@@ -25,7 +25,7 @@ package net.tomasherman.specus.api.net.packet
  */
 abstract class Packet
 
-case class KeepAlive extends Packet
+case class KeepAlive() extends Packet
 case class LoginRequest(protocolVersion:Int,username:String,mapSeed:Long,dimension:Byte) extends Packet
 case class Handshake(content:String) extends Packet
 case class ChatMsg(content:String) extends Packet

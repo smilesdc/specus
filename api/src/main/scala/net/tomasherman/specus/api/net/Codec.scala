@@ -33,13 +33,13 @@ abstract class Codec[T<:Packet](val packetId:Byte,val packetClass:Class[T]){
 trait CodecRepository{
   import scala.collection.mutable.Map
   val codecByIDMap = Map[Byte,Codec[_]]()
-  val codecByPacketMap = Map[Class[_<:Packet],Codec[_]]()
+  val codecByPacketMap = Map[Class[_],Codec[_]]()
 
   def lookupCodec(packetId:Byte) = codecByIDMap.get(packetId)
-  def lookupCodec(cl:Class[Packet]) = codecByPacketMap.get(cl)
+  def lookupCodec(p:Packet) = codecByPacketMap.get(p.getClass)
 
-  def registerCodec[T<:Packet,C<:Codec[T]](codecClass:Class[C]) = {
-    val instance:Codec[T] = codecClass.newInstance
+  def registerCodec[C<:Codec[_<:Packet]](codecClass:Class[C]) {
+    val instance = codecClass.newInstance
     codecByPacketMap(instance.packetClass) = instance
     codecByIDMap(instance.packetId) = instance
   }

@@ -22,7 +22,25 @@ import org.jboss.netty.buffer.ChannelBuffer
  *
  */
 
-abstract trait Codec[T<:Packet]{
+
+
+abstract class Codec[T<:Packet](val packetId:Byte,val packetClass:Class[T]){
+
   def encode(packet:T)
   def decode(buffer:ChannelBuffer):T
+}
+
+trait CodecRepository{
+  import scala.collection.mutable.Map
+  val codecByIDMap = Map[Byte,Codec[_]]()
+  val codecByPacketMap = Map[Class[_<:Packet],Codec[_]]()
+
+  def lookupCodec(packetId:Byte) = codecByIDMap.get(packetId)
+  def lookupCodec(cl:Class[Packet]) = codecByPacketMap.get(cl)
+
+  def registerCodec[T<:Packet,C<:Codec[T]](codecClass:Class[C]) = {
+    val instance:Codec[T] = codecClass.newInstance
+    codecByPacketMap(instance.packetClass) = instance
+    codecByIDMap(instance.packetId) = instance
+  }
 }

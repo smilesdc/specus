@@ -15,6 +15,9 @@ class SpecusProject(info:ProjectInfo) extends ParentProject(info) with IdeaProje
     val specs = "org.specs2" % "specs2_2.8.1" % "1.2" % "test"
     val mockito = "org.mockito" % "mockito-all" % "1.8.5" % "test"
 
+
+    def specs2Framework = new TestFramework("org.specs2.runner.SpecsFramework")
+    override def testFrameworks = super.testFrameworks ++ Seq(specs2Framework)
   }
 
   class ServerProject(info:ProjectInfo) extends DefaultProject(info) with IdeaProject with AkkaProject{

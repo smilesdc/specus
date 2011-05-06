@@ -26,7 +26,7 @@ import org.jboss.netty.buffer.ChannelBuffer
 
 abstract class Codec[T<:Packet](val packetId:Byte,val packetClass:Class[T]){
 
-  def encode(packet:T)
+  def encode(packet:T):ChannelBuffer
   def decode(buffer:ChannelBuffer):T
 }
 

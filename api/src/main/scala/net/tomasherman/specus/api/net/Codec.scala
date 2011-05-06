@@ -38,9 +38,15 @@ trait CodecRepository{
   def lookupCodec(packetId:Byte) = codecByIDMap.get(packetId)
   def lookupCodec(p:Packet) = codecByPacketMap.get(p.getClass)
 
-  def registerCodec(codecClass:Class[_<:Codec[_<:Packet]]) {
+  def registerCodec(codecClass:Class[_<:Codec[_<:Packet]]):Boolean = {
+    if(codecClass == null) return false
     val instance = codecClass.newInstance
-    codecByPacketMap(instance.packetClass) = instance
-    codecByIDMap(instance.packetId) = instance
+    var success = false
+    if(!codecByPacketMap.contains(instance.packetClass) && !codecByIDMap.contains(instance.packetId)){
+      codecByPacketMap(instance.packetClass) = instance
+      codecByIDMap(instance.packetId) = instance
+      success = true
+    }
+    success
   }
 }

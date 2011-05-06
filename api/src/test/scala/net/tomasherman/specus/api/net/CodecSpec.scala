@@ -39,6 +39,10 @@ class Codec2 extends Codec[Packet2](0x02,classOf[Packet2]){
   def encode(packet: Packet2) = null
 }
 
+class FailCodec extends Codec[Packet2](0x03,classOf[Packet2]){
+  def decode(buffer: ChannelBuffer) = new Packet2
+  def encode(packet: Packet2) = null
+}
 
 class CodecSpec extends Specification{
 
@@ -95,7 +99,16 @@ class CodecSpec extends Specification{
 
     "register should fail on null input" in {
       val repo = getTestRepo
-      repo.registerCodec(null) must throwAn[NullPointerException]
+      repo.registerCodec(null) must_== false
+    }
+
+    "register should fail when another codec is already registered with same id or packet class" in {
+      val repo = getTestRepo
+      repo.registerCodec(classOf[Codec1]) must_== false
+      repo.registerCodec(classOf[Codec2]) must_== false
+
+      repo.registerCodec(classOf[FailCodec]) must_== false
+
     }
   }
 

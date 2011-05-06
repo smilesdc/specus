@@ -38,7 +38,7 @@ trait CodecRepository{
   def lookupCodec(packetId:Byte) = codecByIDMap.get(packetId)
   def lookupCodec(p:Packet) = codecByPacketMap.get(p.getClass)
 
-  def registerCodec[C<:Codec[_<:Packet]](codecClass:Class[C]) {
+  def registerCodec(codecClass:Class[_<:Codec[_<:Packet]]) {
     val instance = codecClass.newInstance
     codecByPacketMap(instance.packetClass) = instance
     codecByIDMap(instance.packetId) = instance

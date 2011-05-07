@@ -3,7 +3,6 @@ package net.tomasherman.specus.api.net
 import org.specs2.mutable._
 import packet.Packet
 import org.jboss.netty.buffer.ChannelBuffer
-import org.specs2.matcher.MustExpectable._
 
 /**
  * This file is part of Specus.

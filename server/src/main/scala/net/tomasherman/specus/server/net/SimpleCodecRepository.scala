@@ -23,7 +23,7 @@ import net.tomasherman.specus.api.net.{CodecRepository, Codec}
  */
 
 /**
- * Trait encapsulating all methods required for looking up Codecs by the packet id or packet class.
+ * Class encapsulating all methods required for looking up Codecs by the packet id or packet class.
  */
 class SimpleCodecRepository extends CodecRepository{
   import scala.collection.mutable.Map

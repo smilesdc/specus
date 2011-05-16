@@ -1,7 +1,6 @@
 package net.tomasherman.specus.api.net
 
 import packet.Packet
-import org.jboss.netty.buffer.ChannelBuffer
 
 /**
  * This file is part of Specus.
@@ -28,20 +27,24 @@ import org.jboss.netty.buffer.ChannelBuffer
  * @param packetId Id of the packet. First byte in every packet.
  * @param packetClass Class of the packet returned by the codec.
  */
-abstract class Codec[T<:Packet](val packetId:Byte,val packetClass:Class[T]){
+trait CodecRepository{
   /**
-   * Encodes particular packet into ChannelBuffer ready to be send through the network.
-   * @param packet Packet to be encoded
+   * Tries to find a suitable codec for packetId.
+   * @param packetid Byte for which a suitable codec should be found.
+   * @return Either None if no codec is found or Option wrapped codec.
    */
-  def encode(packet:T):ChannelBuffer
+  def lookupCodec(packetId:Byte):Option[Codec[_]]
+  /**
+   * Tries to find a suitable codec for packet class.
+   * @param packetid Byte for which a suitable codec should be found.
+   * @return Either None if no codec is found or Option wrapped codec.
+   */
+  def lookupCodec(p:Packet):Option[Codec[_]]
 
   /**
-   * Attempts to decode packet class from the ChannelBuffer.
-   * @param buffer ChannelBuffer, from which codec is meant to be decoding the class.
+   * Registers codec for lookup. Note that registration fails should any other codec be registered with same packet class or packet id as registering codec.
+   * @param codecClass Class of the codec to be registered. New instance is created automatically.
+   * @returns True if the codec was registered correctly. False if registration failed
    */
-  def decode(buffer:ChannelBuffer):T
+  def registerCodec(codecClass:Class[_<:Codec[_<:Packet]]):Boolean
 }
-
-/**
- * Trait encapsulating all methods required for looking up Codecs by the packet id or packet class.
- */

@@ -1,7 +1,9 @@
-package net.tomasherman.specus.api.net
+package net.tomasherman.specus.server.net
+
+import net.tomasherman.specus.api.net.packet.Packet
+import net.tomasherman.specus.api.net.Codec
 
 import org.specs2.mutable._
-import packet.Packet
 import org.jboss.netty.buffer.ChannelBuffer
 
 /**
@@ -23,7 +25,6 @@ import org.jboss.netty.buffer.ChannelBuffer
  *
  */
 
-class TestRepository extends CodecRepository
 
 class Packet1 extends Packet
 class Packet2 extends Packet
@@ -46,7 +47,7 @@ class FailCodec extends Codec[Packet2](0x03,classOf[Packet2]){
 class CodecSpec extends Specification{
 
   def getTestRepo = {
-    val repo = new TestRepository
+    val repo = new SimpleCodecRepository
     repo.registerCodec(classOf[Codec1])
     repo.registerCodec(classOf[Codec2])
     repo

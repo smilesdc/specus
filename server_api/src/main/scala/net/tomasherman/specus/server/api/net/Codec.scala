@@ -1,8 +1,7 @@
-package net.tomasherman.specus.api.net
+package net.tomasherman.specus.server.api.net
 
 import packet.Packet
 import org.jboss.netty.buffer.ChannelBuffer
-
 /**
  * This file is part of Specus.
  *

@@ -1,4 +1,4 @@
-package net.tomasherman.specus.api.net.packet
+package net.tomasherman.specus.server.api.net.packet
 
 /**
  * This file is part of Specus.

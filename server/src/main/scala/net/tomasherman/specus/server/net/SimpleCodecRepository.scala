@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.net
 
-import net.tomasherman.specus.api.net.packet.Packet
-import net.tomasherman.specus.api.net.{CodecRepository, Codec}
+import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.server.api.net.{CodecRepository, Codec}
 
 /**
  * This file is part of Specus.

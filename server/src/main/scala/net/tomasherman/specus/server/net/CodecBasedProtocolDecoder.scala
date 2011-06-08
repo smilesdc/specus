@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.net
 
 import org.jboss.netty.buffer.ChannelBuffer
-import net.tomasherman.specus.api.net.{CodecRepositoryComponent, CodecRepository, ProtocolDecoder}
+import net.tomasherman.specus.server.api.net.{CodecRepositoryComponent, CodecRepository, ProtocolDecoder}
 
 /**
  * This file is part of Specus.

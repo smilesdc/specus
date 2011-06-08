@@ -1,4 +1,4 @@
-package net.tomasherman.specus.api.net
+package net.tomasherman.specus.server.api.net
 
 import packet.Packet
 

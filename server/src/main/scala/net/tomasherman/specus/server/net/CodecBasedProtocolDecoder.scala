@@ -22,8 +22,6 @@ import net.tomasherman.specus.server.api.net.{CodecRepositoryComponent, CodecRep
  *
  */
 
-
-
 trait CodecBasedProtocolDecoder extends ProtocolDecoder { this:CodecRepositoryComponent =>
   val codecRepository:CodecRepository
 

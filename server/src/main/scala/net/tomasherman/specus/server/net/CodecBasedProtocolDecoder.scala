@@ -22,7 +22,7 @@ import net.tomasherman.specus.server.api.net._
  *
  */
 
-trait CodecBasedProtocolDecoder extends ProtocolDecoder { this:CodecRepositoryComponent =>
+trait CodecBasedProtocolDecoder extends ProtocolDecoder { this:CodegitcRepositoryComponent =>
   val codecRepository:CodecRepository
 
   def decode(buffer: ChannelBuffer) = {

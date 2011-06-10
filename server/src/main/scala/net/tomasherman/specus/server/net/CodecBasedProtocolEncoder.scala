@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.net
 
 import net.tomasherman.specus.server.api.net.packet.Packet
-import net.tomasherman.specus.server.api.net.{CodecRepository, ProtocolEncoder}
+import net.tomasherman.specus.server.api.net._
 
 /**
  * This file is part of Specus.
@@ -22,9 +22,14 @@ import net.tomasherman.specus.server.api.net.{CodecRepository, ProtocolEncoder}
  *
  */
 
-trait CodecBasedProtocolEncoder extends ProtocolEncoder{
-  val codecRepository : CodecRepository = null
+trait CodecBasedProtocolEncoder extends ProtocolEncoder{ this:CodecRepositoryComponent=>
+  val codecRepository : CodecRepository
 
-  def encode(packet: Packet) = null
+  def encode(packet: Packet) = {
+    codecRepository.lookupCodec(packet) match {
+      case Some(x:Codec[_]) => x.encode(packet)
+      case None => throw new PacketEncoderNotFoundException(packet)
+    }
+  }
 
 }

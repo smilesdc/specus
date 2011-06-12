@@ -1,7 +1,4 @@
-package net.tomasherman.specus.server.net
-
-import org.jboss.netty.buffer.ChannelBuffer
-import net.tomasherman.specus.server.api.net._
+package net.tomasherman.specus.server.api.di
 
 /**
  * This file is part of Specus.
@@ -22,14 +19,6 @@ import net.tomasherman.specus.server.api.net._
  *
  */
 
-trait CodecBasedProtocolDecoder extends ProtocolDecoder {
-  val codecRepository:CodecRepository
-
-  def decode(buffer: ChannelBuffer) = {
-    val packetId = buffer.readByte()
-    codecRepository.lookupCodec(packetId) match {
-      case Some(x:Codec[_]) => x.decode(buffer)
-      case None => throw new BufferDecoderNotFoundException(buffer)
-    }
-  }
+object ConfigRepositroy {
+  var config:Config = null
 }

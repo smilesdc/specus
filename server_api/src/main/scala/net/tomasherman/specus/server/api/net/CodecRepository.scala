@@ -22,10 +22,6 @@ import packet.Packet
  */
 
 
-trait CodecRepositoryComponent {
-  val codecRepository : CodecRepository
-}
-
 /**
  * Abstract trait codec needs to implement. There is one codec per packet type. *Codec must be stateless*!
  * @param packetId Id of the packet. First byte in every packet.

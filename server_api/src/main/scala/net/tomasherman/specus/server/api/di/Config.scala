@@ -1,8 +1,6 @@
-package net.tomasherman.specus.server
+package net.tomasherman.specus.server.api.di
 
-import _root_.net.tomasherman.specus.server.api.net.CodecRepositoryComponent
-import net.SimpleCodecRepository
-
+import net.tomasherman.specus.server.api.net.CodecRepository
 
 /**
  * This file is part of Specus.
@@ -22,7 +20,6 @@ import net.SimpleCodecRepository
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-object ComponentRepository extends CodecRepositoryComponent{
-  val codecRepository = new SimpleCodecRepository
+trait Config {
+  val codecRepository:CodecRepository
 }

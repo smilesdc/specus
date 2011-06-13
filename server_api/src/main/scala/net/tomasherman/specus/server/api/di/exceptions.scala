@@ -1,7 +1,5 @@
 package net.tomasherman.specus.server.api.di
 
-import tools.nsc.doc.model.PrivateInInstance
-
 /**
  * This file is part of Specus.
  *
@@ -20,30 +18,5 @@ import tools.nsc.doc.model.PrivateInInstance
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-object ConfigRepositroy {
-  private var _config:Config = null
-  private var lockdown = false;
-
-  def apply() = {
-    config
-  }
-
-  def config = {
-    if(_config == null){
-      throw new NoDependencyConfigurationSupplied
-    } else {
-      _config
-    }
-  }
-    
-
-  def config_= (x:Config):Unit = {
-    if(lockdown) {
-      throw new ConfigAlreadyLockedDown
-    }
-    _config = x
-    lockdown = true
-  }
-
-}
+class NoDependencyConfigurationSupplied extends Exception
+class ConfigAlreadyLockedDown extends Exception

@@ -27,7 +27,7 @@ import annotation.tailrec
  */
 
 
-object Decoding {
+object DecodingUtils {
 
   def decodeByte(b:ChannelBuffer) = b.readByte
 

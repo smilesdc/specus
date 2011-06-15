@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.api.net.packet
+package net.tomasherman.specus.server.api.net
 
 import org.jboss.netty.buffer.ChannelBuffer
 import net.tomasherman.specus.server.api.net.DecodingErrorException

@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.api.net.packet
+package net.tomasherman.specus.server.api.net
 
 import java.lang.Byte
 import org.jboss.netty.buffer.ChannelBuffer

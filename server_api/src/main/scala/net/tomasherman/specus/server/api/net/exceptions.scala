@@ -25,3 +25,4 @@ import org.jboss.netty.buffer.ChannelBuffer
 
 class PacketEncoderNotFoundException(packet:Packet) extends Exception
 class BufferDecoderNotFoundException(buffer:ChannelBuffer) extends Exception
+class DecodingErrorException(expected:String,value:Any) extends Exception

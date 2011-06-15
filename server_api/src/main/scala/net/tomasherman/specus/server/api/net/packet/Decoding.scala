@@ -5,8 +5,6 @@ import net.tomasherman.specus.server.api.net.DecodingErrorException
 import org.jboss.netty.util.CharsetUtil
 import java.nio.charset.Charset
 import collection.mutable.ListBuffer
-import collection.immutable.::
-import xml.MalformedAttributeException
 import annotation.tailrec
 
 /**

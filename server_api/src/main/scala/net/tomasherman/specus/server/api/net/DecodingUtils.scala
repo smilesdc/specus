@@ -70,8 +70,8 @@ object DecodingUtils {
   }
   @tailrec
   private def decodeMetadataRec(b:ChannelBuffer,meta:ListBuffer[(Int,Any)]):List[(Int,Any)]={
-    val t = b.readByte()
-    if(t == 0xff.toByte) {
+    val t = b.readUnsignedByte()
+    if(t == 0x7F.toByte) {
       meta.toList
     }else {
       t >>> 5 match {

@@ -21,12 +21,15 @@ import tools.nsc.doc.model.PrivateInInstance
  *
  */
 
-object ConfigRepositroy {
+object ConfigRepository extends ConfigRepositroyTrait
+
+trait ConfigRepositroyTrait {
   private var _config:Config = null
   private var lockdown = false;
 
   def apply() = {
-    config
+    val res = config
+    res
   }
 
   def config = {

@@ -26,6 +26,7 @@ import net.tomasherman.specus.server.api.net.CodecRepository
 class DependentClass(env:{val codecRepository:CodecRepository}){
   def codecRepository = env.codecRepository
 }
+class TestConfigRepository extends ConfigRepositroyTrait
 
 class DISpec extends Specification with Mockito{
   val m = mock[Config]
@@ -40,20 +41,22 @@ class DISpec extends Specification with Mockito{
     }
 
     "exception when config not set" in {
-      ConfigRepositroy() must throwA[NoDependencyConfigurationSupplied]
+      val conf = new TestConfigRepository
+      conf() must throwA[NoDependencyConfigurationSupplied]
     }
 
     "structural type injecting" in {
-      ConfigRepositroy.config = m
-      val dc = new DependentClass(ConfigRepositroy())
+      val conf = new TestConfigRepository
+
+      conf.config = m
+      val dc = new DependentClass(conf())
       dc.codecRepository.toString must_== MOCK_MSG
     }
 
     "exception when config assigned twice" in {
-      (ConfigRepositroy.config = m) must throwA [ConfigAlreadyLockedDown]
+      val conf = new TestConfigRepository
+      conf.config = m
+      (conf.config = m) must throwA [ConfigAlreadyLockedDown]
     }
-
-
-
   }
 }

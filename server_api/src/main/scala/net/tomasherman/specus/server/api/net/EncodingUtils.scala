@@ -58,7 +58,6 @@ object EncodingUtils {
           case v:Short => b.writeByte(0x01); encodeShort(v,b)
           case v:Int => b.writeByte(0x02); encodeInt(v,b)
           case v:Long => b.writeByte(0x03); encodeLong(v,b)
-          case v:Double => b.writeByte(0x03); encodeDouble(v,b)
           case v:String => b.writeByte(0x04); encodeString16(v,b)
           case (x:Short,y:Byte,z:Short) => b.writeByte(0x05); encodeShort(x,b); encodeByte(y,b); encodeShort(z,b)
           case (x:Byte,y:Byte,z:Byte) => b.writeByte(0x06); encodeByte(x,b); encodeByte(y,b); encodeByte(z,b)

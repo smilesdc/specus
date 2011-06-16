@@ -58,5 +58,8 @@ class DISpec extends Specification with Mockito{
       conf.config = m
       (conf.config = m) must throwA [ConfigAlreadyLockedDown]
     }
+
+
+
   }
 }

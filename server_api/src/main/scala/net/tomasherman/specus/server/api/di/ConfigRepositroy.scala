@@ -1,7 +1,5 @@
 package net.tomasherman.specus.server.api.di
 
-import tools.nsc.doc.model.PrivateInInstance
-
 /**
  * This file is part of Specus.
  *

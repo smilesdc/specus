@@ -4,6 +4,7 @@ import org.jboss.netty.buffer.ChannelBuffer
 import org.jboss.netty.util.CharsetUtil
 import java.nio.charset.Charset
 import annotation.tailrec
+import java.lang.Boolean
 
 
 /**
@@ -33,6 +34,12 @@ object EncodingUtils {
   def encodeLong(v:Long,b:ChannelBuffer){ b.writeLong(v) }
   def encodeFloat(v:Float,b:ChannelBuffer){ b.writeFloat(v) }
   def encodeDouble(v:Double,b:ChannelBuffer){ b.writeDouble(v) }
+  def encodeBoolean(v:Boolean,b:ChannelBuffer){
+    v match {
+      case true => b.writeByte(0x01)
+      case false => b.writeByte(0x00)
+    }
+  }
   def encodeString8(v:String,b:ChannelBuffer){
     encodeString(v,b,CharsetUtil.UTF_8)
   }

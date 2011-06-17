@@ -50,7 +50,7 @@ object EncodingUtils {
     b.writeShort(arr.length)
     b.writeBytes(arr)
   }
-  def encodeMetadata(v:List[(Int,Any)],b:ChannelBuffer){
+  def encodeMetadata(v:List[Any],b:ChannelBuffer){
     encodeMetadataRec(v,b)
     b.writeByte(0x7F)
   }
@@ -60,13 +60,13 @@ object EncodingUtils {
       case Nil => {}
       case x::xs => {
         x match {
-          case v:Byte => b.writeByte(0x00); encodeByte(v,b)
-          case v:Short => b.writeByte(0x01); encodeShort(v,b)
-          case v:Int => b.writeByte(0x02); encodeInt(v,b)
-          case v:Long => b.writeByte(0x03); encodeLong(v,b)
-          case v:String => b.writeByte(0x04); encodeString16(v,b)
-          case (x:Short,y:Byte,z:Short) => b.writeByte(0x05); encodeShort(x,b); encodeByte(y,b); encodeShort(z,b)
-          case (x:Byte,y:Byte,z:Byte) => b.writeByte(0x06); encodeByte(x,b); encodeByte(y,b); encodeByte(z,b)
+          case v:Byte => b.writeByte(0x00 << 5); encodeByte(v,b)
+          case v:Short => b.writeByte(0x01 << 5); encodeShort(v,b)
+          case v:Int => b.writeByte(0x02 << 5); encodeInt(v,b)
+          case v:Long => b.writeByte(0x03 << 5); encodeLong(v,b)
+          case v:String => b.writeByte(0x04 << 5); encodeString16(v,b)
+          case (x:Short,y:Byte,z:Short) => b.writeByte(0x05 << 5); encodeShort(x,b); encodeByte(y,b); encodeShort(z,b)
+          case (x:Int,y:Int,z:Int) => b.writeByte(0x06 << 5); encodeInt(x,b); encodeInt(y,b); encodeInt(z,b)
         }
       }
       encodeMetadataRec(xs,b)

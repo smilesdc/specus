@@ -66,6 +66,15 @@ class DecodingUtilsSpec extends Specification {
       b.writeDouble(v)
       decodeDouble(b) must_== v
     }
+    "decode Boolean" in {
+      val b = buffer(3)
+      b.writeByte(0x01)
+      b.writeByte(0x00)
+      b.writeByte(0x03)
+      decodeBoolean(b) must_== true
+      decodeBoolean(b) must_== false
+      decodeBoolean(b) must throwA[DecodingErrorException]
+    }
     "decode String 16" in {
       val v = "The cake is a lie!"
       val b = dynamicBuffer(2)
@@ -77,15 +86,6 @@ class DecodingUtilsSpec extends Specification {
       val b = dynamicBuffer(2)
       writeString(v,b,CharsetUtil.UTF_8)
       decodeString8(b) must_== v
-    }
-    "decode Boolean" in {
-      val b = buffer(3)
-      b.writeByte(0x01)
-      b.writeByte(0x00)
-      b.writeByte(0x03)
-      decodeBoolean(b) must_== true
-      decodeBoolean(b) must_== false
-      decodeBoolean(b) must throwA[DecodingErrorException]
     }
     "decode multiple" in {
       val v1 = 0xAA.toByte

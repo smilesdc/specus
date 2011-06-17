@@ -57,12 +57,10 @@ object DecodingUtils {
 
   def decodeBoolean(b:ChannelBuffer) = {
     val v = b.readByte
-    if(v == 0x01)
-      true
-    else if(v == 0x00){
-      false
-    }else{
-      throw new DecodingErrorException("boolean",v)
+    v match {
+      case 0x01 => true
+      case 0x00 => false
+      case _ => throw new DecodingErrorException("boolean",v)
     }
   }
   def decodeMetadata(b:ChannelBuffer) = {

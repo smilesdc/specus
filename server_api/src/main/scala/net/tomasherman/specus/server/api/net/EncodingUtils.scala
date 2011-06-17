@@ -4,7 +4,6 @@ import org.jboss.netty.buffer.ChannelBuffer
 import org.jboss.netty.util.CharsetUtil
 import java.nio.charset.Charset
 import annotation.tailrec
-import java.lang.Boolean
 
 
 /**

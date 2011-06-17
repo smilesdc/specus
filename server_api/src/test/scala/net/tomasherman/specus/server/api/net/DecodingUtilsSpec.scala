@@ -8,7 +8,6 @@ import org.jboss.netty.util.CharsetUtil
 import net.tomasherman.specus.server.api.net.DecodingErrorException
 import java.nio.charset.Charset
 import org.jboss.netty.buffer.ChannelBuffer
-import java.util.Arrays
 
 /**
  * This file is part of Specus.

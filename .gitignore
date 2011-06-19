@@ -1,7 +1,6 @@
 *.iml
 .idea
 target
-project/plugins/project
 project/build/target
 project/boot
 lib_managed

@@ -20,11 +20,7 @@ object SpecusBuild extends Build {
 		"server",
 		file("server"),
 		settings = buildSettings ++ commonSettings
-<<<<<<< HEAD
-	) dependsOn (common_api, server_api)
-=======
 	) dependsOn (server_api,common_api)
->>>>>>> plugin
 	
 	lazy val server_api = Project(
 		"server_api",

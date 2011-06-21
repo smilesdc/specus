@@ -1,7 +1,7 @@
-package net.tomasherman.specus.server.api.net
+package net.tomasherman.specus.server.net
 
 import net.tomasherman.specus.server.api.net.packet.Packet
-
+import net.tomasherman.specus.server.api.net.Codec
 
 import org.specs2.mutable._
 import org.jboss.netty.buffer.ChannelBuffer

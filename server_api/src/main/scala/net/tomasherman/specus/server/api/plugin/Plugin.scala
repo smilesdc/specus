@@ -23,5 +23,6 @@ import net.tomasherman.specus.server.api.net.packet.Packet
  */
 
 trait Plugin {
-  val codecs:List[Class[_<:Codec[_<:Packet]]]
+  def initialize()
+  def getCodecs:List[Class[_<:Codec[_<:Packet]]]
 }

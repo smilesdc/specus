@@ -2,6 +2,7 @@ package net.tomasherman.specus.server.api.plugin
 
 import net.tomasherman.specus.server.api.net.Codec
 import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.server.api.di.Config
 
 /**
  * This file is part of Specus.
@@ -23,6 +24,6 @@ import net.tomasherman.specus.server.api.net.packet.Packet
  */
 
 trait Plugin {
-  def initialize()
+  def initialize(dependencies:Config){}
   def getCodecs:List[Class[_<:Codec[_<:Packet]]]
 }

@@ -1,6 +1,6 @@
 package net.tomasherman.specus.server.api.plugin
 
-import org.specs2.mutable.Specification
+import org.specs2.mutable._
 import net.tomasherman.specus.server.api.net.Codec
 import net.tomasherman.specus.server.api.net.packet.Packet
 import org.jboss.netty.buffer.ChannelBuffer
@@ -31,14 +31,14 @@ class TestCodec extends Codec[TestPacket](0x01,classOf[TestPacket]){
 
 
 class TestPlugin extends Plugin{
-  val codecs = List(classOf[TestCodec])
+  def getCodecs = List(classOf[TestCodec])
 }
 
 class PluginSpec extends Specification{
   "Plugin" should {
     "correctly compile with list of classes" in {
-      val p = new TestPlugin
-      p.codecs.head.newInstance() must_!= new TestCodec
+      val p:Plugin = new TestPlugin
+      p.getCodecs.head.newInstance.isInstanceOf[TestCodec] must_== true
     }
   }
 }

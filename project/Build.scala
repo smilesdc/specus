@@ -6,7 +6,7 @@ object SpecusBuild extends Build {
 	import Dependencies._	
 	import BuildSettings._
 
-	val commonDependencies = Seq(netty,specs2,mockito,configgy)
+	val commonDependencies = Seq(netty,specs2,mockito,lift_json,slf4s)
 	val commonResolvers = Seq(akkaRepo,jbossRepo)
 
 	val commonSettings = buildSettings ++ Seq(
@@ -59,13 +59,14 @@ object BuildSettings {
 
 
 object Resolvers {
-	val jbossRepo = "jBoss repository" at "https://repository.jboss.org/nexus/content/repositories/releases/"
-	val akkaRepo  = "Akka Repo" at "http://akka.io/repository"
+  val jbossRepo = "jBoss repository" at "https://repository.jboss.org/nexus/content/repositories/releases/"
+  val akkaRepo  = "Akka Repo" at "http://akka.io/repository"
 }
 
 object Dependencies {
-	val netty = "org.jboss.netty" % "netty" % "3.2.4.Final" //Apache2
-  val configgy = "net.lag" % "configgy" %  "2.0.0" // Apache2
+  val netty = "org.jboss.netty" % "netty" % "3.2.4.Final" //Apache2
+  val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.6"
+  val lift_json = "net.liftweb" %% "lift-json" % "2.4-M2"
 
   val specs2 = "org.specs2" %% "specs2" % "1.3" % "test" //custom, bascially anything goes (https://github.com/etorreborre/specs2/blob/1.4/LICENSE.txt)
   val mockito = "org.mockito" % "mockito-all" % "1.8.5" % "test" //MIT

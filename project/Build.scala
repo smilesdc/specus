@@ -19,25 +19,25 @@ object SpecusBuild extends Build {
 	lazy val server = Project(
 		"server",
 		file("server"),
-		settings = buildSettings ++ commonSettings
+		settings = commonSettings
 	) dependsOn (server_api,common_api)
 	
 	lazy val server_api = Project(
 		"server_api",
 		file("server_api"),
-		settings = buildSettings ++ commonSettings
+		settings = commonSettings
 	) dependsOn (common_api)
 	
 	lazy val node = Project(
 		"node",
 		file("node"),
-		settings = buildSettings ++ commonSettings
+		settings = commonSettings
 	) dependsOn (node_api, common_api)
 	
 	lazy val node_api = Project(
 		"node",
 		file("node_api"),
-		settings = buildSettings ++ commonSettings
+		settings = commonSettings
 	) dependsOn (common_api)
 
   lazy val common_api = Project(

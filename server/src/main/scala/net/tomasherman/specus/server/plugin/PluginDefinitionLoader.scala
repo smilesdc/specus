@@ -4,6 +4,7 @@ import java.io.{File}
 import io.Source
 import net.liftweb.json._
 import com.weiglewilczek.slf4s.Logging
+import net.tomasherman.specus.server.api.Constants
 
 
 /**
@@ -36,7 +37,7 @@ class PluginDefinitionLoader extends Logging{
       }).toList
   }
   def parsePluginDefinition(dir:File):Option[PluginDefinition] = {
-    dir.list().find( p => p == "plugin.json" ) match {
+    dir.list().find( p => p == Constants.Plugin.pluginDefinitionsFileName ) match {
       case None => {logger.error("plugin.json not found");None}
       case Some(path) => {
         Some(parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition])

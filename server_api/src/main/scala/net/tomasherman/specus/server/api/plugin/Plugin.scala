@@ -24,6 +24,7 @@ import net.tomasherman.specus.server.api.di.Config
  */
 
 trait Plugin {
+  val definitions:PluginDefinition
   def initialize(dependencies:Config){}
   def getCodecs:List[Class[_<:Codec[_<:Packet]]]
 }

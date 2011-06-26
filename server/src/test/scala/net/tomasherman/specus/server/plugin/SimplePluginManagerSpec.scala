@@ -2,6 +2,7 @@ package net.tomasherman.specus.server.plugin
 
 import org.specs2.mutable.Specification
 import java.io.File
+import net.tomasherman.specus.server.api.plugin.Plugin
 
 /**
  * This file is part of Specus.
@@ -28,8 +29,7 @@ class SimplePluginManagerSpec extends Specification{
 
   "Simple plugin manager" should {
     "load plugins" in {
-      println(pm.bootupPlugins(testDir))
-      pm.bootupPlugins(testDir) must_!= null
+      pm.bootupPlugins(testDir) must_== List[Plugin](new DummyPlugin)
     }
   }
 }

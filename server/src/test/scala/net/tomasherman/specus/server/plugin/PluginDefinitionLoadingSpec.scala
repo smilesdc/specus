@@ -34,7 +34,7 @@ class PluginDefinitionLoadingSpec extends Specification{
 
   "PluginDefinitionLoading" should {
     "parsePluginDefinition" in {
-      parsePluginDefinition(testValidDir) must_== new PluginDefinition("test_name","1.3.3.7","test_author","plugin.PluginDefinitionLoading.plugins.valid.DummyPlugin")
+      parsePluginDefinition(testValidDir) must_== new PluginDefinition("test_name","1.3.3.7","test_author","net.tomasherman.specus.server.plugin.DummyPlugin")
     }
     "parseInvalidDefinition" in {
       parsePluginDefinition(testInvalidDir) must throwAn[PluginDefinitionParsingFailed]

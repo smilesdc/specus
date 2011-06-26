@@ -1,5 +1,11 @@
 package net.tomasherman.specus.server.plugin
 
+import java.io.File
+import net.tomasherman.specus.server.plugin.PluginDefinitionLoading.parsePluginDefinition
+import collection.mutable.ListBuffer
+import com.weiglewilczek.slf4s.Logging
+import net.tomasherman.specus.server.api.plugin.{PluginDefinitionParsingFailed, PluginDefinitionFileNotFound, Plugin, PluginManager}
+
 /**
  * This file is part of Specus.
  *
@@ -19,6 +25,25 @@ package net.tomasherman.specus.server.plugin
  *
  */
 
-class SimplePluginManager {
-  
+class SimplePluginManager extends PluginManager with Logging{
+  private var plugins:List[Plugin] = List[Plugin]()
+
+  def bootupPlugins(dir: File):List[Plugin] = {
+    val pbuffer = ListBuffer[Plugin]()
+    for( x <- dir.listFiles.filter( p => p.isDirectory )){
+      try{
+        val pdef = parsePluginDefinition(x)
+        val pluginClass = Class.forName(pdef.pluginClass).newInstance().asInstanceOf[Plugin]
+        pbuffer.append(pluginClass)
+      } catch {
+        case e:PluginDefinitionFileNotFound => logger.error("couldnt find file")
+        case e:PluginDefinitionParsingFailed => logger.error("parsing failed")
+        case e:ClassNotFoundException => logger.error("class not found T_T")
+      }
+    }
+    plugins = pbuffer.toList
+    getPlugins
+  }
+  def getPlugins = plugins
+
 }

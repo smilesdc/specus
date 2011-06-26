@@ -1,8 +1,6 @@
-package net.tomasherman.specus.server.api.plugin
+package plugin.PluginDefinitionLoading.plugins.valid
 
-import net.tomasherman.specus.server.api.net.Codec
-import net.tomasherman.specus.server.api.net.packet.Packet
-import net.tomasherman.specus.server.api.di.Config
+import net.tomasherman.specus.server.api.plugin.Plugin
 
 /**
  * This file is part of Specus.
@@ -22,8 +20,6 @@ import net.tomasherman.specus.server.api.di.Config
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-trait Plugin {
-  def initialize(dependencies:Config){}
-  def getCodecs:List[Class[_<:Codec[_<:Packet]]]
+class DummyPlugin extends Plugin{
+  def getCodecs = null
 }

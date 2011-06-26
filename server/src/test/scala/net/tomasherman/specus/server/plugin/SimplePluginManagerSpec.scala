@@ -1,8 +1,7 @@
-package net.tomasherman.specus.server.api.plugin
+package net.tomasherman.specus.server.plugin
 
-import net.tomasherman.specus.server.api.net.Codec
-import net.tomasherman.specus.server.api.net.packet.Packet
-import net.tomasherman.specus.server.api.di.Config
+import org.specs2.mutable.Specification
+import java.io.File
 
 /**
  * This file is part of Specus.
@@ -23,7 +22,14 @@ import net.tomasherman.specus.server.api.di.Config
  *
  */
 
-trait Plugin {
-  def initialize(dependencies:Config){}
-  def getCodecs:List[Class[_<:Codec[_<:Packet]]]
+class SimplePluginManagerSpec extends Specification{
+  val testDir = new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins").toURI)
+  val pm = new SimplePluginManager
+
+  "Simple plugin manager" should {
+    "load plugins" in {
+      println(pm.bootupPlugins(testDir))
+      pm.bootupPlugins(testDir) must_!= null
+    }
+  }
 }

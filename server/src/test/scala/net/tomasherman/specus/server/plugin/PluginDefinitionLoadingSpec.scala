@@ -4,7 +4,7 @@ import org.specs2.mutable.Specification
 import java.io.File
 import java.net.{URI, URL}
 import net.tomasherman.specus.server.plugin.PluginDefinitionLoading.{parsePluginDefinition}
-import net.tomasherman.specus.server.api.plugin.{PluginDefinitionFileNotFound, PluginDefinitionParsingFailed}
+import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionFileNotFound, PluginDefinitionParsingFailed}
 
 /**
  * This file is part of Specus.
@@ -28,14 +28,13 @@ import net.tomasherman.specus.server.api.plugin.{PluginDefinitionFileNotFound, P
 class PluginDefinitionLoadingSpec extends Specification{
   implicit def urlToUri(url:URL):URI = url.toURI
 
-  val testDir = new File(this.getClass.getResource("/plugin/PluginDefinitionLoader/"))
   val testValidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/valid/"))
   val testInvalidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/invalid/"))
   val testNonexistingDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/nonexisting/"))
 
   "PluginDefinitionLoading" should {
     "parsePluginDefinition" in {
-      parsePluginDefinition(testValidDir) must_== new PluginDefinition("test_name","1.3.3.7","test_author","someClass")
+      parsePluginDefinition(testValidDir) must_== new PluginDefinition("test_name","1.3.3.7","test_author","plugin.PluginDefinitionLoading.plugins.valid.DummyPlugin")
     }
     "parseInvalidDefinition" in {
       parsePluginDefinition(testInvalidDir) must throwAn[PluginDefinitionParsingFailed]

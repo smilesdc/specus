@@ -1,9 +1,5 @@
 package net.tomasherman.specus.server.plugin
 
-import org.specs2.mutable.Specification
-import java.io.File
-import java.net.{URI, URL}
-
 /**
  * This file is part of Specus.
  *
@@ -23,16 +19,6 @@ import java.net.{URI, URL}
  *
  */
 
-class PluginDefinitionLoaderSpec extends Specification{
-  implicit def urlToUri(url:URL):URI = url.toURI
-
-  val testDir = new File(this.getClass.getResource("/plugin/PluginDefinitionLoader/"))
-  val testValidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoader/plugins/valid/"))
-
-  val pdl = new PluginDefinitionLoader()
-  "PluginDefinitionLoader" should {
-    "parsePluginDefinition" in {
-      pdl.parsePluginDefinition(testValidDir) must_== Some(new PluginDefinition("test_name","1.3.3.7","test_author","someClass"))
-    }
-  }
+class PluginManager {
+  
 }

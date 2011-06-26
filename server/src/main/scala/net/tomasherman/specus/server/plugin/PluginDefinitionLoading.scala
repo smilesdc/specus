@@ -5,7 +5,7 @@ import io.Source
 import net.liftweb.json._
 import com.weiglewilczek.slf4s.Logging
 import net.tomasherman.specus.server.api.Constants
-
+import net.tomasherman.specus.server.api.plugin.{PluginDefinitionParsingFailed, PluginDefinitionFileNotFound}
 
 /**
  * This file is part of Specus.
@@ -26,21 +26,18 @@ import net.tomasherman.specus.server.api.Constants
  *
  */
 
-class PluginDefinitionLoader extends Logging{
+object PluginDefinitionLoading extends Logging{
   implicit val formats = DefaultFormats
 
-  def loadAllPlugins(pluginDirectory:File):List[PluginDefinition] = {
-    pluginDirectory.listFiles.filter( p => p.isDirectory ).map( d => parsePluginDefinition(d) ).flatMap(
-      p => p match {
-        case None => Nil
-        case Some(x) => List(x)
-      }).toList
-  }
-  def parsePluginDefinition(dir:File):Option[PluginDefinition] = {
-    dir.list().find( p => p == Constants.Plugin.pluginDefinitionsFileName ) match {
-      case None => {logger.error("plugin.json not found");None}
+  def parsePluginDefinition(dir:File):PluginDefinition = {
+    dir.list.find( p => p == Constants.Plugin.pluginDefinitionsFileName ) match {
+      case None => throw new PluginDefinitionFileNotFound
       case Some(path) => {
-        Some(parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition])
+        try{
+          parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition]
+        } catch {
+          case e:MappingException => throw new PluginDefinitionParsingFailed("Parsing failed",e)
+        }
       }
     }
   }

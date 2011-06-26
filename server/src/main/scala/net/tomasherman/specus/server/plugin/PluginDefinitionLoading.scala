@@ -5,7 +5,7 @@ import io.Source
 import net.liftweb.json._
 import com.weiglewilczek.slf4s.Logging
 import net.tomasherman.specus.server.api.Constants
-import net.tomasherman.specus.server.api.plugin.{PluginDefinitionParsingFailed, PluginDefinitionFileNotFound}
+import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed, PluginDefinitionFileNotFound}
 
 /**
  * This file is part of Specus.

@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.plugin
+package net.tomasherman.specus.server.api.plugin
 
 /**
  * This file is part of Specus.
@@ -18,7 +18,4 @@ package net.tomasherman.specus.server.plugin
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-class PluginManager {
-  
-}
+case class PluginDefinition(val name:String,val version:String,val author:String,val pluginClass:String)

@@ -18,4 +18,7 @@ package net.tomasherman.specus.server.plugin
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-case class PluginDefinition(val name:String,val version:String,val author:String,val pluginClass:String)
+
+class SimplePluginManager {
+  
+}

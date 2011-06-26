@@ -1,4 +1,4 @@
-package plugin.PluginDefinitionLoading.plugins.valid
+package net.tomasherman.specus.server.plugin
 
 import net.tomasherman.specus.server.api.plugin.Plugin
 

@@ -34,11 +34,22 @@ class TestPlugin extends Plugin{
   def getCodecs = List(classOf[TestCodec])
 }
 
+class TestPlugin2 extends Plugin{
+  def getCodecs = List(classOf[TestCodec])
+}
 class PluginSpec extends Specification{
   "Plugin" should {
     "correctly compile with list of classes" in {
       val p:Plugin = new TestPlugin
       p.getCodecs.head.newInstance.isInstanceOf[TestCodec] must_== true
+    }
+    "equals" in {
+      new TestPlugin must_== new TestPlugin
+      new TestPlugin must_!= new TestPlugin2
+    }
+    "hashCode" in {
+      (new TestPlugin).hashCode() must_== (new TestPlugin).hashCode()
+      (new TestPlugin).hashCode() must_!= (new TestPlugin2).hashCode()
     }
   }
 }

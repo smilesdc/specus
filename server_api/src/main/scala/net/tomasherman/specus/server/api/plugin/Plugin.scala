@@ -26,4 +26,15 @@ import net.tomasherman.specus.server.api.di.Config
 trait Plugin {
   def initialize(dependencies:Config){}
   def getCodecs:List[Class[_<:Codec[_<:Packet]]]
+
+  override def equals(that:Any) = {
+    if(that.isInstanceOf[Object]) {
+      this.getClass == that.asInstanceOf[Object].getClass
+    } else {
+      false
+    }
+  }
+  override def hashCode() = {
+    this.getClass.getName.hashCode() * 41
+  }
 }

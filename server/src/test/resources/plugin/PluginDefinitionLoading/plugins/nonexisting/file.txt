@@ -1,0 +1,1 @@
+this file is here just so that the test won't fail (empty directories are not tracked by git)

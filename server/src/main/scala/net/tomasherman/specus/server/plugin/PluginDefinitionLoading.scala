@@ -31,12 +31,12 @@ object PluginDefinitionLoading extends Logging{
 
   def parsePluginDefinition(dir:File):PluginDefinition = {
     dir.list.find( p => p == Constants.Plugin.pluginDefinitionsFileName ) match {
-      case None => throw new PluginDefinitionFileNotFound
+      case None => throw new PluginDefinitionFileNotFound(dir)
       case Some(path) => {
         try{
           parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition]
         } catch {
-          case e:MappingException => throw new PluginDefinitionParsingFailed("Parsing failed",e)
+          case e:MappingException => throw new PluginDefinitionParsingFailed(dir,e)
         }
       }
     }

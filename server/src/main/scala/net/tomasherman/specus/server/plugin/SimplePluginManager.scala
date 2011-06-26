@@ -36,9 +36,9 @@ class SimplePluginManager extends PluginManager with Logging{
         val pluginClass = Class.forName(pdef.pluginClass).newInstance().asInstanceOf[Plugin]
         pbuffer.append(pluginClass)
       } catch {
-        case e:PluginDefinitionFileNotFound => logger.error("couldnt find file")
-        case e:PluginDefinitionParsingFailed => logger.error("parsing failed")
-        case e:ClassNotFoundException => logger.error("class not found T_T")
+        case e:PluginDefinitionFileNotFound => logger.error("Error during plugin-loading - Plugin definitions not found",e)
+        case e:PluginDefinitionParsingFailed => logger.error("Error during plugin-loading - Plugin definitions parsing failed",e)
+        case e:ClassNotFoundException => logger.error("Error during plugin-loading - Plugin class not found",e)
       }
     }
     plugins = pbuffer.toList

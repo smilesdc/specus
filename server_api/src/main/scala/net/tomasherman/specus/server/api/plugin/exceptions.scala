@@ -1,5 +1,8 @@
 package net.tomasherman.specus.server.api.plugin
 
+import java.io.File
+import net.tomasherman.specus.server.api.Constants
+
 /**
  * This file is part of Specus.
  *
@@ -19,5 +22,5 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
-class PluginDefinitionFileNotFound extends Exception
-class PluginDefinitionParsingFailed(report:String,ex:Exception) extends Exception(report,ex)
+class PluginDefinitionFileNotFound(dir:File) extends Exception(String.format("File with plugin definitions - %s - not found in directory: %s.",Constants.Plugin.pluginDefinitionsFileName,dir.getCanonicalPath))
+class PluginDefinitionParsingFailed(dir:File,ex:Exception) extends Exception(String.format("Parsing of file with plugin definitions failed in directory %s.",dir.getCanonicalPath),ex)

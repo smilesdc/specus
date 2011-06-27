@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.api.net.session
 
 import org.jboss.netty.channel.Channel
-import org.jboss.netty.buffer.ChannelBuffer
+import net.tomasherman.specus.server.api.net.packet.Packet
 
 /**
  * This file is part of Specus.
@@ -24,7 +24,7 @@ import org.jboss.netty.buffer.ChannelBuffer
 
 trait SessionManager {
   def createNewSession(channel:Channel):SessionID
-  def writeToSession(id:SessionID,data:ChannelBuffer)
-  def broadcastToSessions(data:ChannelBuffer)
+  def writeToSession(id:SessionID,data:Packet)
+  def broadcastToSessions(data:Packet)
   def closeSession(id:SessionID)
 }

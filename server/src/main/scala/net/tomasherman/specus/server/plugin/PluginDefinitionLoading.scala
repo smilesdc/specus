@@ -3,7 +3,6 @@ package net.tomasherman.specus.server.plugin
 import java.io.{File}
 import io.Source
 import net.liftweb.json._
-import com.weiglewilczek.slf4s.Logging
 import net.tomasherman.specus.server.api.Constants
 import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed, PluginDefinitionFileNotFound}
 
@@ -26,7 +25,7 @@ import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinit
  *
  */
 
-object PluginDefinitionLoading extends Logging{
+object PluginDefinitionLoading{
   implicit val formats = DefaultFormats
 
   def parsePluginDefinition(dir:File):PluginDefinition = {

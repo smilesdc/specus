@@ -6,7 +6,7 @@ object SpecusBuild extends Build {
 	import Dependencies._	
 	import BuildSettings._
 
-	val commonDependencies = Seq(netty,specs2,mockito,lift_json,slf4s,logback)
+	val commonDependencies = Seq(netty,specs2,mockito,lift_json,logback)
 	val commonResolvers = Seq(akkaRepo,jbossRepo)
 
 	val commonSettings = buildSettings ++ Seq(
@@ -65,7 +65,6 @@ object Resolvers {
 
 object Dependencies {
   val netty = "org.jboss.netty" % "netty" % "3.2.4.Final" //Apache2
-  val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.6"
   val lift_json = "net.liftweb" %% "lift-json" % "2.4-M2"
   val logback = "ch.qos.logback" % "logback-classic" % "0.9.29"
   val specs2 = "org.specs2" %% "specs2" % "1.3" % "test" //custom, bascially anything goes (https://github.com/etorreborre/specs2/blob/1.4/LICENSE.txt)

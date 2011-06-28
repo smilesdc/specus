@@ -33,13 +33,13 @@ trait CodecRepository{
    * @param packetid Byte for which a suitable codec should be found.
    * @return Either None if no codec is found or Option wrapped codec.
    */
-  def lookupCodec(packetId:Byte):Option[Codec[_]]
+  def lookupCodec(packetId:Byte):Option[Codec[_<:Packet]]
   /**
    * Tries to find a suitable codec for packet class.
    * @param packetid Byte for which a suitable codec should be found.
    * @return Either None if no codec is found or Option wrapped codec.
    */
-  def lookupCodec(p:Packet):Option[Codec[_]]
+  def lookupCodec(p:Packet):Option[Codec[_<:Packet]]
 
   /**
    * Registers codec for lookup. Note that registration fails should any other codec be registered with same packet class or packet id as registering codec.

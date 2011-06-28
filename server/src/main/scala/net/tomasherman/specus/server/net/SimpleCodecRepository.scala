@@ -27,8 +27,8 @@ import net.tomasherman.specus.server.api.net.{CodecRepository, Codec}
  */
 class SimpleCodecRepository extends CodecRepository{
   import scala.collection.mutable.Map
-  val codecByIDMap = Map[Byte,Codec[_]]()
-  val codecByPacketMap = Map[Class[_],Codec[_]]()
+  val codecByIDMap = Map[Byte,Codec[_<:Packet]]()
+  val codecByPacketMap = Map[Class[_],Codec[_<:Packet]]()
   /**
    * Tries to find a suitable codec for packetId.
    * @param packetid Byte for which a suitable codec should be found.

@@ -1,7 +1,8 @@
-package net.tomasherman.specus.server.api.net.session
+package net.tomasherman.specus.server.net.session
 
-import org.jboss.netty.channel.Channel
+import net.tomasherman.specus.server.api.net.session.{SessionID, Session}
 import net.tomasherman.specus.server.api.net.packet.Packet
+import org.jboss.netty.channel.Channel
 
 /**
  * This file is part of Specus.
@@ -22,9 +23,9 @@ import net.tomasherman.specus.server.api.net.packet.Packet
  *
  */
 
-trait SessionManager {
-  def createNewSession(channel:Channel):SessionID
-  def writeTo(id:SessionID,data:Packet)
-  def broadcast(data:Packet)
-  def closeSession(id:SessionID)
+
+case class NettySession(id:SessionID,channel:Channel) extends Session{
+  def close() { channel.close() }
+
+  def write(data: Packet) = { channel.write(data) }
 }

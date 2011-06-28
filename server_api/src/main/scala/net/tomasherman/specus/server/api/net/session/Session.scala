@@ -1,6 +1,6 @@
 package net.tomasherman.specus.server.api.net.session
 
-import org.jboss.netty.channel.Channel
+import net.tomasherman.specus.server.api.net.packet.Packet
 
 /**
  * This file is part of Specus.
@@ -22,6 +22,6 @@ import org.jboss.netty.channel.Channel
  */
 
 trait Session{
-  val id:SessionID
-  val channel:Channel
+  def write(data:Packet)
+  def close()
 }

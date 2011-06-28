@@ -1,9 +1,9 @@
 package net.tomasherman.specus.server.net.session
 
 import org.jboss.netty.channel.Channel
-import net.tomasherman.specus.server.api.net.session.{SessionID, SessionManager}
 import collection.mutable.Map
 import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.server.api.net.session.{Session, SessionID, SessionManager}
 
 /**
  * This file is part of Specus.
@@ -24,29 +24,29 @@ import net.tomasherman.specus.server.api.net.packet.Packet
  *
  */
 class SimpleSessionManager extends SessionManager {
-  private val channels = Map[SessionID,Channel]()
+  private val sessions = Map[SessionID,Session]()
   private var lastId = 0;
 
   def createNewSession(channel: Channel) = {
     lastId += 1
     val sid = new IntSessionID(lastId)
-    channels(sid) = channel
+    sessions(sid) = new NettySession(sid,channel)
     sid
   }
   def closeSession(id: SessionID) {
-    channels(id).close()
-    channels - id
+    sessions(id).close()
+    sessions - id
   }
 
-  def broadcastToSessions(data: Packet) {
-    channels.values.foreach(ch => writeToChannel(ch,data))
+  def broadcast(data: Packet) {
+    sessions.values.foreach(s => writeToSession(s,data))
   }
 
-  def writeToSession(id: SessionID, data:Packet) {
-    channels(id).write(data)
+  def writeTo(id: SessionID, data:Packet) {
+    sessions(id).write(data)
   }
 
-  private def writeToChannel(channel:Channel, data:Packet) {
-    channel.write(data)
+  private def writeToSession(session:Session, data:Packet) {
+    session.write(data)
   }
 }

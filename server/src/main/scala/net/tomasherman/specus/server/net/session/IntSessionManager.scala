@@ -1,9 +1,9 @@
 package net.tomasherman.specus.server.net.session
 
-import org.jboss.netty.channel.Channel
-import collection.mutable.Map
-import net.tomasherman.specus.server.api.net.packet.Packet
 import net.tomasherman.specus.server.api.net.session.{Session, SessionID, SessionManager}
+import org.jboss.netty.channel.Channel
+import net.tomasherman.specus.server.api.net.packet.Packet
+import collection.mutable.Map
 
 /**
  * This file is part of Specus.
@@ -23,9 +23,11 @@ import net.tomasherman.specus.server.api.net.session.{Session, SessionID, Sessio
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class SimpleSessionManager extends SessionManager {
-  private val sessions = Map[SessionID,Session]()
-  private var lastId = 0;
+
+
+trait IntSessionManager extends SessionManager {
+  protected val sessions:Map[SessionID,Session]
+  private var lastId = 0
 
   def createNewSession(channel: Channel) = {
     lastId += 1

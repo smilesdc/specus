@@ -31,7 +31,7 @@ class ISMImpl(mock:Map[SessionID,Session]) extends IntSessionManager {
   protected val sessions = mock
 }
 
-trait scope extends Scope with Mockito{
+protected trait ISMScope extends Scope with Mockito{
   val m = mock[Map[SessionID,Session]]
 
   val sMock1 = mock[Session]
@@ -46,17 +46,18 @@ trait scope extends Scope with Mockito{
   m.values returns List(sMock1,sMock2)
   val sessionMgr = new ISMImpl(m)
 }
+
 class IntSessionManagerSpec extends Specification with Mockito {
 
   "IntSessionManager" should {
 
-    "should create session properly" in new scope{
+    "should create session properly" in new ISMScope{
       val channel = mock[Channel]
       val sid = sessionMgr.createNewSession(channel)
       there was one(m).update(sid,new NettySession(new IntSessionID(1),channel))
     }
 
-    "should close session properly" in new scope{
+    "should close session properly" in new ISMScope{
       sessionMgr.closeSession(sMockId1)
       there was one(m).-(sMockId1)
       there was one(sMock1).close()
@@ -66,13 +67,13 @@ class IntSessionManagerSpec extends Specification with Mockito {
       there was one(sMock2).close()
     }
 
-    "should broadcast properly" in new scope {
+    "should broadcast properly" in new ISMScope {
       sessionMgr.broadcast(pMock)
       there was one(sMock1).write(pMock)
       there was one(sMock2).write(pMock)
     }
 
-    "should write to session properly" in new scope{
+    "should write to session properly" in new ISMScope{
       sessionMgr.writeTo(sMockId1,pMock)
       sessionMgr.writeTo(sMockId2,pMock)
 

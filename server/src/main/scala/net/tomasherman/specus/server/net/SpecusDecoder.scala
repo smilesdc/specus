@@ -4,7 +4,7 @@ import net.tomasherman.specus.server.api.logging.Logging
 import org.jboss.netty.channel.{Channel, ChannelHandlerContext}
 import org.jboss.netty.buffer.ChannelBuffer
 import org.jboss.netty.handler.codec.replay.{VoidEnum, ReplayingDecoder}
-import net.tomasherman.specus.server.api.net.{BufferDecoderNotFoundException, CodecRepository}
+import net.tomasherman.specus.server.api.net.{CodecRepository}
 
 /**
  * This file is part of Specus.
@@ -30,8 +30,6 @@ class SpecusDecoder(val env:{val codecRepository:CodecRepository}) extends Repla
   def decode(ctx: ChannelHandlerContext, channel: Channel, buffer: ChannelBuffer, state: VoidEnum) = {
     try{
       decode(buffer)
-    } catch{
-      case ex:BufferDecoderNotFoundException => error("Decoder not found",ex); None
     }
   }
 }

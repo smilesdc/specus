@@ -28,7 +28,7 @@ trait CodecBasedProtocolDecoder extends ProtocolDecoder {
     val packetId = buffer.readByte()
     env.codecRepository.lookupCodec(packetId) match {
       case Some(x) => x.decode(buffer)
-      case None => throw new BufferDecoderNotFoundException(buffer)
+      case None => throw new BufferDecoderNotFoundException(packetId)
     }
   }
 }

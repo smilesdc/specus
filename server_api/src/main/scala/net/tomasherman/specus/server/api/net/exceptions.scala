@@ -22,6 +22,6 @@ import packet.Packet
  */
 
 
-class PacketEncoderNotFoundException(packet:Packet) extends Exception
-class BufferDecoderNotFoundException(packetId:Byte) extends Exception
-class DecodingErrorException(expected:String,value:Any) extends Exception
+class PacketEncoderNotFoundException(val packet:Packet) extends Exception
+class BufferDecoderNotFoundException(val packetId:Byte) extends Exception
+class DecodingErrorException(val expected:String,val value:Any) extends Exception

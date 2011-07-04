@@ -29,8 +29,7 @@ import net.tomasherman.specus.server.api.net.{BufferDecoderNotFoundException, Co
 class SpecusDecoder(val env:{val codecRepository:CodecRepository}) extends ReplayingDecoder[VoidEnum] with CodecBasedProtocolDecoder with Logging{
   def decode(ctx: ChannelHandlerContext, channel: Channel, buffer: ChannelBuffer, state: VoidEnum) = {
     try{
-      val decoded = decode(buffer)
-      Some(decoded)
+      decode(buffer)
     } catch{
       case ex:BufferDecoderNotFoundException => error("Decoder not found",ex); None
     }

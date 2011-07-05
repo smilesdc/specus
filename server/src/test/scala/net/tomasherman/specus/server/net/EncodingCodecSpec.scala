@@ -23,26 +23,26 @@ import org.specs2.specification.Scope
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class TestPacket extends Packet
+class TestPacketDecoding extends Packet
 
-class TestCodec extends EncodingCodec[TestPacket](0x01.toByte,classOf[TestPacket]){
+class TestCodecDecoding extends EncodingCodec[TestPacketDecoding](0x01.toByte,classOf[TestPacketDecoding]){
   def decode(buffer: ChannelBuffer) = null //insignificant
 
-  protected def encodeDataToBuffer(packet: TestPacket, buffer: ChannelBuffer) {
+  protected def encodeDataToBuffer(packet: TestPacketDecoding, buffer: ChannelBuffer) {
     buffer.writeBytes(Array[Byte](0x00,0x01,0x02))
   }
 
   protected def createChannelBuffer = ChannelBuffers.dynamicBuffer()
 }
 trait EncodingCodecScope extends Scope{
-  val codec:EncodingCodec[TestPacket] = new TestCodec
+  val codec:EncodingCodec[TestPacketDecoding] = new TestCodecDecoding
 }
 
 class EncodingCodecSpec extends Specification{
   "EncodingCodec" should {
     "encode data properlny" in new EncodingCodecScope {
-      codec.encode(new TestPacket).array().toList.splitAt(4)._1 must_== List(0x01,0x00,0x01,0x02)
-      codec.encode(new TestPacket).array().toList.splitAt(4)._2.foldLeft(0)(_ + _) must_== 0
+      codec.encode(new TestPacketDecoding).array().toList.splitAt(4)._1 must_== List(0x01,0x00,0x01,0x02)
+      codec.encode(new TestPacketDecoding).array().toList.splitAt(4)._2.foldLeft(0)(_ + _) must_== 0
     }
   }
 }

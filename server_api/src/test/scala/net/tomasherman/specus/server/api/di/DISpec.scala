@@ -36,7 +36,7 @@ class DISpec extends Specification with Mockito{
   m.codecRepository returns cm
 
   "DependencyInjection" should {
-    "(mokcing test)" in {
+    "(mocking test)" in {
       m.codecRepository.toString must_== MOCK_MSG
     }
 

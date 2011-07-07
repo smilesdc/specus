@@ -2,6 +2,7 @@ package net.tomasherman.specus.server.api.net.session
 
 import org.jboss.netty.channel.Channel
 import net.tomasherman.specus.common.api.net.Packet
+import net.tomasherman.specus.common.api.net.session.SessionID
 
 /**
  * This file is part of Specus.

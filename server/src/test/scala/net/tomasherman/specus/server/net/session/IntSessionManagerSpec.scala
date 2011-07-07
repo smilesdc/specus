@@ -2,11 +2,12 @@ package net.tomasherman.specus.server.net.session
 
 import org.specs2.mutable.Specification
 import collection.mutable.Map
-import net.tomasherman.specus.server.api.net.session.{Session, SessionID}
+import net.tomasherman.specus.server.api.net.session.Session
 import org.specs2.mock.Mockito
 import org.jboss.netty.channel.Channel
 import net.tomasherman.specus.common.api.net.Packet
 import org.specs2.specification.Scope
+import net.tomasherman.specus.common.api.net.session.SessionID
 
 /**
  * This file is part of Specus.

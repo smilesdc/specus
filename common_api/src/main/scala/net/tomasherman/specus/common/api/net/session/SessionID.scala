@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.api.net.session
+package net.tomasherman.specus.common.api.net.session
 
 /**
  * This file is part of Specus.
@@ -18,4 +18,6 @@ package net.tomasherman.specus.server.api.net.session
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-trait SessionID
+
+
+abstract class SessionID

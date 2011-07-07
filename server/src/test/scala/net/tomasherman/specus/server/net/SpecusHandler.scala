@@ -1,7 +1,8 @@
 package net.tomasherman.specus.server.net
 
 import org.jboss.netty.channel.{ChannelStateEvent, ChannelHandlerContext, SimpleChannelHandler}
-import net.tomasherman.specus.server.api.net.session.{SessionID, SessionManager}
+import net.tomasherman.specus.server.api.net.session.SessionManager
+import net.tomasherman.specus.common.api.net.session.SessionID
 
 /**
  * This file is part of Specus.

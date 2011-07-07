@@ -1,6 +1,6 @@
 package net.tomasherman.specus.server.net.session
 
-import net.tomasherman.specus.server.api.net.session.SessionID
+import net.tomasherman.specus.common.api.net.session.SessionID
 
 /**
  * This file is part of Specus.

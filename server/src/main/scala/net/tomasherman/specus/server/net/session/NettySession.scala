@@ -1,8 +1,9 @@
 package net.tomasherman.specus.server.net.session
 
-import net.tomasherman.specus.server.api.net.session.{SessionID, Session}
+import net.tomasherman.specus.server.api.net.session.Session
 import net.tomasherman.specus.common.api.net.Packet
 import org.jboss.netty.channel.Channel
+import net.tomasherman.specus.common.api.net.session.SessionID
 
 /**
  * This file is part of Specus.

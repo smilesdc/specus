@@ -5,7 +5,7 @@ import collection.mutable.Map
 import net.tomasherman.specus.server.api.net.session.{Session, SessionID}
 import org.specs2.mock.Mockito
 import org.jboss.netty.channel.Channel
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import org.specs2.specification.Scope
 
 /**

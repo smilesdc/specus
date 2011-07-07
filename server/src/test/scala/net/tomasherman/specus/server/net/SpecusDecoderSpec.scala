@@ -3,7 +3,7 @@ package net.tomasherman.specus.server.net
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import org.specs2.mock.Mockito
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.server.api.net.DecodingUtils._
 import net.tomasherman.specus.server.api.net.EncodingUtils._
 import org.jboss.netty.buffer.{ChannelBuffer, ChannelBuffers}

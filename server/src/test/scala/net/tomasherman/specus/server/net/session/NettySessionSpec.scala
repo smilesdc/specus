@@ -4,7 +4,7 @@ import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import org.specs2.mock.Mockito
 import org.jboss.netty.channel.Channel
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 
 /**
  * This file is part of Specus.

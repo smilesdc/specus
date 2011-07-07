@@ -2,7 +2,7 @@ package net.tomasherman.specus.server.net.session
 
 import net.tomasherman.specus.server.api.net.session.{Session, SessionID, SessionManager}
 import org.jboss.netty.channel.Channel
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import collection.mutable.Map
 
 /**

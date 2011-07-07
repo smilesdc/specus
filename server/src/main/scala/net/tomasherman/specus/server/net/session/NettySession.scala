@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.net.session
 
 import net.tomasherman.specus.server.api.net.session.{SessionID, Session}
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import org.jboss.netty.channel.Channel
 
 /**

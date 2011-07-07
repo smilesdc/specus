@@ -2,7 +2,7 @@ package net.tomasherman.specus.server.net
 
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder
 import org.jboss.netty.channel.{Channel, ChannelHandlerContext}
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.server.api.net.CodecRepository
 
 /**

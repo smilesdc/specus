@@ -1,6 +1,6 @@
 package net.tomasherman.specus.server.api.net.session
 
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 
 /**
  * This file is part of Specus.

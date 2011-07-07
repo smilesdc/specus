@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.api.plugin
 
 import net.tomasherman.specus.server.api.net.Codec
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.server.api.di.Config
 
 /**

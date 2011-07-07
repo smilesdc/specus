@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.net
 
 import org.specs2.mutable.Specification
-import net.tomasherman.specus.server.api.net.packet.Packet
+import net.tomasherman.specus.common.api.net.Packet
 import org.jboss.netty.buffer.{ChannelBuffers, ChannelBuffer}
 import org.specs2.specification.Scope
 

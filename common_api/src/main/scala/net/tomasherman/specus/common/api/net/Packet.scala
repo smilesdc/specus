@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.api.net.packet
+package net.tomasherman.specus.common.api.net
 
 /**
  * This file is part of Specus.
@@ -24,8 +24,3 @@ package net.tomasherman.specus.server.api.net.packet
  * @param id Identifier of packet. Must be unique in the whole build
  */
 abstract class Packet
-
-case class KeepAlive() extends Packet
-case class LoginRequest(protocolVersion:Int,username:String,mapSeed:Long,dimension:Byte) extends Packet
-case class Handshake(content:String) extends Packet
-case class ChatMsg(content:String) extends Packet

@@ -72,7 +72,7 @@ object Dependencies {
   val netty = "org.jboss.netty" % "netty" % "3.2.4.Final" withSources //Apache2
   val lift_json = "net.liftweb" %% "lift-json" % "2.4-M2"
   val logback = "ch.qos.logback" % "logback-classic" % "0.9.29"
-  val specs2 = "org.specs2" %% "specs2" % "1.3" % "test" //custom, bascially anything goes (https://github.com/etorreborre/specs2/blob/1.4/LICENSE.txt)
+  val specs2 = "org.specs2" %% "specs2" % "1.4" % "test" //custom, bascially anything goes (https://github.com/etorreborre/specs2/blob/1.4/LICENSE.txt)
   val mockito = "org.mockito" % "mockito-all" % "1.8.5" % "test" //MIT
   val akka_actor = "se.scalablesolutions.akka" % "akka-actor" % akka_version
   val akka_remote = "se.scalablesolutions.akka" % "akka-remote" % akka_version

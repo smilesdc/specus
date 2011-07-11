@@ -5,6 +5,7 @@ import org.specs2.specification.Scope
 import akka.actor.Channel
 import org.specs2.mock._
 import net.tomasherman.specus.common.api.net.Packet
+import org.specs2.matcher.ThrownExpectations
 
 /**
  * This file is part of Specus.
@@ -31,7 +32,7 @@ class NLBFImpl extends NodeLoadBalancerFunctionality{
   def getChannels = nodeChannels
 }
 
-trait NodeLoadBalancerFuncionalityScope extends Scope with Mockito {
+trait NodeLoadBalancerFuncionalityScope extends Scope with Mockito with ThrownExpectations{
   val loadBalancer = new NLBFImpl
   val packet = mock[Packet]
   val channel1 = mock[Channel[Any]]
@@ -56,15 +57,18 @@ class NodeLoadBalancerFuncionalitySpec extends Specification {
       loadBalancer.getChannels.contains(channel2) must_== false
     }
 
-    "bang next channel correctly" in new NodeLoadBalancerFuncionalityScope with Mockito{
+    "bang next channel correctly" in new NodeLoadBalancerFuncionalityScope{
       loadBalancer.registerChannel(channel1)
       loadBalancer.registerChannel(channel2)
       loadBalancer.registerChannel(channel3)
       loadBalancer.bangNext(packet)
+      there was one(channel1).!(packet)
       loadBalancer.bangNext(packet)
+      there was one(channel2).!(packet)
       loadBalancer.bangNext(packet)
+      there was one(channel3).!(packet)
       loadBalancer.bangNext(packet)
-      there was one(channel1).!(packet) then one(channel2).!(packet) then one(channel3).!(packet) then one(channel1).!(packet)
+      there was two(channel1).!(packet)
     }
 
     "bang all channels correctly" in new NodeLoadBalancerFuncionalityScope {
@@ -86,9 +90,9 @@ class NodeLoadBalancerFuncionalitySpec extends Specification {
       loadBalancer.setNext(2)
       loadBalancer.unregisterChannel(channel3)
       loadBalancer.bangNext(packet)
-      there was one(channel1).!(packet)
-      there was no(channel2).!(packet)
-      there was one(channel3).!(packet)
+      there was no(channel1).!(packet)
+      there was one(channel2).!(packet)
+      there was no(channel3).!(packet)
     }
   }
 }

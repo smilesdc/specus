@@ -2,6 +2,7 @@ package net.tomasherman.specus.server.grid
 
 import akka.actor.{Channel, Actor}
 import net.tomasherman.specus.common.api.grid.messages.{NodeMessage, Unregister, Register}
+import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
 
 /**
  * This file is part of Specus.
@@ -22,7 +23,7 @@ import net.tomasherman.specus.common.api.grid.messages.{NodeMessage, Unregister,
  *
  */
 
-trait NodeLoadBalancerFunctionality {
+trait NodeLoadBalancerFunctionality extends NodeLoadBalancer {
   protected var nodeChannels = Vector[Channel[Any]]()
   var useNext = 0
 
@@ -56,7 +57,7 @@ trait NodeLoadBalancerFunctionality {
   private def countNext(current:Int,size:Int) = (useNext+1) % size
 }
 
-class NodeLoadBalancer extends Actor with NodeLoadBalancerFunctionality{
+class SpecusNodeLoadBalancer extends Actor with NodeLoadBalancerFunctionality{
   protected def receive = {
     case msg:Register => registerChannel(self.channel)
     case msg:Unregister => unregisterChannel(self.channel)

@@ -1,6 +1,7 @@
 package net.tomasherman.specus.common.api.grid.messages
 
 import net.tomasherman.specus.common.api.net.session.SessionID
+import net.tomasherman.specus.common.api.net.Packet
 
 /**
  * This file is part of Specus.
@@ -22,4 +23,4 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  */
 abstract class NodeMessage
 
-case class Packet(sid:SessionID,packet:Packet) extends NodeMessage
+case class PacketMessage(sid:SessionID,packet:Packet) extends NodeMessage

@@ -2,10 +2,10 @@ package net.tomasherman.specus.server.net
 
 import org.jboss.netty.channel.{MessageEvent, ChannelStateEvent, ChannelHandlerContext, SimpleChannelHandler}
 import net.tomasherman.specus.server.api.net.session.SessionManager
-import net.tomasherman.specus.server.grid.NodeLoadBalancer
 import net.tomasherman.specus.common.api.net.session.SessionID
 import net.tomasherman.specus.common.api.grid.messages.PacketMessage
 import net.tomasherman.specus.common.api.net.Packet
+import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
 
 /**
  * This file is part of Specus.

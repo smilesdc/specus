@@ -9,6 +9,7 @@ import net.tomasherman.specus.server.api.net.EncodingUtils._
 import org.jboss.netty.buffer.{ChannelBuffer, ChannelBuffers}
 import net.tomasherman.specus.server.api.net.{BufferDecoderNotFoundException, Codec, CodecRepository}
 import org.jboss.netty.handler.codec.embedder.{CodecEmbedderException, DecoderEmbedder}
+import org.specs2.matcher.ThrownExpectations
 
 /**
  * This file is part of Specus.
@@ -41,7 +42,7 @@ class TestDecodingCodec1 extends Codec[DSTestPacket1](0x01,classOf[DSTestPacket1
     new DSTestPacket1(p1,p2,p3)
   }
 }
-trait SpecusDecoderTestScope extends Scope with Mockito {
+trait SpecusDecoderTestScope extends Scope with Mockito with ThrownExpectations {
   val crMock = mock[CodecRepository]
   val env = new Env(crMock)
   val validBuffer1Bytes = ChannelBuffers.dynamicBuffer()
@@ -84,12 +85,13 @@ class SpecusDecoderSpec extends Specification{
       val emb = new DecoderEmbedder[Packet](decoder)
       try {
         emb.offer(noCodecBufferBytes)
+        failure("Exception should have been thrown")
       } catch {
         case e:CodecEmbedderException => e.getCause match {
           case cause:BufferDecoderNotFoundException => cause.packetId must_== failPacketId
-          case _ => failure
+          case _ => failure("Something unexpected went wrong in CodecEmbedder")
         }
-        case _ => failure
+        case _ => failure("Incorrect type of exception cought.")
       }
     }
   }

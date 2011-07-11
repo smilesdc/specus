@@ -8,6 +8,7 @@ import org.jboss.netty.buffer.{ChannelBuffers, ChannelBuffer}
 import org.specs2.mock.Mockito
 import org.jboss.netty.handler.codec.embedder.{CodecEmbedderException, EncoderEmbedder}
 import net.tomasherman.specus.server.api.net.{PacketEncoderNotFoundException, CodecRepository}
+import org.specs2.matcher.ThrownExpectations
 
 /**
  * This file is part of Specus.
@@ -46,10 +47,12 @@ class TestCodec extends EncodingCodec(0x01:Byte,classOf[TestPacketEncoding]){
 class EncodingTestEnv(repo:CodecRepository) {
   val codecRepository:CodecRepository = repo
 }
-trait SpecusEncoderScope extends Scope with Mockito{
+trait SpecusEncoderScope extends Scope with Mockito with ThrownExpectations {
   val repoMock = mock[CodecRepository]
   val testPacket = new TestPacketEncoding(1337,":-)",0x66)
+  val failPacket = new FailTestPacket
   repoMock.lookupCodec(testPacket) returns Some(new TestCodec)
+  repoMock.lookupCodec(failPacket) returns None
   val env = new EncodingTestEnv(repoMock)
   val encoder = new SpecusEncoder(env)
 
@@ -71,13 +74,13 @@ class SpecusEncoderSpec extends Specification{
       val embedder = new EncoderEmbedder[TestPacketEncoding](encoder)
       try{
         embedder.offer(new FailTestPacket)
-        failure
+        failure("Exception should have been thrown.")
       } catch {
         case ex:CodecEmbedderException => ex.getCause match {
-          case e:PacketEncoderNotFoundException => if(e.packet.getClass == (new FailTestPacket).getClass) success; else failure
-          case _ => failure
+          case e:PacketEncoderNotFoundException => if(e.packet.getClass == (failPacket).getClass) success; else failure("Incorect type of packed inserted to exception.")
+          case e => failure("Something un-expected went wrong in CodecEmbedder.")
         }
-        case _ => failure
+        case _ => failure("Incorect type of exception thrown.")
       }
     }
   }

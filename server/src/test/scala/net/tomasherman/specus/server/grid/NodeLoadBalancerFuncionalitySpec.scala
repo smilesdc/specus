@@ -4,8 +4,8 @@ import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import akka.actor.Channel
 import org.specs2.mock._
-import net.tomasherman.specus.common.api.net.Packet
 import org.specs2.matcher.ThrownExpectations
+import net.tomasherman.specus.common.api.grid.messages.NodeMessage
 
 /**
  * This file is part of Specus.
@@ -34,7 +34,7 @@ class NLBFImpl extends NodeLoadBalancerFunctionality{
 
 trait NodeLoadBalancerFuncionalityScope extends Scope with Mockito with ThrownExpectations{
   val loadBalancer = new NLBFImpl
-  val packet = mock[Packet]
+  val msg = mock[NodeMessage]
   val channel1 = mock[Channel[Any]]
   val channel2 = mock[Channel[Any]]
   val channel3 = mock[Channel[Any]]
@@ -61,14 +61,14 @@ class NodeLoadBalancerFuncionalitySpec extends Specification {
       loadBalancer.registerChannel(channel1)
       loadBalancer.registerChannel(channel2)
       loadBalancer.registerChannel(channel3)
-      loadBalancer.bangNext(packet)
-      there was one(channel1).!(packet)
-      loadBalancer.bangNext(packet)
-      there was one(channel2).!(packet)
-      loadBalancer.bangNext(packet)
-      there was one(channel3).!(packet)
-      loadBalancer.bangNext(packet)
-      there was two(channel1).!(packet)
+      loadBalancer.bangNext(msg)
+      there was one(channel1).!(msg)
+      loadBalancer.bangNext(msg)
+      there was one(channel2).!(msg)
+      loadBalancer.bangNext(msg)
+      there was one(channel3).!(msg)
+      loadBalancer.bangNext(msg)
+      there was two(channel1).!(msg)
     }
 
     "bang all channels correctly" in new NodeLoadBalancerFuncionalityScope {
@@ -76,10 +76,10 @@ class NodeLoadBalancerFuncionalitySpec extends Specification {
       loadBalancer.registerChannel(channel2)
       loadBalancer.registerChannel(channel3)
 
-      loadBalancer.bangAll(packet)
-      there was one(channel1).!(packet)
-      there was one(channel2).!(packet)
-      there was one(channel3).!(packet)
+      loadBalancer.bangAll(msg)
+      there was one(channel1).!(msg)
+      there was one(channel2).!(msg)
+      there was one(channel3).!(msg)
     }
 
     "work well when nextUse channel is removed" in new NodeLoadBalancerFuncionalityScope {
@@ -89,10 +89,10 @@ class NodeLoadBalancerFuncionalitySpec extends Specification {
 
       loadBalancer.setNext(2)
       loadBalancer.unregisterChannel(channel3)
-      loadBalancer.bangNext(packet)
-      there was no(channel1).!(packet)
-      there was one(channel2).!(packet)
-      there was no(channel3).!(packet)
+      loadBalancer.bangNext(msg)
+      there was no(channel1).!(msg)
+      there was one(channel2).!(msg)
+      there was no(channel3).!(msg)
     }
   }
 }

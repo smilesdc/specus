@@ -1,8 +1,7 @@
 package net.tomasherman.specus.server.grid
 
 import akka.actor.{Channel, Actor}
-import net.tomasherman.specus.common.api.grid.messages.{Unregister, Register}
-import net.tomasherman.specus.common.api.net.Packet
+import net.tomasherman.specus.common.api.grid.messages.{NodeMessage, Unregister, Register}
 
 /**
  * This file is part of Specus.
@@ -45,12 +44,12 @@ trait NodeLoadBalancerFunctionality {
     }})
   }
 
-  def bangNext(msg:Packet) {
+  def bangNext(msg:NodeMessage) {
     nodeChannels(useNext) ! msg
     useNext = countNext(useNext,nodeChannels.size)
   }
   
-  def bangAll(msg:Packet) {
+  def bangAll(msg:NodeMessage) {
     nodeChannels.foreach({ ch => ch ! msg})
   }
 

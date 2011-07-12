@@ -1,9 +1,8 @@
 package net.tomasherman.specus.server.plugin
 
-import java.io.{File}
+import java.io.File
 import io.Source
 import net.liftweb.json._
-import net.tomasherman.specus.server.api.Constants
 import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed, PluginDefinitionFileNotFound}
 
 /**
@@ -28,9 +27,9 @@ import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinit
 object PluginDefinitionLoading{
   implicit val formats = DefaultFormats
 
-  def parsePluginDefinition(dir:File):PluginDefinition = {
-    dir.list.find( p => p == Constants.Plugin.pluginDefinitionsFileName ) match {
-      case None => throw new PluginDefinitionFileNotFound(dir)
+  def parsePluginDefinition(dir:File,pdfName:String):PluginDefinition = {
+    dir.list.find( p => p == pdfName ) match {
+      case None => throw new PluginDefinitionFileNotFound(pdfName,dir)
       case Some(path) => {
         try{
           parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition]

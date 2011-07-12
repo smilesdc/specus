@@ -5,6 +5,7 @@ import net.tomasherman.specus.server.plugin.PluginDefinitionLoading.parsePluginD
 import collection.mutable.ListBuffer
 import net.tomasherman.specus.server.api.plugin.{PluginDefinitionParsingFailed, PluginDefinitionFileNotFound, Plugin, PluginManager}
 import net.tomasherman.specus.server.api.logging.Logging
+import net.tomasherman.specus.server.api.config.Configuration
 
 /**
  * This file is part of Specus.
@@ -25,14 +26,14 @@ import net.tomasherman.specus.server.api.logging.Logging
  *
  */
 
-class SimplePluginManager extends PluginManager with Logging{
+class SimplePluginManager(val env:{val config:Configuration}) extends PluginManager with Logging{
   private var plugins:List[Plugin] = List[Plugin]()
 
   def bootupPlugins(dir: File):List[Plugin] = {
     val pbuffer = ListBuffer[Plugin]()
     for( x <- dir.listFiles.filter( p => p.isDirectory )){
       try{
-        val pdef = parsePluginDefinition(x)
+        val pdef = parsePluginDefinition(x,env.config.plugin.pluginDefinitionFileName)
         val pluginClass = Class.forName(pdef.pluginClass).newInstance().asInstanceOf[Plugin]
         pbuffer.append(pluginClass)
       } catch {

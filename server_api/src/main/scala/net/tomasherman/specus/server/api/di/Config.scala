@@ -1,6 +1,10 @@
 package net.tomasherman.specus.server.api.di
 
 import net.tomasherman.specus.server.api.net.CodecRepository
+import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
+import org.jboss.netty.channel.{ChannelHandler, ChannelPipeline}
+import net.tomasherman.specus.server.api.net.session.SessionManager
+import net.tomasherman.specus.server.api.plugin.PluginManager
 
 /**
  * This file is part of Specus.
@@ -22,4 +26,11 @@ import net.tomasherman.specus.server.api.net.CodecRepository
  */
 trait Config {
   val codecRepository:CodecRepository
+  val nettyPipelineFactory:ChannelPipeline
+  val nodeLoadBalancer:NodeLoadBalancer
+  val channelEncoder:ChannelHandler
+  val channelDecoder:ChannelHandler
+  val channelHandler:ChannelHandler
+  val sessionManager:SessionManager
+  val pluginManager:PluginManager
 }

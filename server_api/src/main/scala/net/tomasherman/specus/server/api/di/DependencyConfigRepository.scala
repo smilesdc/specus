@@ -1,11 +1,5 @@
 package net.tomasherman.specus.server.api.di
 
-import net.tomasherman.specus.server.api.net.CodecRepository
-import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
-import org.jboss.netty.channel.{ChannelHandler, ChannelPipeline}
-import net.tomasherman.specus.server.api.net.session.SessionManager
-import net.tomasherman.specus.server.api.plugin.PluginManager
-
 /**
  * This file is part of Specus.
  *
@@ -24,13 +18,33 @@ import net.tomasherman.specus.server.api.plugin.PluginManager
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-trait Config {
-  val codecRepository:CodecRepository
-  val nettyPipelineFactory:ChannelPipeline
-  val nodeLoadBalancer:NodeLoadBalancer
-  val channelEncoder:ChannelHandler
-  val channelDecoder:ChannelHandler
-  val channelHandler:ChannelHandler
-  val sessionManager:SessionManager
-  val pluginManager:PluginManager
+
+object DependencyConfigRepository extends DependencyConfigRepositoryTrait
+
+trait DependencyConfigRepositoryTrait{
+  private var _config:DependencyConfig = null
+  private var lockdown = false;
+
+  def apply() = {
+    val res = config
+    res
+  }
+
+  def config = {
+    if(_config == null){
+      throw new NoDependencyConfigurationSupplied
+    } else {
+      _config
+    }
+  }
+    
+
+  def config_= (x:DependencyConfig):Unit = {
+    if(lockdown) {
+      throw new ConfigAlreadyLockedDown
+    }
+    _config = x
+    lockdown = true
+  }
+
 }

@@ -1,5 +1,11 @@
 package net.tomasherman.specus.server.api.di
 
+import net.tomasherman.specus.server.api.net.CodecRepository
+import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
+import org.jboss.netty.channel.{ChannelHandler, ChannelPipeline}
+import net.tomasherman.specus.server.api.net.session.SessionManager
+import net.tomasherman.specus.server.api.plugin.PluginManager
+
 /**
  * This file is part of Specus.
  *
@@ -18,33 +24,13 @@ package net.tomasherman.specus.server.api.di
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-object ConfigRepository extends ConfigRepositroyTrait
-
-trait ConfigRepositroyTrait {
-  private var _config:Config = null
-  private var lockdown = false;
-
-  def apply() = {
-    val res = config
-    res
-  }
-
-  def config = {
-    if(_config == null){
-      throw new NoDependencyConfigurationSupplied
-    } else {
-      _config
-    }
-  }
-    
-
-  def config_= (x:Config):Unit = {
-    if(lockdown) {
-      throw new ConfigAlreadyLockedDown
-    }
-    _config = x
-    lockdown = true
-  }
-
+trait DependencyConfig {
+  val codecRepository:CodecRepository
+  val nettyPipelineFactory:ChannelPipeline
+  val nodeLoadBalancer:NodeLoadBalancer
+  val channelEncoder:ChannelHandler
+  val channelDecoder:ChannelHandler
+  val channelHandler:ChannelHandler
+  val sessionManager:SessionManager
+  val pluginManager:PluginManager
 }

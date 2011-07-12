@@ -2,7 +2,7 @@ package net.tomasherman.specus.server.api.plugin
 
 import net.tomasherman.specus.server.api.net.Codec
 import net.tomasherman.specus.common.api.net.Packet
-import net.tomasherman.specus.server.api.di.Config
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -24,7 +24,7 @@ import net.tomasherman.specus.server.api.di.Config
  */
 
 trait Plugin {
-  def initialize(dependencies:Config){}
+  def initialize(dependencies:DependencyConfig){}
   def getCodecs:List[Class[_<:Codec[_<:Packet]]]
 
   override def equals(that:Any) = {

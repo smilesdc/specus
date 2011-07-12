@@ -29,7 +29,7 @@ class DependentClass(env:{val codecRepository:CodecRepository}){
 class TestConfigRepository extends ConfigRepositroyTrait
 
 class DISpec extends Specification with Mockito{
-  val m = mock[Config]
+  val m = mock[DependencyConfig]
   val cm = mock[CodecRepository]
   val MOCK_MSG = "this is a mock"
   cm.toString returns MOCK_MSG

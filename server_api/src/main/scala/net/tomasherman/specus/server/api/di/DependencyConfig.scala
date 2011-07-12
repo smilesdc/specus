@@ -5,6 +5,7 @@ import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
 import org.jboss.netty.channel.{ChannelHandler, ChannelPipeline}
 import net.tomasherman.specus.server.api.net.session.SessionManager
 import net.tomasherman.specus.server.api.plugin.PluginManager
+import net.tomasherman.specus.server.api.config.Configuration
 
 /**
  * This file is part of Specus.
@@ -33,4 +34,5 @@ trait DependencyConfig {
   val channelHandler:ChannelHandler
   val sessionManager:SessionManager
   val pluginManager:PluginManager
+  val config:Configuration
 }

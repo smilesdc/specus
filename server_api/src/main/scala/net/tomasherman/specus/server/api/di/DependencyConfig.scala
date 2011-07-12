@@ -25,6 +25,7 @@ import org.jboss.netty.channel.{ChannelPipelineFactory, ChannelHandler}
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 trait DependencyConfig {
   val codecRepository:CodecRepository
   val nettyPipelineFactory:ChannelPipelineFactory

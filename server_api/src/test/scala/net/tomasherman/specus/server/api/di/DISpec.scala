@@ -26,7 +26,7 @@ import net.tomasherman.specus.server.api.net.CodecRepository
 class DependentClass(env:{val codecRepository:CodecRepository}){
   def codecRepository = env.codecRepository
 }
-class TestConfigRepository extends ConfigRepositroyTrait
+class TestConfigRepository extends DependencyConfigRepositoryTrait
 
 class DISpec extends Specification with Mockito{
   val m = mock[DependencyConfig]

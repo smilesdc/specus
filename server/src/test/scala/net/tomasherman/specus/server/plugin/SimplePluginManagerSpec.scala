@@ -3,7 +3,8 @@ package net.tomasherman.specus.server.plugin
 import org.specs2.mutable.Specification
 import java.io.File
 import net.tomasherman.specus.server.api.plugin.Plugin
-import org.specs2.execute.Result
+import org.specs2.mock.Mockito
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -24,9 +25,11 @@ import org.specs2.execute.Result
  *
  */
 
-class SimplePluginManagerSpec extends Specification{
+class SimplePluginManagerSpec extends Specification with Mockito{
   val testDir = new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins").toURI)
-  val pm = new SimplePluginManager
+  val di = mock[DependencyConfig]
+  di.config.plugin.pluginDefinitionFileName returns "plugin.json"
+  val pm = new SimplePluginManager(di)
 
   "Simple plugin manager" should {
     "load plugins" in {

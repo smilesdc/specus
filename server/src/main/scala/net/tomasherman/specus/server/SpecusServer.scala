@@ -1,5 +1,6 @@
 package net.tomasherman.specus.server
 
+import api.grid.NodeLoadBalancer
 import org.jboss.netty.channel.ChannelPipelineFactory
 import org.jboss.netty.bootstrap.ServerBootstrap
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
@@ -27,8 +28,8 @@ import akka.actor.Actor
  */
 
 class SpecusServer(val port:Int,val env: {
-  val nettyFactory:ChannelPipelineFactory
-  val nodeLoadBalancer: Actor
+  val nettyPipelineFactory:ChannelPipelineFactory
+  val nodeLoadBalancer: NodeLoadBalancer
 }) {
   private var running = false
 
@@ -38,7 +39,7 @@ class SpecusServer(val port:Int,val env: {
 
   private def startNetty() {
     val bootstrap = new ServerBootstrap(new NioServerSocketChannelFactory(Executors.newCachedThreadPool(),Executors.newCachedThreadPool()))
-    bootstrap.setPipeline(env.nettyFactory.getPipeline)
+    bootstrap.setPipeline(env.nettyPipelineFactory.getPipeline)
     bootstrap.bind(new InetSocketAddress(port))
     running = true
   }

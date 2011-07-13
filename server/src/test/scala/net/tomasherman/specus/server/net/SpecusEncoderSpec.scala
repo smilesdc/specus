@@ -9,6 +9,7 @@ import org.specs2.mock.Mockito
 import org.jboss.netty.handler.codec.embedder.{CodecEmbedderException, EncoderEmbedder}
 import net.tomasherman.specus.server.api.net.{PacketEncoderNotFoundException, CodecRepository}
 import org.specs2.matcher.ThrownExpectations
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -44,16 +45,15 @@ class TestCodec extends EncodingCodec(0x01:Byte,classOf[TestPacketEncoding]){
   def decode(buffer: ChannelBuffer) = null //irrelevant
 }
 
-class EncodingTestEnv(repo:CodecRepository) {
-  val codecRepository:CodecRepository = repo
-}
+
 trait SpecusEncoderScope extends Scope with Mockito with ThrownExpectations {
   val repoMock = mock[CodecRepository]
   val testPacket = new TestPacketEncoding(1337,":-)",0x66)
   val failPacket = new FailTestPacket
   repoMock.lookupCodec(testPacket) returns Some(new TestCodec)
   repoMock.lookupCodec(failPacket) returns None
-  val env = new EncodingTestEnv(repoMock)
+  val env = mock[DependencyConfig]
+  env.codecRepository returns repoMock
   val encoder = new SpecusEncoder(env)
 
   val expected = ChannelBuffers.dynamicBuffer()

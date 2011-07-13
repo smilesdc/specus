@@ -4,7 +4,7 @@ import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
-import org.jboss.netty.channel.ChannelHandler
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -25,14 +25,16 @@ import org.jboss.netty.channel.ChannelHandler
  *
  */
 
-class SPFEnv(val channelHandler:ChannelHandler,val channelEncoder:ChannelHandler,val channelDecoder:ChannelHandler)
 
 trait SpecusPipelineFactoryScope extends Scope with Mockito with ThrownExpectations {
   val handler = mock[SpecusHandler]
   val encoder = mock[SpecusEncoder]
   val decoder = mock[SpecusDecoder]
 
-  val env = new SPFEnv(handler,encoder,decoder)
+  val env = mock[DependencyConfig]
+  env.channelDecoder returns decoder
+  env.channelEncoder returns encoder
+  env.channelHandler returns handler
   val factory = new SpecusPipelineFactory(env)
 }
 

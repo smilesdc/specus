@@ -28,7 +28,7 @@ import net.tomasherman.specus.server.api.net.{BufferDecoderNotFoundException, Pa
 case class TestPacket1() extends Packet
 case class TestPacket2() extends Packet
 case class TestPacket3() extends Packet
-
+//TODO refactor!
 object TestEnv extends Mockito{
   val codecRepository:CodecRepository = {
     val repMock = mock[CodecRepository]

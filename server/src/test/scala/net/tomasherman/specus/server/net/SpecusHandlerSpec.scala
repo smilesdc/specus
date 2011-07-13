@@ -10,6 +10,7 @@ import org.jboss.netty.channel._
 import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.common.api.grid.messages.PacketMessage
 import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -35,7 +36,9 @@ class SHSEnv(val sessionManager:SessionManager,val nodeLoadBalancer:NodeLoadBala
 trait SpecusHandlerSpecScope extends Scope with Mockito with ThrownExpectations {
   val smgr = mock[SessionManager]
   val nlb = smartMock[NodeLoadBalancer]
-  val env = new SHSEnv(smgr,nlb)
+  val env = mock[DependencyConfig]
+  env.sessionManager returns smgr
+  env.nodeLoadBalancer returns nlb
   val handler = new SpecusHandler(env)
   val ctx = mock[ChannelHandlerContext]
   val event = mock[ChannelStateEvent]

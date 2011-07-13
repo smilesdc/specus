@@ -10,6 +10,7 @@ import org.jboss.netty.buffer.{ChannelBuffer, ChannelBuffers}
 import net.tomasherman.specus.server.api.net.{BufferDecoderNotFoundException, Codec, CodecRepository}
 import org.jboss.netty.handler.codec.embedder.{CodecEmbedderException, DecoderEmbedder}
 import org.specs2.matcher.ThrownExpectations
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -30,7 +31,6 @@ import org.specs2.matcher.ThrownExpectations
  *
  */
 
-class Env(val codecRepository:CodecRepository)
 case class DSTestPacket1(p1:Int,p2:String,p3:Byte) extends Packet
 class TestDecodingCodec1 extends Codec[DSTestPacket1](0x01,classOf[DSTestPacket1]){
   def encode(packet: DSTestPacket1) = null //irrelevant
@@ -44,7 +44,8 @@ class TestDecodingCodec1 extends Codec[DSTestPacket1](0x01,classOf[DSTestPacket1
 }
 trait SpecusDecoderTestScope extends Scope with Mockito with ThrownExpectations {
   val crMock = mock[CodecRepository]
-  val env = new Env(crMock)
+  val env = mock[DependencyConfig]
+  env.codecRepository returns crMock
   val validBuffer1Bytes = ChannelBuffers.dynamicBuffer()
   encodeByte(0x01,validBuffer1Bytes)
   encodeInt(1337,validBuffer1Bytes)

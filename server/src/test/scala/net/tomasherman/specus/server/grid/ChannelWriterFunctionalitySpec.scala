@@ -7,6 +7,7 @@ import org.specs2.mock.Mockito
 import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.common.api.net.session.SessionID
 import org.specs2.matcher.ThrownExpectations
+import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
  * This file is part of Specus.
@@ -28,11 +29,12 @@ import org.specs2.matcher.ThrownExpectations
  */
 
 class ChWFImpl(val env:{val sessionManager:SessionManager}) extends ChannelWriterFunctionality
-class ChWFEnv(val sessionManager:SessionManager)
 
 trait ChannelWriterFunctionalityScope extends Scope with Mockito with ThrownExpectations{
   val sessMgr = mock[SessionManager]
-  val functionality = new ChWFImpl(new ChWFEnv(sessMgr))
+  val env = mock[DependencyConfig]
+  env.sessionManager returns sessMgr
+  val functionality = new ChWFImpl(env)
   val packet = mock[Packet]
   val sid = mock[SessionID]
 }

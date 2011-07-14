@@ -3,6 +3,7 @@ package net.tomasherman.specus.server.api.plugin
 import net.tomasherman.specus.server.api.net.Codec
 import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.server.api.di.DependencyConfig
+import akka.actor.Actor
 
 /**
  * This file is part of Specus.
@@ -24,8 +25,11 @@ import net.tomasherman.specus.server.api.di.DependencyConfig
  */
 
 trait Plugin {
+
   def initialize(dependencies:DependencyConfig){}
   def getCodecs:List[Class[_<:Codec[_<:Packet]]]
+  def eventProcessorClass:Option[Class[_<:Actor]]
+  def registerForEvents:Option[List[Class[_<:PluginEvent]]]
 
   override def equals(that:Any) = {
     if(that.isInstanceOf[Object]) {
@@ -34,7 +38,9 @@ trait Plugin {
       false
     }
   }
+
   override def hashCode() = {
     this.getClass.getName.hashCode() * 41
   }
+
 }

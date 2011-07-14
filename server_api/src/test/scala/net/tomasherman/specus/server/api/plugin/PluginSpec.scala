@@ -30,11 +30,11 @@ class TestCodec extends Codec[TestPacket](0x01,classOf[TestPacket]){
 }
 
 
-class TestPlugin extends Plugin{
+class TestPlugin extends CodecPlugin{
   def getCodecs = List(classOf[TestCodec])
 }
 
-class TestPlugin2 extends Plugin{
+class TestPlugin2 extends CodecPlugin{
   def getCodecs = List(classOf[TestCodec])
 }
 class PluginSpec extends Specification{

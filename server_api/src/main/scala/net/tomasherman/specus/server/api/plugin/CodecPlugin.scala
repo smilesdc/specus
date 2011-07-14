@@ -1,6 +1,4 @@
-package net.tomasherman.specus.server.plugin
-
-import net.tomasherman.specus.server.api.plugin.{CodecPlugin}
+package net.tomasherman.specus.server.api.plugin
 
 /**
  * This file is part of Specus.
@@ -20,6 +18,10 @@ import net.tomasherman.specus.server.api.plugin.{CodecPlugin}
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class DummyPlugin extends CodecPlugin{
-  def getCodecs = null
+
+trait CodecPlugin extends Plugin{
+
+  def eventProcessorClass = None
+  def registerForEvents = None
+
 }

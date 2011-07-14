@@ -2,7 +2,7 @@ package net.tomasherman.specus.server.plugin
 
 import collection.mutable.Map
 import net.tomasherman.specus.server.api.plugin.{PluginEvent, PluginEventManager}
-import akka.actor.{ActorRef}
+import akka.actor.ActorRef
 
 /**
  * This file is part of Specus.
@@ -24,7 +24,7 @@ import akka.actor.{ActorRef}
  */
 class SpecusPluginEventManager extends PluginEventManager{
 
-  private val mapping = Map[Class[_],List[ActorRef]]()
+  protected val mapping = Map[Class[_],List[ActorRef]]()
 
   def registerEventProcessor(processor:ActorRef, events:List[Class[_<:PluginEvent]]) {
     events.foreach({ e =>

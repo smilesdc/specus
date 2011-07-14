@@ -37,8 +37,8 @@ class TestPlugin extends CodecPlugin{
 class TestPlugin2 extends CodecPlugin{
   def getCodecs = Some(List(classOf[TestCodec]))
 }
-class PluginSpec extends Specification{
-  "Plugin" should {
+class CodecPluginSpec extends Specification{
+  "CodecPlugin" should {
     "correctly compile with list of classes" in {
       val p:Plugin = new TestPlugin
       p.getCodecs match {
@@ -53,6 +53,11 @@ class PluginSpec extends Specification{
     "hashCode" in {
       (new TestPlugin).hashCode() must_== (new TestPlugin).hashCode()
       (new TestPlugin).hashCode() must_!= (new TestPlugin2).hashCode()
+    }
+    "register for events and event processor class" in {
+      val p:Plugin = new TestPlugin
+      p.registerForEvents must_== None
+      p.eventProcessorClass must_== None
     }
   }
 }

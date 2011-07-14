@@ -1,8 +1,5 @@
 package net.tomasherman.specus.server.api.plugin
 
-import net.tomasherman.specus.server.api.net.Codec
-import net.tomasherman.specus.common.api.net.Packet
-import net.tomasherman.specus.server.api.di.DependencyConfig
 import akka.actor.Actor
 
 /**
@@ -23,24 +20,4 @@ import akka.actor.Actor
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-trait Plugin {
-
-  def initialize(dependencies:DependencyConfig){}
-  def getCodecs:Option[List[Class[_<:Codec[_<:Packet]]]]
-  def eventProcessorClass:Option[Class[_<:PluginEventProcessor]]
-  def registerForEvents:Option[List[Class[_<:PluginEvent]]]
-
-  override def equals(that:Any) = {
-    if(that.isInstanceOf[Object]) {
-      this.getClass == that.asInstanceOf[Object].getClass
-    } else {
-      false
-    }
-  }
-
-  override def hashCode() = {
-    this.getClass.getName.hashCode() * 41
-  }
-
-}
+trait PluginEventProcessor extends Actor

@@ -27,7 +27,7 @@ import akka.actor.Actor
 trait Plugin {
 
   def initialize(dependencies:DependencyConfig){}
-  def getCodecs:List[Class[_<:Codec[_<:Packet]]]
+  def getCodecs:Option[List[Class[_<:Codec[_<:Packet]]]]
   def eventProcessorClass:Option[Class[_<:Actor]]
   def registerForEvents:Option[List[Class[_<:PluginEvent]]]
 

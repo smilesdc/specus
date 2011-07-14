@@ -31,17 +31,20 @@ class TestCodec extends Codec[TestPacket](0x01,classOf[TestPacket]){
 
 
 class TestPlugin extends CodecPlugin{
-  def getCodecs = List(classOf[TestCodec])
+  def getCodecs = Some(List(classOf[TestCodec]))
 }
 
 class TestPlugin2 extends CodecPlugin{
-  def getCodecs = List(classOf[TestCodec])
+  def getCodecs = Some(List(classOf[TestCodec]))
 }
 class PluginSpec extends Specification{
   "Plugin" should {
     "correctly compile with list of classes" in {
       val p:Plugin = new TestPlugin
-      p.getCodecs.head.newInstance.isInstanceOf[TestCodec] must_== true
+      p.getCodecs match {
+        case None => failure("some codecs expected")
+        case Some(l) => l.head.newInstance.isInstanceOf[TestCodec] must_== true
+      }
     }
     "equals" in {
       new TestPlugin must_== new TestPlugin

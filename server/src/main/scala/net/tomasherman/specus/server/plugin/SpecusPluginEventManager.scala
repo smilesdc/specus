@@ -41,6 +41,7 @@ class SpecusPluginEventManager extends PluginEventManager{
 
   def removeEventProcessor(processor:PluginEventProcessorId) {
     mapping.filter({ p => p._2.contains(processor)}).foreach( { q => mapping(q._1) = q._2.filterNot({ x => x == processor })})
+    idToProcessor remove processor
   }
 
   def sendEvent(event:PluginEvent) {

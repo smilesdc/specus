@@ -30,7 +30,7 @@ trait Plugin {
   def getCodecs:Option[List[Class[_<:Codec[_<:Packet]]]]
   def eventProcessorClass:Option[Class[ActorRef]]
   def registerForEvents:Option[List[Class[_<:PluginEvent]]]
-
+  def customCommands:Option[List[CustomCommand]]
   override def equals(that:Any) = {
     if(that.isInstanceOf[Object]) {
       this.getClass == that.asInstanceOf[Object].getClass

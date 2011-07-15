@@ -58,6 +58,7 @@ class CodecPluginSpec extends Specification{
       val p:Plugin = new TestPlugin
       p.registerForEvents must_== None
       p.eventProcessorClass must_== None
+      p.customCommands must_== None
     }
   }
 }

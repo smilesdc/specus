@@ -1,5 +1,7 @@
 package net.tomasherman.specus.server.api.plugin
 
+import util.matching.Regex
+
 /**
  * This file is part of Specus.
  *
@@ -19,5 +21,4 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
-abstract class PluginEvent
-abstract class CommandInvocation(prefix:String,arg:String) extends PluginEvent
+case class CustomCommand(prefix:String,help:String)

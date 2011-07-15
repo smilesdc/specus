@@ -1,7 +1,5 @@
 package net.tomasherman.specus.server.api.plugin
 
-import akka.actor.ActorRef
-
 /**
  * This file is part of Specus.
  *
@@ -20,9 +18,5 @@ import akka.actor.ActorRef
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-trait PluginEventManager {
-  def registerEventProcessor(processor:ActorRef,events:List[Class[_<:PluginEvent]]):PluginEventProcessorId
-  def removeEventProcessor(processor:PluginEventProcessorId)
-  def sendEvent(event:PluginEvent)
-  def sendToProcessor(event:PluginEvent,processor:PluginEventProcessorId)
-}
+
+abstract class PluginEventProcessorId

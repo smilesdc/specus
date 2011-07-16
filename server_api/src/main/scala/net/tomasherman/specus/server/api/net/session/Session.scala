@@ -21,7 +21,13 @@ import net.tomasherman.specus.common.api.net.Packet
  *
  */
 
+/** Abstraction that represents connected client and know how to write data and close connection. */
 trait Session {
+
+  /** Writes data to a client.
+    * @param data Data to be written. */
   def write(data: Packet)
+
+  /** Closes connection */
   def close()
 }

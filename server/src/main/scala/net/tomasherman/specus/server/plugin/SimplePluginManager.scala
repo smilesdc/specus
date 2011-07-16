@@ -26,6 +26,8 @@ import net.tomasherman.specus.server.api.config.Configuration
  *
  */
 
+
+/** Implementation of PluginManager. Expects to be injected with Configuration */
 class SimplePluginManager(val env: {val config:Configuration}) extends PluginManager with Logging{
   private var plugins:List[Plugin] = List[Plugin]()
 

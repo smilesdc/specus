@@ -21,6 +21,8 @@ import net.tomasherman.specus.server.api.net._
  *
  */
 
+/** Implementation of ProtocolDecoder using CodecRepository and Codecs. It
+  * expects to be mixed in with a class into which was injected a CodecRepository */
 trait CodecBasedProtocolDecoder extends ProtocolDecoder {
   val env: {val codecRepository: CodecRepository}
 

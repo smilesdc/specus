@@ -19,8 +19,5 @@ package net.tomasherman.specus.common.api.net
  *
  */
 
-/**
- * Parent class of all packet case classes.
- * @param id Identifier of packet. Must be unique in the whole build
- */
+/** Abstraction of all Packets. */
 abstract class Packet

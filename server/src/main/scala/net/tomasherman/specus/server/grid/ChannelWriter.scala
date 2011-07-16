@@ -25,15 +25,23 @@ import net.tomasherman.specus.common.api.grid.messages.WriteRequest
  *
  */
 
+/** Trait implementing channel writing related functionality for easier testing.
+  * It is expected that implementing class will be injected with environment
+  * containing SessionManager implementation. */
 trait ChannelWriterFunctionality {
-  val env:{val sessionManager:SessionManager}
+  val env: {val sessionManager: SessionManager}
 
-  def writeData(sessId:SessionID,packet:Packet) {
+  /** Writes data into session.
+    * @param sessId SessionID representing client. */
+  def writeData(sessId: SessionID, packet: Packet) {
     env.sessionManager.writeTo(sessId,packet)
   }
 }
 
-class ChannelWriter(val env:{val sessionManager:SessionManager}) extends Actor with ChannelWriterFunctionality{
+/** Actor encapsulating writing to connected clients. Relies on proper
+  * ChannelWriterFunctionality implementation. This class only binds
+  * function calls to appropriate messages. */
+class ChannelWriter(val env: {val sessionManager: SessionManager}) extends Actor with ChannelWriterFunctionality{
   protected def receive = {
     case WriteRequest(sessId,data) => writeData(sessId,data)
   }

@@ -1,5 +1,8 @@
 package net.tomasherman.specus.common.api.grid.messages
 
+import net.tomasherman.specus.common.api.net.session.SessionID
+import net.tomasherman.specus.common.api.net.Packet
+
 /**
  * This file is part of Specus.
  *
@@ -19,8 +22,10 @@ package net.tomasherman.specus.common.api.grid.messages
  *
  */
 
+/** Abstraction of messages sent from server to node(s). */
+abstract class NodeMessage
 
-abstract class NodeLoadBalancerMessage
-
-case class Register extends NodeLoadBalancerMessage
-case class Unregister extends NodeLoadBalancerMessage
+/** Message indicating that a packet was received from a client.
+  * @param sid SessionID of representing client.
+  * @param packet Data received from a client. */
+case class PacketMessage(sid: SessionID,packet: Packet) extends NodeMessage

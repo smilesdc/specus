@@ -20,4 +20,7 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** SessionID implementation using integers as discriminator.
+  * @param id Id of the session. */
 case class IntSessionID(id:Int) extends SessionID

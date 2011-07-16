@@ -1,5 +1,8 @@
 package net.tomasherman.specus.server.net.session
 
+import net.tomasherman.specus.common.api.net.session.SessionID
+import net.tomasherman.specus.server.api.net.session.Session
+import scala.collection.mutable.Map
 /**
  * This file is part of Specus.
  *
@@ -18,6 +21,8 @@ package net.tomasherman.specus.server.net.session
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** Implementation of SessionManager using logic from IntSessionManager. */
 class SpecusIntSessionManager extends IntSessionManager {
-  protected val sessions = null //TODO null for now
+  protected val sessions = Map[SessionID,Session]()
 }

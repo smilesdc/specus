@@ -23,6 +23,9 @@ import net.tomasherman.specus.server.api.net.CodecRepository
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/**Implementation of OneToOneEncoder using CodecBasedProtocolEncoder to
+ * actually encode stuff */
 class SpecusEncoder(val env: {val codecRepository: CodecRepository})
   extends OneToOneEncoder with CodecBasedProtocolEncoder{
 

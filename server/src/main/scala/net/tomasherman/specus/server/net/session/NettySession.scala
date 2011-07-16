@@ -24,9 +24,9 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  *
  */
 
-
+/** Session implementation using Netty channels for writing stuff. */
 case class NettySession(id:SessionID,channel:Channel) extends Session{
   def close() { channel.close() }
 
-  def write(data: Packet) = { channel.write(data) }
+  def write(data: Packet) { channel.write(data) }
 }

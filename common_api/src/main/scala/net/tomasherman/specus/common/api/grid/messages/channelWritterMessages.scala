@@ -22,7 +22,10 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  *
  */
 
-
+/** Abstraction of all the messages that a @{link ChannelWriter} accepts */
 abstract class ChannelWriterMessage
 
+/** Class wrapping a node request to write to a client.
+  * @param sid SessionID which represents the client.
+  * @param packet Data to be written. */
 case class WriteRequest(sid: SessionID,packet: Packet)

@@ -21,6 +21,7 @@ import org.jboss.netty.channel._
  *
  */
 
+/** ChannelPipelineFactory that returns injected Encoder,Decoder and Handler. */
 class SpecusPipelineFactory(env: ({
   val channelEncoder: ChannelHandler
   val channelDecoder: ChannelHandler

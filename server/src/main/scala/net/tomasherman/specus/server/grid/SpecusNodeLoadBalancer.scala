@@ -20,18 +20,17 @@ import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
  *
  * You should have received a copy of the GNU General Public License
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 trait NodeLoadBalancerFunctionality extends NodeLoadBalancer {
   protected var nodeChannels = Vector[Channel[Any]]()
-  var useNext = 0
-
-  def registerChannel(ch:Channel[Any]) {
+  protected var useNext = 0
+  //TODO refactor this
+  def registerChannel(ch: Channel[Any]) {
     nodeChannels = nodeChannels :+ ch
   }
 
-  def unregisterChannel(ch:Channel[Any]) {
+  def unregisterChannel(ch: Channel[Any]) {
     nodeChannels = nodeChannels.zipWithIndex.flatMap({ p =>
       p match {
         case (chnl,i) => {
@@ -45,21 +44,21 @@ trait NodeLoadBalancerFunctionality extends NodeLoadBalancer {
     }})
   }
 
-  def bangNext(msg:NodeMessage) {
+  def bangNext(msg: NodeMessage) {
     nodeChannels(useNext) ! msg
     useNext = countNext(useNext,nodeChannels.size)
   }
   
-  def bangAll(msg:NodeMessage) {
+  def bangAll(msg: NodeMessage) {
     nodeChannels.foreach({ ch => ch ! msg})
   }
 
-  private def countNext(current:Int,size:Int) = (useNext+1) % size
+  private def countNext(current: Int,size: Int) = (useNext+1) % size
 }
 
 class SpecusNodeLoadBalancer extends Actor with NodeLoadBalancerFunctionality{
   protected def receive = {
-    case msg:Register => registerChannel(self.channel)
-    case msg:Unregister => unregisterChannel(self.channel)
+    case msg: Register => registerChannel(self.channel)
+    case msg: Unregister => unregisterChannel(self.channel)
   }
 }

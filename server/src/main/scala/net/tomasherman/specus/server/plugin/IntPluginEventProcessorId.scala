@@ -20,4 +20,6 @@ import net.tomasherman.specus.server.api.plugin.PluginEventProcessorId
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** PluginEventProcessorId implementation using Integer as discriminator */
 case class IntPluginEventProcessorId(id: Int) extends PluginEventProcessorId

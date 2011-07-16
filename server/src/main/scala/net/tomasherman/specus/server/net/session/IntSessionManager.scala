@@ -25,7 +25,8 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  *
  */
 
-
+/** SessionManager implementation using IntSessionID implementation of
+  * SessionID */
 trait IntSessionManager extends SessionManager {
   protected val sessions:Map[SessionID,Session]
   private var lastId = 0

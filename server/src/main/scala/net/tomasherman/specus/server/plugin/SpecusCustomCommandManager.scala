@@ -20,6 +20,8 @@ import scala.collection.mutable.Map
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** Implementation of CustomCommandManager. */
 class SpecusCustomCommandManager extends CustomCommandManager {
   protected val commands = Map[String,(CustomCommand,PluginEventProcessorId)]()
   def registerCommand(cmd: CustomCommand, processor: PluginEventProcessorId) {

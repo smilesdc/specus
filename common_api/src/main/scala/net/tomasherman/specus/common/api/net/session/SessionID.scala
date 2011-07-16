@@ -19,5 +19,6 @@ package net.tomasherman.specus.common.api.net.session
  *
  */
 
-
+/** Abstraction of SessionID. Used by Server and Node to represent connected clients. Server is supposed to provide
+  * proper implementation that support equality and hashing */
 abstract class SessionID

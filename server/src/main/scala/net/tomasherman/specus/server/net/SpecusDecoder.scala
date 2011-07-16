@@ -4,7 +4,7 @@ import net.tomasherman.specus.server.api.logging.Logging
 import org.jboss.netty.channel.{Channel, ChannelHandlerContext}
 import org.jboss.netty.buffer.ChannelBuffer
 import org.jboss.netty.handler.codec.replay.{VoidEnum, ReplayingDecoder}
-import net.tomasherman.specus.server.api.net.{CodecRepository}
+import net.tomasherman.specus.server.api.net.CodecRepository
 
 /**
  * This file is part of Specus.
@@ -25,15 +25,14 @@ import net.tomasherman.specus.server.api.net.{CodecRepository}
  *
  */
 
-
+/**Implementation of ReplayingDecoder using CodecBased ProtocolDEcoder to
+ * actually decode stuff */
 class SpecusDecoder(val env: {val codecRepository: CodecRepository})
   extends ReplayingDecoder[VoidEnum]
   with CodecBasedProtocolDecoder
   with Logging{
 
   def decode(ctx: ChannelHandlerContext, channel: Channel, buffer: ChannelBuffer, state: VoidEnum) = {
-    try{
       decode(buffer)
-    }
   }
 }

@@ -1,8 +1,5 @@
 package net.tomasherman.specus.common.api.grid.messages
 
-import net.tomasherman.specus.common.api.net.session.SessionID
-import net.tomasherman.specus.common.api.net.Packet
-
 /**
  * This file is part of Specus.
  *
@@ -21,6 +18,12 @@ import net.tomasherman.specus.common.api.net.Packet
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-abstract class NodeMessage
 
-case class PacketMessage(sid: SessionID,packet: Packet) extends NodeMessage
+/** Abstraction of messages received by NodeLoadBalancer */
+abstract class NodeLoadBalancerMessage
+
+/** Registers the sender as one of the possible processors */
+case class Register extends NodeLoadBalancerMessage
+
+/** Unregisters the sender */
+case class Unregister extends NodeLoadBalancerMessage

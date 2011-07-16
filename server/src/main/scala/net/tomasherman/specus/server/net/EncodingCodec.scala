@@ -21,7 +21,10 @@ import org.jboss.netty.buffer.ChannelBuffer
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-abstract class EncodingCodec[T<:Packet](packetId: Byte,packetClass: Class[T])
+
+/** Abstract Codec implementation providing support for easier encoding. Removes
+  * the need to write packet id manually. */
+abstract class EncodingCodec[T<: Packet](packetId: Byte,packetClass: Class[T])
   extends Codec(packetId,packetClass){
 
   def encode(packet: T) = {
@@ -31,6 +34,14 @@ abstract class EncodingCodec[T<:Packet](packetId: Byte,packetClass: Class[T])
     buffer
   }
 
+  /** Returns new ChannelBuffer into which the stuff will be encoded. It is
+    * recommended for codecs that always have exactly N bytes to use static
+    * channel buffers. Codecs that use strings or have non-constant bytes can
+    * use dynamic channel buffers.*/
   protected def createChannelBuffer:ChannelBuffer
-  protected def encodeDataToBuffer(packet: T,buffer: ChannelBuffer):Unit
+
+  /** Encodes Packet into bytes and writes them to ChannelBuffer
+    * @param packet Packet to be encoded
+    * @param buffer Buffer into which the bytes will be encoded*/
+  protected def encodeDataToBuffer(packet: T, buffer: ChannelBuffer)
 }

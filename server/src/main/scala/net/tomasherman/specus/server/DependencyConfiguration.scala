@@ -26,6 +26,7 @@ import session.SpecusIntSessionManager
  *
  */
 
+/** Implementation of DependencyConfig */
 class DependencyConfiguration extends DependencyConfig {
   lazy val codecRepository = new SimpleCodecRepository
   lazy val nettyPipelineFactory = new SpecusPipelineFactory(this)

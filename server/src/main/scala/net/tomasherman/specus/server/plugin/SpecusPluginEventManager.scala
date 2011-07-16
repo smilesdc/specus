@@ -22,6 +22,8 @@ import net.tomasherman.specus.server.api.plugin.{PluginEventProcessorId, PluginE
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** Implementation of PluginEventManager */
 class SpecusPluginEventManager extends PluginEventManager{
 
   protected val mapping = Map[Class[_],List[PluginEventProcessorId]]()

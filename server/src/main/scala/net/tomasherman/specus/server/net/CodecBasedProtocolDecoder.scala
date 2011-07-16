@@ -22,7 +22,7 @@ import net.tomasherman.specus.server.api.net._
  */
 
 trait CodecBasedProtocolDecoder extends ProtocolDecoder {
-  val env:{val codecRepository:CodecRepository}
+  val env: {val codecRepository: CodecRepository}
 
   def decode(buffer: ChannelBuffer) = {
     val packetId = buffer.readByte()

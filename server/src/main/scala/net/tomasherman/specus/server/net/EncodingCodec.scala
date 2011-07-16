@@ -21,9 +21,10 @@ import org.jboss.netty.buffer.ChannelBuffer
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-abstract class EncodingCodec[T<:Packet](packetId:Byte,packetClass:Class[T]) extends Codec(packetId,packetClass){
+abstract class EncodingCodec[T<:Packet](packetId: Byte,packetClass: Class[T])
+  extends Codec(packetId,packetClass){
 
-  def encode(packet:T) = {
+  def encode(packet: T) = {
     val buffer = createChannelBuffer
     buffer.writeByte(packetId)
     encodeDataToBuffer(packet,buffer)
@@ -31,5 +32,5 @@ abstract class EncodingCodec[T<:Packet](packetId:Byte,packetClass:Class[T]) exte
   }
 
   protected def createChannelBuffer:ChannelBuffer
-  protected def encodeDataToBuffer(packet:T,buffer:ChannelBuffer):Unit
+  protected def encodeDataToBuffer(packet: T,buffer: ChannelBuffer):Unit
 }

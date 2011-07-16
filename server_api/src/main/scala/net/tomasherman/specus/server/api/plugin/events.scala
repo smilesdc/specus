@@ -20,4 +20,5 @@ package net.tomasherman.specus.server.api.plugin
  */
 
 abstract class PluginEvent
-abstract class CommandInvocation(prefix:String,arg:String) extends PluginEvent
+
+abstract class CommandInvocation(prefix: String, arg: String) extends PluginEvent

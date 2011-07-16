@@ -24,10 +24,10 @@ import org.jboss.netty.buffer.ChannelBuffer
  */
 
 trait CodecBasedProtocolEncoder extends ProtocolEncoder{
-  val env:{val codecRepository:CodecRepository}
-  def encode(packet: Packet):ChannelBuffer = {
+  val env: {val codecRepository: CodecRepository}
+  def encode(packet: Packet): ChannelBuffer = {
     env.codecRepository.lookupCodec(packet) match {
-      case Some(x:Codec[_]) => x.encode(packet)
+      case Some(x: Codec[_]) => x.encode(packet)
       case None => throw new PacketEncoderNotFoundException(packet)
     }
   }

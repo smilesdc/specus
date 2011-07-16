@@ -24,8 +24,8 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  */
 
 trait SessionManager {
-  def createNewSession(channel:Channel):SessionID
-  def writeTo(id:SessionID,data:Packet)
-  def broadcast(data:Packet)
-  def closeSession(id:SessionID)
+  def createNewSession(channel: Channel): SessionID
+  def writeTo(id: SessionID, data: Packet)
+  def broadcast(data: Packet)
+  def closeSession(id: SessionID)
 }

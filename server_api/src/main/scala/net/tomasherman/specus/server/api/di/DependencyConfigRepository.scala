@@ -21,8 +21,8 @@ package net.tomasherman.specus.server.api.di
 
 object DependencyConfigRepository extends DependencyConfigRepositoryTrait
 
-trait DependencyConfigRepositoryTrait{
-  private var _config:DependencyConfig = null
+trait DependencyConfigRepositoryTrait {
+  private var _config: DependencyConfig = null
   private var lockdown = false;
 
   def apply() = {
@@ -31,16 +31,16 @@ trait DependencyConfigRepositoryTrait{
   }
 
   def config = {
-    if(_config == null){
+    if (_config == null) {
       throw new NoDependencyConfigurationSupplied
     } else {
       _config
     }
   }
-    
 
-  def config_= (x:DependencyConfig):Unit = {
-    if(lockdown) {
+
+  def config_=(x: DependencyConfig) {
+    if (lockdown) {
       throw new ConfigAlreadyLockedDown
     }
     _config = x

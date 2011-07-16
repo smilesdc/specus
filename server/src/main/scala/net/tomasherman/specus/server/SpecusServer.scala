@@ -27,10 +27,12 @@ import akka.actor.Actor
  *
  */
 
-class SpecusServer(val port:Int,val env: {
-  val nettyPipelineFactory:ChannelPipelineFactory
-  val nodeLoadBalancer: NodeLoadBalancer
-}) {
+class SpecusServer(
+  val port: Int,
+  val env: {
+    val nettyPipelineFactory: ChannelPipelineFactory
+    val nodeLoadBalancer: NodeLoadBalancer
+  }){
   private var running = false
 
   def start() {

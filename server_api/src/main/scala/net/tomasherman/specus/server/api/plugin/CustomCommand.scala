@@ -1,7 +1,5 @@
 package net.tomasherman.specus.server.api.plugin
 
-import util.matching.Regex
-
 /**
  * This file is part of Specus.
  *
@@ -21,4 +19,4 @@ import util.matching.Regex
  *
  */
 
-case class CustomCommand(prefix:String,help:String)
+case class CustomCommand(prefix: String, help: String)

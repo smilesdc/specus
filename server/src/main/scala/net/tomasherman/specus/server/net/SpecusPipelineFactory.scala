@@ -21,10 +21,10 @@ import org.jboss.netty.channel._
  *
  */
 
-class SpecusPipelineFactory(env:({
-  val channelEncoder:ChannelHandler
-  val channelDecoder:ChannelHandler
-  val channelHandler:ChannelHandler
+class SpecusPipelineFactory(env: ({
+  val channelEncoder: ChannelHandler
+  val channelDecoder: ChannelHandler
+  val channelHandler: ChannelHandler
 })) extends ChannelPipelineFactory{
   def getPipeline = new StaticChannelPipeline(env.channelEncoder,env.channelDecoder,env.channelHandler)
 }

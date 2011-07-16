@@ -27,27 +27,27 @@ import net.tomasherman.specus.server.api.net.{CodecRepository, Codec}
  */
 class SimpleCodecRepository extends CodecRepository{
   import scala.collection.mutable.Map
-  val codecByIDMap = Map[Byte,Codec[_<:Packet]]()
-  val codecByPacketMap = Map[Class[_],Codec[_<:Packet]]()
+  val codecByIDMap = Map[Byte,Codec[_<: Packet]]()
+  val codecByPacketMap = Map[Class[_],Codec[_<: Packet]]()
   /**
    * Tries to find a suitable codec for packetId.
    * @param packetid Byte for which a suitable codec should be found.
    * @return Either None if no codec is found or Option wrapped codec.
    */
-  def lookupCodec(packetId:Byte) = codecByIDMap.get(packetId)
+  def lookupCodec(packetId: Byte) = codecByIDMap.get(packetId)
   /**
    * Tries to find a suitable codec for packet class.
    * @param packetid Byte for which a suitable codec should be found.
    * @return Either None if no codec is found or Option wrapped codec.
    */
-  def lookupCodec(p:Packet) = codecByPacketMap.get(p.getClass)
+  def lookupCodec(p: Packet) = codecByPacketMap.get(p.getClass)
 
   /**
    * Registers codec for lookup. Note that registration fails should any other codec be registered with same packet class or packet id as registering codec.
    * @param codecClass Class of the codec to be registered. New instance is created automatically.
    * @returns True if the codec was registered correctly. False if registration failed
    */
-  def registerCodec(codecClass:Class[_<:Codec[_<:Packet]]):Boolean = {
+  def registerCodec(codecClass: Class[_<: Codec[_<: Packet]]): Boolean = {
     if(codecClass == null) return false
     val instance = codecClass.newInstance
     var success = false

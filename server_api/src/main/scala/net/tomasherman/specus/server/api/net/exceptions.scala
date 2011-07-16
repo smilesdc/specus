@@ -22,6 +22,8 @@ import net.tomasherman.specus.common.api.net.Packet
  */
 
 
-class PacketEncoderNotFoundException(val packet:Packet) extends Exception
-class BufferDecoderNotFoundException(val packetId:Byte) extends Exception
-class DecodingErrorException(val expected:String,val value:Any) extends Exception
+class PacketEncoderNotFoundException(val packet: Packet) extends Exception
+
+class BufferDecoderNotFoundException(val packetId: Byte) extends Exception
+
+class DecodingErrorException(val expected: String, val value: Any) extends Exception

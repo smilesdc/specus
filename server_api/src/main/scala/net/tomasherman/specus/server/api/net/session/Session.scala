@@ -21,7 +21,7 @@ import net.tomasherman.specus.common.api.net.Packet
  *
  */
 
-trait Session{
-  def write(data:Packet)
+trait Session {
+  def write(data: Packet)
   def close()
 }

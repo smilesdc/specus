@@ -21,8 +21,8 @@ import akka.actor.ActorRef
  *
  */
 trait PluginEventManager {
-  def registerEventProcessor(processor:ActorRef,events:List[Class[_<:PluginEvent]]):PluginEventProcessorId
-  def removeEventProcessor(processor:PluginEventProcessorId)
-  def sendEvent(event:PluginEvent)
-  def sendToProcessor(event:PluginEvent,processor:PluginEventProcessorId)
+  def registerEventProcessor(processor: ActorRef, events: List[Class[_ <: PluginEvent]]): PluginEventProcessorId
+  def removeEventProcessor(processor: PluginEventProcessorId)
+  def sendEvent(event: PluginEvent)
+  def sendToProcessor(event: PluginEvent, processor: PluginEventProcessorId)
 }

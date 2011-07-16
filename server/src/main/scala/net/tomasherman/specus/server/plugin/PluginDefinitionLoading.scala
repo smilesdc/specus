@@ -27,14 +27,14 @@ import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinit
 object PluginDefinitionLoading{
   implicit val formats = DefaultFormats
 
-  def parsePluginDefinition(dir:File,pdfName:String):PluginDefinition = {
+  def parsePluginDefinition(dir: File,pdfName: String):PluginDefinition = {
     dir.list.find( p => p == pdfName ) match {
       case None => throw new PluginDefinitionFileNotFound(pdfName,dir)
       case Some(path) => {
         try{
           parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition]
         } catch {
-          case e:MappingException => throw new PluginDefinitionParsingFailed(dir,e)
+          case e: MappingException => throw new PluginDefinitionParsingFailed(dir,e)
         }
       }
     }

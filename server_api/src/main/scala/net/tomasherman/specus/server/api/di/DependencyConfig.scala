@@ -27,13 +27,13 @@ import org.jboss.netty.channel.{ChannelPipelineFactory, ChannelHandler}
  */
 
 trait DependencyConfig {
-  val codecRepository:CodecRepository
-  val nettyPipelineFactory:ChannelPipelineFactory
-  val nodeLoadBalancer:NodeLoadBalancer
-  val channelEncoder:ChannelHandler
-  val channelDecoder:ChannelHandler
-  val channelHandler:ChannelHandler
-  val sessionManager:SessionManager
-  val pluginManager:PluginManager
-  val config:Configuration
+  val codecRepository: CodecRepository
+  val nettyPipelineFactory: ChannelPipelineFactory
+  val nodeLoadBalancer: NodeLoadBalancer
+  val channelEncoder: ChannelHandler
+  val channelDecoder: ChannelHandler
+  val channelHandler: ChannelHandler
+  val sessionManager: SessionManager
+  val pluginManager: PluginManager
+  val config: Configuration
 }

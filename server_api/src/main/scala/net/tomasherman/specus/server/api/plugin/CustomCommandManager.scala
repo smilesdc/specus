@@ -1,7 +1,5 @@
 package net.tomasherman.specus.server.api.plugin
 
-import akka.actor.ActorRef
-
 /**
  * This file is part of Specus.
  *
@@ -21,8 +19,8 @@ import akka.actor.ActorRef
  *
  */
 trait CustomCommandManager {
-  def registerCommand(cmd:CustomCommand,processor:PluginEventProcessorId)
-  def removeCommand(prefix:String)
-  def lookupCommand(prefix:String):CustomCommand
-  def lookupProcessor(prefix:String):PluginEventProcessorId
+  def registerCommand(cmd: CustomCommand, processor: PluginEventProcessorId)
+  def removeCommand(prefix: String)
+  def lookupCommand(prefix: String): CustomCommand
+  def lookupProcessor(prefix: String): PluginEventProcessorId
 }

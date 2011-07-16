@@ -20,9 +20,7 @@ package net.tomasherman.specus.server.api.plugin
  */
 
 trait CodecPlugin extends Plugin {
-
   def eventProcessorClass = None
   def registerForEvents = None
   def customCommands = None
-  
 }

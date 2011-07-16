@@ -25,9 +25,9 @@ import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class SpecusHandler(val env:{
-  val sessionManager:SessionManager
-  val nodeLoadBalancer:NodeLoadBalancer
+class SpecusHandler(val env: {
+  val sessionManager: SessionManager
+  val nodeLoadBalancer: NodeLoadBalancer
 }) extends SimpleChannelHandler{
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     val sid = env.sessionManager.createNewSession(e.getChannel)
@@ -45,7 +45,7 @@ class SpecusHandler(val env:{
     env.nodeLoadBalancer.bangNext(new PacketMessage(sid,e.getMessage.asInstanceOf[Packet]))
   }
 
-  private def sessionId(ctx:ChannelHandlerContext) = {
+  private def sessionId(ctx: ChannelHandlerContext) = {
     ctx.getAttachment.asInstanceOf[SessionID]
   }
 }

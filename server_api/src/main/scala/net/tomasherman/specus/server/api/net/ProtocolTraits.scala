@@ -22,14 +22,10 @@ import net.tomasherman.specus.common.api.net.Packet
  *
  */
 
-trait ProtocolDecoder{
-
-  def decode(buffer:ChannelBuffer):Packet
-
+trait ProtocolDecoder {
+  def decode(buffer: ChannelBuffer): Packet
 }
 
-trait ProtocolEncoder{
-
-  def encode(packet:Packet):ChannelBuffer
-
+trait ProtocolEncoder {
+  def encode(packet: Packet): ChannelBuffer
 }

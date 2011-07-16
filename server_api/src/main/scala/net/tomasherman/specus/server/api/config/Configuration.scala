@@ -20,5 +20,5 @@ package net.tomasherman.specus.server.api.config
  */
 
 trait Configuration {
-  val plugin:PluginConfig
+  val plugin: PluginConfig
 }

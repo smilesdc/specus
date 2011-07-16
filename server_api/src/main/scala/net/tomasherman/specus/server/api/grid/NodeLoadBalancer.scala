@@ -22,8 +22,11 @@ import net.tomasherman.specus.common.api.grid.messages.NodeMessage
  *
  */
 trait NodeLoadBalancer {
-  def registerChannel(ch:Channel[Any])
-  def unregisterChannel(ch:Channel[Any])
-  def bangNext(msg:NodeMessage)
-  def bangAll(msg:NodeMessage)
+  def registerChannel(ch: Channel[Any])
+
+  def unregisterChannel(ch: Channel[Any])
+
+  def bangNext(msg: NodeMessage)
+
+  def bangAll(msg: NodeMessage)
 }

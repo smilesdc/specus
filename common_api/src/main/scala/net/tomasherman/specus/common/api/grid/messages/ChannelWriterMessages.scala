@@ -25,4 +25,4 @@ import net.tomasherman.specus.common.api.net.session.SessionID
 
 abstract class ChannelWriterMessage
 
-case class WriteRequest(sid:SessionID,packet:Packet)
+case class WriteRequest(sid: SessionID,packet: Packet)

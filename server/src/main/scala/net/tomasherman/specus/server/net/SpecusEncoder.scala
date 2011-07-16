@@ -23,7 +23,9 @@ import net.tomasherman.specus.server.api.net.CodecRepository
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class SpecusEncoder(val env:{val codecRepository:CodecRepository}) extends OneToOneEncoder with CodecBasedProtocolEncoder{
+class SpecusEncoder(val env: {val codecRepository: CodecRepository})
+  extends OneToOneEncoder with CodecBasedProtocolEncoder{
+
   def encode(ctx: ChannelHandlerContext, channel: Channel, msg: AnyRef) = {
     encode(msg.asInstanceOf[Packet])
   }

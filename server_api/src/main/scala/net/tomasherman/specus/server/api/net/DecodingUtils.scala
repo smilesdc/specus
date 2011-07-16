@@ -27,62 +27,56 @@ import annotation.tailrec
 
 
 object DecodingUtils {
+  def decodeByte(b: ChannelBuffer) = b.readByte
+  def decodeShort(b: ChannelBuffer) = b.readShort
+  def decodeInt(b: ChannelBuffer) = b.readInt
+  def decodeLong(b: ChannelBuffer) = b.readLong
+  def decodeFloat(b: ChannelBuffer) = b.readFloat
+  def decodeDouble(b: ChannelBuffer) = b.readDouble
 
-  def decodeByte(b:ChannelBuffer) = b.readByte
-
-  def decodeShort(b:ChannelBuffer) = b.readShort
-
-  def decodeInt(b:ChannelBuffer) = b.readInt
-
-  def decodeLong(b:ChannelBuffer) = b.readLong
-
-  def decodeFloat(b:ChannelBuffer) = b.readFloat
-
-  def decodeDouble(b:ChannelBuffer) = b.readDouble
-
-  def decodeString8(b:ChannelBuffer) = {
-    decodeString(b,CharsetUtil.UTF_8)
+  def decodeString8(b: ChannelBuffer) = {
+    decodeString(b, CharsetUtil.UTF_8)
   }
 
-  def decodeString16(b:ChannelBuffer) = {
-    decodeString(b,CharsetUtil.UTF_16BE)
+  def decodeString16(b: ChannelBuffer) = {
+    decodeString(b, CharsetUtil.UTF_16BE)
   }
 
-  private def decodeString(b:ChannelBuffer,charset:Charset) = {
+  private def decodeString(b: ChannelBuffer, charset: Charset) = {
     val sLen = decodeShort(b)
     val bArr = new Array[Byte](sLen)
-    b.readBytes(bArr,0,sLen)
-    new String(bArr,charset)
+    b.readBytes(bArr, 0, sLen)
+    new String(bArr, charset)
   }
 
-  def decodeBoolean(b:ChannelBuffer) = {
+  def decodeBoolean(b: ChannelBuffer) = {
     val v = b.readByte
     v match {
       case 0x01 => true
       case 0x00 => false
-      case _ => throw new DecodingErrorException("boolean",v)
-    }
-  }
-  def decodeMetadata(b:ChannelBuffer) = {
-    decodeMetadataRec(b,ListBuffer[(Int,Any)]())
-  }
-  @tailrec
-  private def decodeMetadataRec(b:ChannelBuffer,meta:ListBuffer[(Int,Any)]):List[(Int,Any)]={
-    val t = b.readUnsignedByte()
-    if(t == 0x7F.toByte) {
-      meta.toList
-    }else {
-      t >>> 5 match {
-        case 0 => meta +=((0,decodeByte(b)))
-        case 1 => meta +=((1,decodeShort(b)))
-        case 2 => meta +=((2,decodeInt(b)))
-        case 3 => meta +=((3,decodeFloat(b)))
-        case 4 => meta +=((4,decodeString16(b)))
-        case 5 => meta +=((5,(decodeShort(b),decodeByte(b),decodeShort(b))))
-        case 6 => meta +=((6,(decodeInt(b),decodeInt(b),decodeInt(b))))
-      }
-      decodeMetadataRec(b,meta)
+      case _ => throw new DecodingErrorException("boolean", v)
     }
   }
 
+  def decodeMetadata(b: ChannelBuffer) = {
+    decodeMetadataRec(b, ListBuffer[(Int, Any)]())
+  }
+  @tailrec
+  private def decodeMetadataRec(b: ChannelBuffer, meta: ListBuffer[(Int, Any)]): List[(Int, Any)] = {
+    val t = b.readUnsignedByte()
+    if (t == 0x7F.toByte) {
+      meta.toList
+    } else {
+      t >>> 5 match {
+        case 0 => meta += ((0, decodeByte(b)))
+        case 1 => meta += ((1, decodeShort(b)))
+        case 2 => meta += ((2, decodeInt(b)))
+        case 3 => meta += ((3, decodeFloat(b)))
+        case 4 => meta += ((4, decodeString16(b)))
+        case 5 => meta += ((5, (decodeShort(b), decodeByte(b), decodeShort(b))))
+        case 6 => meta += ((6, (decodeInt(b), decodeInt(b), decodeInt(b))))
+      }
+      decodeMetadataRec(b, meta)
+    }
+  }
 }

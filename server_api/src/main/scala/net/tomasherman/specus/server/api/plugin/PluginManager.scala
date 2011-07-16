@@ -22,6 +22,6 @@ import java.io.File
  */
 
 trait PluginManager {
-  def bootupPlugins(dir:File):List[Plugin]
-  def getPlugins:List[Plugin]
+  def bootupPlugins(dir: File): List[Plugin]
+  def getPlugins: List[Plugin]
 }

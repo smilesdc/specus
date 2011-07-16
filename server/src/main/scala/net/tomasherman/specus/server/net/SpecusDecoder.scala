@@ -26,7 +26,11 @@ import net.tomasherman.specus.server.api.net.{CodecRepository}
  */
 
 
-class SpecusDecoder(val env:{val codecRepository:CodecRepository}) extends ReplayingDecoder[VoidEnum] with CodecBasedProtocolDecoder with Logging{
+class SpecusDecoder(val env: {val codecRepository: CodecRepository})
+  extends ReplayingDecoder[VoidEnum]
+  with CodecBasedProtocolDecoder
+  with Logging{
+
   def decode(ctx: ChannelHandlerContext, channel: Channel, buffer: ChannelBuffer, state: VoidEnum) = {
     try{
       decode(buffer)

@@ -19,4 +19,5 @@ package net.tomasherman.specus.server.api.di
  *
  */
 class NoDependencyConfigurationSupplied extends Exception
+
 class ConfigAlreadyLockedDown extends Exception

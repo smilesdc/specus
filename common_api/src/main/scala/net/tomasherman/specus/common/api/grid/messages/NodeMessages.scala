@@ -23,4 +23,4 @@ import net.tomasherman.specus.common.api.net.Packet
  */
 abstract class NodeMessage
 
-case class PacketMessage(sid:SessionID,packet:Packet) extends NodeMessage
+case class PacketMessage(sid: SessionID,packet: Packet) extends NodeMessage

@@ -19,7 +19,7 @@ package net.tomasherman.specus.server.api.config
  *
  */
 
-trait  PluginConfig {
-  val folder:String
-  val pluginDefinitionFileName:String
+trait PluginConfig {
+  val folder: String
+  val pluginDefinitionFileName: String
 }

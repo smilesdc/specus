@@ -14,7 +14,7 @@ object SpecusBuild extends Build {
 		libraryDependencies := commonDependencies
 	)
 	
-	lazy val specus = Project("specus",file("."),settings = buildSettings) aggregate (server_api,server,node,node_api)
+	lazy val specus = Project("specus",file("."),settings = buildSettings) aggregate (server_api,server,node,node_api,common_api)
 	
 	lazy val server = Project(
 		"server",

@@ -19,4 +19,7 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
+/** Class encapsulating custom commands added by plugins
+  * @param prefix Prefix of the command, e.g. 'ls'
+  * @param help Help test for the command.*/
 case class CustomCommand(prefix: String, help: String)

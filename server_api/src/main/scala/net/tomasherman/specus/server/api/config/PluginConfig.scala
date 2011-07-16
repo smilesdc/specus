@@ -19,7 +19,10 @@ package net.tomasherman.specus.server.api.config
  *
  */
 
+/** Plugin related constants. */
 trait PluginConfig {
+  /** Folder in which can be found plugins. */
   val folder: String
+  /** Name of the file containing plugin definitions.*/
   val pluginDefinitionFileName: String
 }

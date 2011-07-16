@@ -21,9 +21,12 @@ import net.tomasherman.specus.common.api.net.Packet
  *
  */
 
-
+/** Thrown when packet encoder is not found */
 class PacketEncoderNotFoundException(val packet: Packet) extends Exception
 
+
+/** Thrown when packet decoder is not found */
 class BufferDecoderNotFoundException(val packetId: Byte) extends Exception
 
+/** Thrown when something goes wrong with packet decoding */
 class DecodingErrorException(val expected: String, val value: Any) extends Exception

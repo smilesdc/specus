@@ -18,6 +18,8 @@ package net.tomasherman.specus.server.api.config
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** Default configuration to be extended by user configurations. */
 class DefaultConfiguration extends Configuration {
   val plugin = new PluginConfig {
     val pluginDefinitionFileName = "plugin.json"

@@ -19,6 +19,8 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
+/** Plugin containing only Codecs. This is used when there is no
+  * desire by the plugin author to handle events */
 trait CodecPlugin extends Plugin {
   def eventProcessorClass = None
   def registerForEvents = None

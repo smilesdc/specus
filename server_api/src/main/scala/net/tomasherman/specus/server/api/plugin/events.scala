@@ -19,6 +19,10 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
+/** Abstraction of all the messages passed to PluginEventProcessors */
 abstract class PluginEvent
 
-abstract class CommandInvocation(prefix: String, arg: String) extends PluginEvent
+/** Announces that a command registered by plugin was invoked.
+  * @param prefix Prefix of the command, e.g. 'ls'
+  * @param arg Arguments with which the command has been invoked. e.g. '-l' */
+class CommandInvocation(prefix: String, arg: String) extends PluginEvent

@@ -19,6 +19,11 @@ package net.tomasherman.specus.server.api.config
  *
  */
 
+/** Trait containing all the constants and user defined constants.
+  * It is split into more traits for nicer calls
+  * (e.g. configuration.plugin.somefield)
+  */
 trait Configuration {
+  /** Plugin related constants. */
   val plugin: PluginConfig
 }

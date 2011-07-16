@@ -18,9 +18,28 @@ package net.tomasherman.specus.server.api.plugin
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** CustomCommand container that keeps track of what PluginEventProcessor
+  * should be called when the command is invoked. */
 trait CustomCommandManager {
+  //TODO add lookup both  and options
+  /** Adds command to the container.
+    * @param cmd CustomCommand to be added.
+    * @param processor PluginEventProcessorId id of processor to be notified when
+    * the command is invoked */
   def registerCommand(cmd: CustomCommand, processor: PluginEventProcessorId)
+
+  /** Removes command from the container.
+    * @param prefix Prefix of command to be removed */
   def removeCommand(prefix: String)
+
+  /** Looks up command.
+    * @param prefix Prefix of a command to be found.
+    * @return Command */
   def lookupCommand(prefix: String): CustomCommand
+
+  /** Looks up processor for prefix.
+    * @param prefix Prefix of command whose processor will be looked up.
+    */
   def lookupProcessor(prefix: String): PluginEventProcessorId
 }

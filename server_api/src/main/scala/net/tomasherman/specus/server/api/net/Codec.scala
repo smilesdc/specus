@@ -23,21 +23,18 @@ import net.tomasherman.specus.common.api.net.Packet
  */
 
 
-/**
- * Abstract trait codec needs to implement. There is one codec per packet type. *Codec must be stateless*!
- * @param packetId Id of the packet. First byte in every packet.
- * @param packetClass Class of the packet returned by the codec.
- */
+/** Abstract trait codec needs to implement. There is one codec per packet type. *Codec must be stateless*!
+  * @param packetId Id of the packet. First byte in every packet.
+  * @param packetClass Class of the packet returned by the codec */
 abstract class Codec[T <: Packet](val packetId: Byte, val packetClass: Class[T]) {
-  /**
-   * Encodes particular packet into ChannelBuffer ready to be send through the network.
-   * @param packet Packet to be encoded
-   */
+
+  /** Encodes particular packet into ChannelBuffer ready to be send through the network.
+    * @param packet Packet to be encoded
+    * @return ChannelBuffer containing the encoded data.*/
   def encode(packet: T): ChannelBuffer
 
-  /**
-   * Attempts to decode packet class from the ChannelBuffer.
-   * @param buffer ChannelBuffer, from which codec is meant to be decoding the class.
-   */
+  /** Attempts to decode packet class from the ChannelBuffer.
+    * @param buffer ChannelBuffer, from which codec is meant to be decoding the class.
+    * @return Packet containing the decoded data */
   def decode(buffer: ChannelBuffer): T
 }

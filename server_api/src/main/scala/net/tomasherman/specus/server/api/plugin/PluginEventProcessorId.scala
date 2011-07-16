@@ -19,4 +19,5 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
+/** Abstraction of ID for PluginEventProcessors */
 abstract class PluginEventProcessorId

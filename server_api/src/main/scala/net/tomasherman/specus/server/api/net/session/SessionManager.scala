@@ -23,9 +23,27 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  *
  */
 
+/** Abstraction of a Session container. It creates sessions from Channels and
+  * hides them behind SessionIDs. */
 trait SessionManager {
+  
+  /** Creates a Session and hides it behind SessionID
+    * @param channel Channel into which the created session will write.
+    * @return SessionID of the created session */
   def createNewSession(channel: Channel): SessionID
+
+  /** Writes data into Session
+    * @param id Id of session into which will be written.
+    * @param data Data to be written */
   def writeTo(id: SessionID, data: Packet)
+
+  /** Writes data to all the opened sessions.
+    * @param data Data to be written.
+    */
   def broadcast(data: Packet)
+
+  /** Closes the session.
+    * @param id Id of the session to be closed.
+    */
   def closeSession(id: SessionID)
 }

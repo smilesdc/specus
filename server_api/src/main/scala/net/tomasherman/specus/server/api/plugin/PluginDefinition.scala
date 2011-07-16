@@ -18,8 +18,15 @@ package net.tomasherman.specus.server.api.plugin
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/** Container of Plugin definition data.
+  * @param name Name of the plugin
+  * @param version Version of the plugin
+  * @param author Author of the plugin
+  * @param pluginClass String representation of a plugin entry point
+  */
 case class PluginDefinition(
-  val name: String,
-  val version: String,
-  val author: String,
-  val pluginClass: String)
+  name: String,
+  version: String,
+  author: String,
+  pluginClass: String)

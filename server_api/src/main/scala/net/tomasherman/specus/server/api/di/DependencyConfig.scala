@@ -26,6 +26,8 @@ import org.jboss.netty.channel.{ChannelPipelineFactory, ChannelHandler}
  *
  */
 
+
+/** Trait defining all the components required for dependency injection. */
 trait DependencyConfig {
   val codecRepository: CodecRepository
   val nettyPipelineFactory: ChannelPipelineFactory

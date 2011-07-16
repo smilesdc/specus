@@ -19,17 +19,23 @@ package net.tomasherman.specus.server.api.di
  *
  */
 
+/** Object containing dependency configuration. Configuration has to be set
+  * during start up */
 object DependencyConfigRepository extends DependencyConfigRepositoryTrait
 
+/** Functionality of DependencyConfigRepository */
 trait DependencyConfigRepositoryTrait {
   private var _config: DependencyConfig = null
   private var lockdown = false;
 
+  /** Syntactic sugar for config method.
+    * @returns Current dependency configuration */
   def apply() = {
-    val res = config
-    res
+    config
   }
 
+  /** Gives access to dependency configuration.
+    * @returns Current dependency configuration */
   def config = {
     if (_config == null) {
       throw new NoDependencyConfigurationSupplied
@@ -38,12 +44,14 @@ trait DependencyConfigRepositoryTrait {
     }
   }
 
-
-  def config_=(x: DependencyConfig) {
+  /** Setter for dependency configuration. *THIS IS ONLY TO BE CALLED ONCE!*
+    * @param config Dependency configuration.
+    */
+  def config_=(config: DependencyConfig) {
     if (lockdown) {
       throw new ConfigAlreadyLockedDown
     }
-    _config = x
+    _config = config
     lockdown = true
   }
 

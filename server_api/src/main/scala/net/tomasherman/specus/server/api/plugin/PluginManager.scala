@@ -21,7 +21,14 @@ import java.io.File
  *
  */
 
+/** Plugin container handling plugin loading. */
 trait PluginManager {
+
+  /** Initializes plugins from a directory.
+    * @param dir Directory from which plugins are loaded.
+    * @returns Loaded Plugin classes */
   def bootupPlugins(dir: File): List[Plugin]
+
+  /** Returns loaded plugin classes */
   def getPlugins: List[Plugin]
 }

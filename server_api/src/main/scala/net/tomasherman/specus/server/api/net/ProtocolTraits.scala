@@ -22,10 +22,14 @@ import net.tomasherman.specus.common.api.net.Packet
  *
  */
 
+/** Implementation of this trait must be able to decode ChannelBuffer
+  * content into Packet instance. */
 trait ProtocolDecoder {
   def decode(buffer: ChannelBuffer): Packet
 }
 
+/** Implementation of this trait must be able to encode Packet instnace
+  * into ChannelBuffer */
 trait ProtocolEncoder {
   def encode(packet: Packet): ChannelBuffer
 }

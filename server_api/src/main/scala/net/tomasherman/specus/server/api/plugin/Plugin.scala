@@ -24,13 +24,24 @@ import akka.actor.ActorRef
  *
  */
 
+/** Trait encapsulating data about plugins. */
 trait Plugin {
-
+  //TODO refactor to use Actor
+  /** Chance for plugin to initialize it's stuff, start up actors etc. */
   def initialize(dependencies: DependencyConfig) {}
+
+  /** Getter for classes of codecs to be handled by a server.
+    * @return Option of List of classes to be handled.
+    */
   def getCodecs: Option[List[Class[_ <: Codec[_ <: Packet]]]]
+
+  /** Returns Class of A
+    *
+    */
   def eventProcessorClass: Option[Class[ActorRef]]
   def registerForEvents: Option[List[Class[_ <: PluginEvent]]]
   def customCommands: Option[List[CustomCommand]]
+
   override def equals(that: Any) = {
     if (that.isInstanceOf[Object]) {
       this.getClass == that.asInstanceOf[Object].getClass

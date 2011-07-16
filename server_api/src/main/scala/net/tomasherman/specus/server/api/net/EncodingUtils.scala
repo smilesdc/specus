@@ -25,8 +25,11 @@ import annotation.tailrec
  *
  */
 
-
+/** Set of functions encoding stuff to ChannelBuffers. Write index
+  * is being updated properly while Writing therefore one can chain these
+  * methods. */
 object EncodingUtils {
+  
   def encodeByte(v: Byte, b: ChannelBuffer) {
     b.writeByte(v)
   }
@@ -58,10 +61,11 @@ object EncodingUtils {
     }
   }
 
+  /** Encodes UTF-8 String */
   def encodeString8(v: String, b: ChannelBuffer) {
     encodeString(v, b, CharsetUtil.UTF_8)
   }
-
+  /** Encodes UTF-16 String */
   def encodeString16(v: String, b: ChannelBuffer) {
     encodeString(v, b, CharsetUtil.UTF_16BE)
   }

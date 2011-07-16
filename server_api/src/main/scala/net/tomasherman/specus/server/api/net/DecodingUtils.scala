@@ -25,7 +25,9 @@ import annotation.tailrec
  *
  */
 
-
+/** Set of functions decoding stuff from ChannelBuffers. Read index
+  * is being updated properly while reading therefore one can chain these
+  * methods. */
 object DecodingUtils {
   def decodeByte(b: ChannelBuffer) = b.readByte
   def decodeShort(b: ChannelBuffer) = b.readShort
@@ -34,10 +36,12 @@ object DecodingUtils {
   def decodeFloat(b: ChannelBuffer) = b.readFloat
   def decodeDouble(b: ChannelBuffer) = b.readDouble
 
+  /** Decodes UTF-8 String */
   def decodeString8(b: ChannelBuffer) = {
     decodeString(b, CharsetUtil.UTF_8)
   }
 
+  /** Decodes UTF-16 String */
   def decodeString16(b: ChannelBuffer) = {
     decodeString(b, CharsetUtil.UTF_16BE)
   }
@@ -58,6 +62,9 @@ object DecodingUtils {
     }
   }
 
+  /** Decodes Minecraft metadata.
+    * @return List of (Int,Any) touple. The Int in touple represents type of filed.
+    */
   def decodeMetadata(b: ChannelBuffer) = {
     decodeMetadataRec(b, ListBuffer[(Int, Any)]())
   }

@@ -34,7 +34,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
     * @returns List of loaded plugins. */
   def bootupPlugins(dir: File): List[Plugin] = {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
-    plugins = dirs.flatMap(handleExceptions(_, loadPlugin)) // loadPlugin is partially applied!
+    plugins = dirs.flatMap(handleExceptions(_, loadPlugin))
     getPlugins
   }
 
@@ -59,12 +59,8 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
   /** Helper function for nicer exception handling.
     * @param file File that is being passed to the *in* function.
     * @param in Function that tries to
-<<<<<<< HEAD
     * @return Option[] of loaded plugin.
     */
-=======
-    * @return Option[] of loaded plugin. */
->>>>>>> SimplePluginManager refactored to be nice and cute and more functional. Few changes in PluginDefinitionLoading
   private def handleExceptions(file: File,in: File => Plugin) = {
     try {
       Some(in(file))

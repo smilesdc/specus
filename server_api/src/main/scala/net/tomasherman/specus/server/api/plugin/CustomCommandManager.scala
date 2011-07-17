@@ -22,7 +22,7 @@ package net.tomasherman.specus.server.api.plugin
 /** CustomCommand container that keeps track of what PluginEventProcessor
   * should be called when the command is invoked. */
 trait CustomCommandManager {
-  //TODO add lookup both  and options
+
   /** Adds command to the container.
     * @param cmd CustomCommand to be added.
     * @param processor PluginEventProcessorId id of processor to be notified when
@@ -42,4 +42,10 @@ trait CustomCommandManager {
     * @param prefix Prefix of command whose processor will be looked up.
     */
   def lookupProcessor(prefix: String): PluginEventProcessorId
+
+  /** Looks up command data and processor
+    * @param prefix Prefix of command and processor
+    * @return Touple of CustomCommand and PluginEventProcessorID associated
+    * with given prefix */
+  def lookupCommandAndProcessor(prefix: String): (CustomCommand,PluginEventProcessorId)
 }

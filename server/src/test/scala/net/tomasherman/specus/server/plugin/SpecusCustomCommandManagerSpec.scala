@@ -61,6 +61,8 @@ class SpecusCustomCommandManagerSpec extends Specification{
     }
     "lookup stuff prorperly" in new SCCMScope {
       mgr.getMap.+=((s1,(c1,id1)),(s2,(c2,id2)))
+      mgr.lookupCommandAndProcessor(s1) must_== (c1,id1)
+      mgr.lookupCommandAndProcessor(s2) must_== (c2,id2)
       mgr.lookupCommand(s1) must_== c1
       mgr.lookupCommand(s2) must_== c2
       mgr.lookupProcessor(s1) must_== id1

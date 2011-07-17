@@ -33,10 +33,12 @@ class SpecusCustomCommandManager extends CustomCommandManager {
   }
 
   def lookupCommand(prefix: String) = {
-    commands(prefix)._1
+    lookupCommandAndProcessor(prefix)._1
   }
 
   def lookupProcessor(prefix: String) = {
-    commands(prefix)._2
+    lookupCommandAndProcessor(prefix)._2
   }
+
+  def lookupCommandAndProcessor(prefix: String) = commands(prefix)
 }

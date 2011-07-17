@@ -3,7 +3,7 @@ package net.tomasherman.specus.server.api.plugin
 import net.tomasherman.specus.server.api.net.Codec
 import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.server.api.di.DependencyConfig
-import akka.actor.ActorRef
+import akka.actor.Actor
 
 /**
  * This file is part of Specus.
@@ -26,6 +26,7 @@ import akka.actor.ActorRef
 
 /** Trait encapsulating data about plugins. */
 trait Plugin {
+
   //TODO refactor to use Actor
   /** Chance for plugin to initialize it's stuff, start up actors etc. */
   def initialize(dependencies: DependencyConfig) {}
@@ -38,7 +39,7 @@ trait Plugin {
   /** Returns Class of A
     *
     */
-  def eventProcessorClass: Option[Class[ActorRef]]
+  def eventProcessorClass: Option[Class[_<:Actor]]
   def registerForEvents: Option[List[Class[_ <: PluginEvent]]]
   def customCommands: Option[List[CustomCommand]]
 

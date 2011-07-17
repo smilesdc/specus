@@ -3,8 +3,8 @@ package net.tomasherman.specus.server.plugin
 import org.specs2.mutable.Specification
 import java.io.File
 import java.net.{URI, URL}
-import net.tomasherman.specus.server.plugin.PluginDefinitionLoading.parsePluginDefinition
-import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionFileNotFound, PluginDefinitionParsingFailed}
+import net.tomasherman.specus.server.plugin.PluginDefinitionLoading._
+import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed}
 
 /**
  * This file is part of Specus.
@@ -30,17 +30,27 @@ class PluginDefinitionLoadingSpec extends Specification{
 
   val testValidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/valid/"))
   val testInvalidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/invalid/"))
-  val testNonexistingDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/nonexisting/"))
+  val testNonexistentDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/nonexisting/"))
   val pluginDefinitionFilename = "plugin.json"
-  "PluginDefinitionLoading" should {
-    "parsePluginDefinition" in {
-      parsePluginDefinition(testValidDir,pluginDefinitionFilename) must_== new PluginDefinition("test_name","1.3.3.7","test_author","net.tomasherman.specus.server.plugin.DummyPlugin")
+  val validPdf = new File(testValidDir.getPath + "/" + pluginDefinitionFilename)
+  val invalidPdf = new File(testInvalidDir.getPath + "/" + pluginDefinitionFilename)
+  val valid = new PluginDefinition("test_name","1.3.3.7","test_author","net.tomasherman.specus.server.plugin.DummyPlugin")
+
+  "LooklupFile" should {
+    "lookup existing file" in {
+      lookupFile(testValidDir,pluginDefinitionFilename) must_== Some(validPdf)
     }
-    "parseInvalidDefinition" in {
-      parsePluginDefinition(testInvalidDir,pluginDefinitionFilename) must throwAn[PluginDefinitionParsingFailed]
+    "lookup nonexisting file" in {
+      lookupFile(testNonexistentDir,pluginDefinitionFilename) must_== None
     }
-    "parseNonexistingDefinition" in {
-      parsePluginDefinition(testNonexistingDir,pluginDefinitionFilename) must throwAn[PluginDefinitionFileNotFound]
+  }
+
+  "ParsePluginDefinition" should {
+    "parse plugin definition" in {
+      parsePluginDefinition(validPdf) must_== valid
+    }
+    "parse invalid plugin definition" in {
+      parsePluginDefinition(invalidPdf) must throwA[PluginDefinitionParsingFailed]
     }
   }
 }

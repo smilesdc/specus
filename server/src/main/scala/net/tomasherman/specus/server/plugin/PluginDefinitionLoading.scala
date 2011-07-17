@@ -3,7 +3,7 @@ package net.tomasherman.specus.server.plugin
 import java.io.File
 import io.Source
 import net.liftweb.json._
-import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed, PluginDefinitionFileNotFound}
+import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed}
 
 /**
  * This file is part of Specus.
@@ -28,24 +28,21 @@ import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinit
 object PluginDefinitionLoading{
   implicit val formats = DefaultFormats
 
-  //TODO split next function to small ones
-
   /** Attempts to lookup and parse plugin definitions file.
     * @param dir Directory in which the file is being looked up.
     * @param pdfName File name of plugin definitions,
     * @throws MappingException Thrown when parsing fails.
     * @returns Parsed PluginDefinition instance
     */
-  def parsePluginDefinition(dir: File,pdfName: String):PluginDefinition = {
-    dir.list.find( p => p == pdfName ) match {
-      case None => throw new PluginDefinitionFileNotFound(pdfName,dir)
-      case Some(path) => {
-        try{
-          parse(Source.fromFile(new File(dir,path)).getLines().mkString).extract[PluginDefinition]
-        } catch {
-          case e: MappingException => throw new PluginDefinitionParsingFailed(dir,e)
-        }
-      }
+  def lookupFile(dir:File,pdfName:String) = {
+    dir.listFiles() find(_.getName == pdfName)
+  }
+
+  def parsePluginDefinition(pdfFile:File):PluginDefinition = {
+    try{
+      parse(Source.fromFile(pdfFile).getLines().mkString).extract[PluginDefinition]
+    } catch {
+      case e: MappingException => throw new PluginDefinitionParsingFailed(pdfFile,e)
     }
   }
 }

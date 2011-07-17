@@ -31,8 +31,7 @@ object PluginDefinitionLoading{
   /** Attempts to lookup and parse plugin definitions file.
     * @param dir Directory in which the file is being looked up.
     * @param pdfName File name of plugin definitions,
-    * @returns Parsed PluginDefinition instance
-    */
+    * @returns Parsed PluginDefinition instance */
   def lookupFile(dir: File,pdfName: String) = {
     dir.listFiles() find(_.getName == pdfName)
   }
@@ -40,8 +39,7 @@ object PluginDefinitionLoading{
   /** Takes file that contains plugin definitions and returns PluginDefinition class.
     * @param pdFile File with plugin definitions
     * @throws PluginDefinitionParsingFailed thrown if something goes wrong with parsing.
-    * @return Representation of parsed data from the file.
-    */
+    * @return Representation of parsed data from the file. */
   def parsePluginDefinition(pdFile: File) = {
     try{
       parse(Source.fromFile(pdFile).getLines().mkString).extract[PluginDefinition]
@@ -55,8 +53,7 @@ object PluginDefinitionLoading{
     * @param pdfName Name of the file containing the definitions.
     * @throws PluginDefinitionParsingFailed thrown if something goes wrong with parsing.
     * @throws PluginDefinitionFileNotFound thrown when file is not found (duh!).
-    * @return Representation of parsed data from the file.
-    */
+    * @return Representation of parsed data from the file. */
   def loadPluginFromDir(dir: File,pdfName: String) = {
     lookupFile(dir,pdfName) match {
       case None => throw new PluginDefinitionFileNotFound(pdfName,dir)

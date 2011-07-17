@@ -52,7 +52,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
   /** Creates new instance of class.
     * @param String representation of the class to be created.
     * @returns New instance of the desired class. */
-  private def instantiatePlugin(c: String): Plugin = {
+  private def instantiatePlugin(c: String) = {
     Class.forName(c).newInstance().asInstanceOf[Plugin]
   }
 

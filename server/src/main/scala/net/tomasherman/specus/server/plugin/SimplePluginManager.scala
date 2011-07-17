@@ -31,8 +31,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
 
   /** Loads all valid plugins from given directory.
     * @param dir Directory in which the plugins are looked up.
-    * @returns List of loaded plugins.
-    */
+    * @returns List of loaded plugins. */
   def bootupPlugins(dir: File): List[Plugin] = {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
     plugins = dirs.flatMap(handleExceptions(_, loadPlugin)) // loadPlugin is partially applied!
@@ -44,8 +43,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
   /** Helper plugin-loading function to make bootupPlugins a little more readable.
     * Handles PluginDefinitions loading as well as instantiating of new Plugin class
     * @param f Directory in which the Plugin definitions file is expected to be.
-    * @return Plugin instance.
-    */
+    * @return Plugin instance. */
   private val loadPlugin = {f: File =>
     val pd = loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
     instantiatePlugin(pd.pluginClass)
@@ -53,8 +51,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
 
   /** Creates new instance of class.
     * @param String representation of the class to be created.
-    * @returns New instance of the desired class.
-    */
+    * @returns New instance of the desired class. */
   private def instantiatePlugin(c: String): Plugin = {
     Class.forName(c).newInstance().asInstanceOf[Plugin]
   }
@@ -62,8 +59,12 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
   /** Helper function for nicer exception handling.
     * @param file File that is being passed to the *in* function.
     * @param in Function that tries to
-    * @return  
+<<<<<<< HEAD
+    * @return Option[] of loaded plugin.
     */
+=======
+    * @return Option[] of loaded plugin. */
+>>>>>>> SimplePluginManager refactored to be nice and cute and more functional. Few changes in PluginDefinitionLoading
   private def handleExceptions(file: File,in: File => Plugin) = {
     try {
       Some(in(file))

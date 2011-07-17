@@ -2,11 +2,9 @@ package net.tomasherman.specus.server.plugin
 
 import java.io.File
 import net.tomasherman.specus.server.plugin.PluginDefinitionLoading._
-import collection.mutable.ListBuffer
-import net.tomasherman.specus.server.api.plugin.{PluginDefinitionParsingFailed, PluginDefinitionFileNotFound, Plugin, PluginManager}
 import net.tomasherman.specus.server.api.logging.Logging
 import net.tomasherman.specus.server.api.config.Configuration
-
+import net.tomasherman.specus.server.api.plugin._
 /**
  * This file is part of Specus.
  *
@@ -28,29 +26,51 @@ import net.tomasherman.specus.server.api.config.Configuration
 
 
 /** Implementation of PluginManager. Expects to be injected with Configuration */
-class SimplePluginManager(val env: {val config:Configuration}) extends PluginManager with Logging{
-  private var plugins:List[Plugin] = List[Plugin]()
-  //todo make this prettier
+class SimplePluginManager(val env: {val config: Configuration}) extends PluginManager with Logging{
+  private var plugins: List[Plugin] = List[Plugin]()
+
+  /** Loads all valid plugins from given directory.
+    * @param dir Directory in which the plugins are looked up.
+    * @returns List of loaded plugins.
+    */
   def bootupPlugins(dir: File): List[Plugin] = {
-    val pbuffer = ListBuffer[Plugin]()
-    for( x <- dir.listFiles.filter( p => p.isDirectory )){
-      try{
-        lookupFile(x,env.config.plugin.pluginDefinitionFileName) match {
-          case None => ()
-          case Some(x) => {
-            val pdef = parsePluginDefinition(x)
-            pbuffer.append(Class.forName(pdef.pluginClass).newInstance().asInstanceOf[Plugin])
-          }
-        }
-      } catch {
-        case e:PluginDefinitionFileNotFound => error("Error during plugin-loading - Plugin definitions not found",e)
-        case e:PluginDefinitionParsingFailed => error("Error during plugin-loading - Plugin definitions parsing failed",e)
-        case e:ClassNotFoundException => error("Error during plugin-loading - Plugin class not found",e)
-      }
-    }
-    plugins = pbuffer.toList
+    val dirs = dir.listFiles().filter(_.isDirectory).toList
+    plugins = dirs.flatMap(handleExceptions(_, loadPlugin)) // loadPlugin is partially applied!
     getPlugins
   }
+
   def getPlugins = plugins
 
+  /** Helper plugin-loading function to make bootupPlugins a little more readable.
+    * Handles PluginDefinitions loading as well as instantiating of new Plugin class
+    * @param f Directory in which the Plugin definitions file is expected to be.
+    * @return Plugin instance.
+    */
+  private val loadPlugin = {f: File =>
+    val pd = loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
+    instantiatePlugin(pd.pluginClass)
+  }
+
+  /** Creates new instance of class.
+    * @param String representation of the class to be created.
+    * @returns New instance of the desired class.
+    */
+  private def instantiatePlugin(c: String): Plugin = {
+    Class.forName(c).newInstance().asInstanceOf[Plugin]
+  }
+
+  /** Helper function for nicer exception handling.
+    * @param file File that is being passed to the *in* function.
+    * @param in Function that tries to
+    * @return  
+    */
+  private def handleExceptions(file: File,in: File => Plugin) = {
+    try {
+      Some(in(file))
+    } catch {
+      case e:PluginDefinitionFileNotFound => error("Error during plugin-loading - Plugin definitions not found",e); None
+      case e:PluginDefinitionParsingFailed => error("Error during plugin-loading - Plugin definitions parsing failed",e); None
+      case e:ClassNotFoundException => error("Error during plugin-loading - Plugin class not found",e); None
+    }
+  }
 }

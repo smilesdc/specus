@@ -3,7 +3,7 @@ package net.tomasherman.specus.server.plugin
 import java.io.File
 import io.Source
 import net.liftweb.json._
-import net.tomasherman.specus.server.api.plugin.{PluginDefinition, PluginDefinitionParsingFailed}
+import net.tomasherman.specus.server.api.plugin.{PluginDefinitionFileNotFound, PluginDefinition, PluginDefinitionParsingFailed}
 
 /**
  * This file is part of Specus.
@@ -31,18 +31,36 @@ object PluginDefinitionLoading{
   /** Attempts to lookup and parse plugin definitions file.
     * @param dir Directory in which the file is being looked up.
     * @param pdfName File name of plugin definitions,
-    * @throws MappingException Thrown when parsing fails.
     * @returns Parsed PluginDefinition instance
     */
-  def lookupFile(dir:File,pdfName:String) = {
+  def lookupFile(dir: File,pdfName: String) = {
     dir.listFiles() find(_.getName == pdfName)
   }
 
-  def parsePluginDefinition(pdfFile:File):PluginDefinition = {
+  /** Takes file that contains plugin definitions and returns PluginDefinition class.
+    * @param pdFile File with plugin definitions
+    * @throws PluginDefinitionParsingFailed thrown if something goes wrong with parsing.
+    * @return Representation of parsed data from the file.
+    */
+  def parsePluginDefinition(pdFile: File) = {
     try{
-      parse(Source.fromFile(pdfFile).getLines().mkString).extract[PluginDefinition]
+      parse(Source.fromFile(pdFile).getLines().mkString).extract[PluginDefinition]
     } catch {
-      case e: MappingException => throw new PluginDefinitionParsingFailed(pdfFile,e)
+      case e: MappingException => throw new PluginDefinitionParsingFailed(pdFile,e)
+    }
+  }
+
+  /** Loads Plugin definitions fro m file.
+    * @param dir Directory in which the file is supposed to be.
+    * @param pdfName Name of the file containing the definitions.
+    * @throws PluginDefinitionParsingFailed thrown if something goes wrong with parsing.
+    * @throws PluginDefinitionFileNotFound thrown when file is not found (duh!).
+    * @return Representation of parsed data from the file.
+    */
+  def loadPluginFromDir(dir: File,pdfName: String) = {
+    lookupFile(dir,pdfName) match {
+      case None => throw new PluginDefinitionFileNotFound(pdfName,dir)
+      case Some(x) => parsePluginDefinition(x)
     }
   }
 }

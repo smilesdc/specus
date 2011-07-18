@@ -1,8 +1,9 @@
-package net.tomasherman.specus.server.net.session
+package net.tomasherman.specus.server.grid
 
-import net.tomasherman.specus.server.api.net.session.Session
-import net.tomasherman.specus.common.api.net.Packet
-import org.jboss.netty.channel.Channel
+import net.tomasherman.specus.server.api.grid.Node
+import akka.actor.ActorRef
+import net.tomasherman.specus.common.api.grid.messages.NodeMessage
+
 /**
  * This file is part of Specus.
  *
@@ -22,9 +23,16 @@ import org.jboss.netty.channel.Channel
  *
  */
 
-/** Session implementation using Netty channels for writing stuff. */
-case class NettySession(channel:Channel) extends Session{
-  def close() { channel.close() }
 
-  def write(data: Packet) { channel.write(data) }
+object AkkaNode {
+  def apply(ref:ActorRef) = {
+    new AkkaNode(ref)
+  }
+}
+
+
+class AkkaNode(val ref:ActorRef) extends Node{
+  def write(msg: NodeMessage) {
+    ref ! msg
+  }
 }

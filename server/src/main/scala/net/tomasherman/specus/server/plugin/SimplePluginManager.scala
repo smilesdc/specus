@@ -34,7 +34,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
     * @returns List of loaded plugins. */
   def bootupPlugins(dir: File): List[Plugin] = {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
-    plugins = dirs.flatMap(handleExceptions(_, loadPlugin)) // loadPlugin is partially applied!
+    plugins = dirs.flatMap(handleExceptions(_, loadPlugin))
     getPlugins
   }
 
@@ -52,7 +52,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
   /** Creates new instance of class.
     * @param String representation of the class to be created.
     * @returns New instance of the desired class. */
-  private def instantiatePlugin(c: String): Plugin = {
+  private def instantiatePlugin(c: String) = {
     Class.forName(c).newInstance().asInstanceOf[Plugin]
   }
 
@@ -60,6 +60,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
     * @param file File that is being passed to the *in* function.
     * @param in Function that tries to
     * @return Option[] of loaded plugin. */
+
   private def handleExceptions(file: File,in: File => Plugin) = {
     try {
       Some(in(file))

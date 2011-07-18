@@ -31,7 +31,6 @@ class e2 extends PluginEvent
 class e3 extends PluginEvent
 class TestableSPEM extends SpecusPluginEventManager {
   def getMapping = mapping
-  def getLastId = lastId
   def getIdmapping = idToProcessor
 }
 trait SPEMScope extends Scope with Mockito{
@@ -47,8 +46,8 @@ trait SPEMScope extends Scope with Mockito{
   val dep1 = List[Class[_<:PluginEvent]](e1,e2)
   val dep2 = List[Class[_<:PluginEvent]](e3,e2)
 
-  val id1 =  new IntPluginEventProcessorId(1)
-  val id2 =  new IntPluginEventProcessorId(2)
+  val id1 =  new IntPluginEventProcessorID(1)
+  val id2 =  new IntPluginEventProcessorID(2)
   val exp1 = List(id1)
   val exp2 = List(id2)
   val exp12 = List(id1,id2)
@@ -62,12 +61,10 @@ class SpecusPluginEventManagerSpec extends Specification {
       "register processors properly" in new SPEMScope {
         mgr.registerEventProcessor(p1,dep1)
         mgr.getMapping must_== Map((e1,exp1),(e2,exp1))
-        mgr.getLastId must_== 1
         mgr.getIdmapping must_== Map((id1,p1))
 
         mgr.registerEventProcessor(p2,dep2)
         mgr.getMapping must_== Map((e1,exp1),(e2,exp12),(e3,exp2))
-        mgr.getLastId must_== 2
         mgr.getIdmapping must_== Map((id1,p1),(id2,p2))
       }
 

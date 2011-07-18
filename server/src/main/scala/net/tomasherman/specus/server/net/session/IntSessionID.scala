@@ -21,6 +21,14 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  *
  */
 
+object IntSessionID {
+  private var lastID = 0
+  def apply() = {
+    lastID = lastID + 1
+    new IntSessionID(lastID)
+  }
+}
+
 /** SessionID implementation using integers as discriminator.
   * @param id Id of the session. */
-case class IntSessionID(id:Int) extends SessionID
+case class IntSessionID(id: Int) extends SessionID

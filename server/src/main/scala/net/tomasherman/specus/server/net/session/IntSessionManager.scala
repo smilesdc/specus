@@ -29,12 +29,10 @@ import net.tomasherman.specus.common.api.net.session.SessionID
   * SessionID */
 trait IntSessionManager extends SessionManager {
   protected val sessions:Map[SessionID,Session]
-  private var lastId = 0
 
   def createNewSession(channel: Channel) = {
-    lastId += 1
-    val sid = new IntSessionID(lastId)
-    sessions(sid) = new NettySession(sid,channel)
+    val sid = IntSessionID()
+    sessions(sid) = new NettySession(channel)
     sid
   }
   def closeSession(id: SessionID) {

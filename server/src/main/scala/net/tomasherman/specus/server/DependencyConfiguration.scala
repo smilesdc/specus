@@ -2,7 +2,7 @@ package net.tomasherman.specus.server
 
 import api.config.DefaultConfiguration
 import api.di.DependencyConfig
-import grid.SpecusNodeLoadBalancer
+import grid.SpecusNodeManager
 import net._
 import plugin.SimplePluginManager
 import session.SpecusIntSessionManager
@@ -29,8 +29,8 @@ import session.SpecusIntSessionManager
 /** Implementation of DependencyConfig */
 class DependencyConfiguration extends DependencyConfig {
   lazy val codecRepository = new SimpleCodecRepository
+  lazy val nodeManager = new SpecusNodeManager
   lazy val nettyPipelineFactory = new SpecusPipelineFactory(this)
-  lazy val nodeLoadBalancer = new SpecusNodeLoadBalancer
   lazy val channelEncoder = new SpecusEncoder(this)
   lazy val channelDecoder = new SpecusDecoder(this)
   lazy val channelHandler = new SpecusHandler(this)

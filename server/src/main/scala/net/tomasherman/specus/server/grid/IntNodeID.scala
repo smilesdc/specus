@@ -1,6 +1,6 @@
-package net.tomasherman.specus.server.plugin
+package net.tomasherman.specus.server.grid
 
-import net.tomasherman.specus.server.api.plugin.PluginEventProcessorId
+import net.tomasherman.specus.server.api.grid.NodeID
 
 /**
  * This file is part of Specus.
@@ -21,5 +21,12 @@ import net.tomasherman.specus.server.api.plugin.PluginEventProcessorId
  *
  */
 
-/** PluginEventProcessorId implementation using Integer as discriminator */
-case class IntPluginEventProcessorId(id: Int) extends PluginEventProcessorId
+object IntNodeID {
+  private var lastID = 0
+  def apply() = {
+    lastID = lastID + 1
+    new IntNodeID(lastID)
+  }
+}
+
+case class IntNodeID(id: Int) extends NodeID

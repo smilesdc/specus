@@ -9,8 +9,9 @@ import net.tomasherman.specus.common.api.net.session.SessionID
 import org.jboss.netty.channel._
 import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.common.api.grid.messages.PacketMessage
-import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
 import net.tomasherman.specus.server.api.di.DependencyConfig
+import net.tomasherman.specus.server.api.grid.Node
+import net.tomasherman.specus.server.grid.SpecusNodeManager
 
 /**
  * This file is part of Specus.
@@ -31,14 +32,20 @@ import net.tomasherman.specus.server.api.di.DependencyConfig
  *
  */
 
-class SHSEnv(val sessionManager:SessionManager,val nodeLoadBalancer:NodeLoadBalancer)
+class SHSEnv(val sessionManager:SessionManager)
 
 trait SpecusHandlerSpecScope extends Scope with Mockito with ThrownExpectations {
   val smgr = mock[SessionManager]
-  val nlb = smartMock[NodeLoadBalancer]
+  val nodemgr = new SpecusNodeManager
+  val n1 = mock[Node]
+  val n2 = mock[Node]
+  val name1 = "1"
+  val name2 = "2"
+  nodemgr.registerNode(n1,name1)
+  nodemgr.registerNode(n2,name2)
   val env = mock[DependencyConfig]
   env.sessionManager returns smgr
-  env.nodeLoadBalancer returns nlb
+  env.nodeManager returns nodemgr
   val handler = new SpecusHandler(env)
   val ctx = mock[ChannelHandlerContext]
   val event = mock[ChannelStateEvent]
@@ -49,8 +56,6 @@ trait SpecusHandlerSpecScope extends Scope with Mockito with ThrownExpectations 
   val packetMsg = new PacketMessage(id,packet)
   event.getChannel returns chnl
   smgr.createNewSession(chnl) returns id
-  nlb.bangNext(packetMsg) answers {msg => }
-
 }
 
 class SpecusHandlerSpec extends Specification {
@@ -71,8 +76,13 @@ class SpecusHandlerSpec extends Specification {
     "receive messages properly" in new SpecusHandlerSpecScope {
       msgEvnt.getMessage returns packet
       ctx.getAttachment returns id
+      val msg = new PacketMessage(id,packet)
       handler.messageReceived(ctx,msgEvnt)
-      there was one(nlb).bangNext(packetMsg)
+      handler.messageReceived(ctx,msgEvnt)
+      handler.messageReceived(ctx,msgEvnt)
+      handler.messageReceived(ctx,msgEvnt)
+      there was two(n1).write(msg)
+      there was two(n2).write(msg)
     }
   }
 }

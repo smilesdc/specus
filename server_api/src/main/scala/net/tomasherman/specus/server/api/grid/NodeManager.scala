@@ -1,8 +1,7 @@
-package net.tomasherman.specus.server.net.session
+package net.tomasherman.specus.server.api.grid
 
-import net.tomasherman.specus.server.api.net.session.Session
-import net.tomasherman.specus.common.api.net.Packet
-import org.jboss.netty.channel.Channel
+import net.tomasherman.specus.common.api.grid.messages.NodeMessage
+
 /**
  * This file is part of Specus.
  *
@@ -22,9 +21,11 @@ import org.jboss.netty.channel.Channel
  *
  */
 
-/** Session implementation using Netty channels for writing stuff. */
-case class NettySession(channel:Channel) extends Session{
-  def close() { channel.close() }
-
-  def write(data: Packet) { channel.write(data) }
+trait NodeManager {
+  def registerNode(node: Node,name: String):NodeID
+  def removeNode(id: NodeID)
+  def names: Set[String]
+  def nodeId(name: String): Option[NodeID]
+  def writeToNode(id: NodeID,msg: NodeMessage)
+  def balancedWrite(msg: NodeMessage)
 }

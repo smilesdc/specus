@@ -1,8 +1,8 @@
 package net.tomasherman.specus.server.grid
 
 import collection.mutable.Map
-import net.tomasherman.specus.server.api.grid.{Node, NodeID, NodeManager}
 import net.tomasherman.specus.server.api.logging.Logging
+import net.tomasherman.specus.server.api.grid._
 
 /**
  * This file is part of Specus.
@@ -32,6 +32,7 @@ class SpecusNodeManager extends NodeManager with Logging {
   protected var balIndex = 0
 
   def registerNode(node: Node, name: String) = {
+    if(nameMap.contains(name)) throw new NodeWithNameAlreadyRegisteredException(name)
     val id = IntNodeID()
     nodeMap(id) = (node,name)
     nameMap(name) = id
@@ -63,6 +64,7 @@ class SpecusNodeManager extends NodeManager with Logging {
   def writeToNode(id: NodeID,msg: AnyRef) = nodeMap(id)._1.write(msg)
 
   def balancedWrite(msg: AnyRef) {
+    if(seq.length == 0) throw new NoNodeRegisteredException
     val seq = nodeMap.keys.toIndexedSeq
     writeToNode(seq(balIndex),msg)
     updateBalIndex()
@@ -73,7 +75,11 @@ class SpecusNodeManager extends NodeManager with Logging {
   }
 
   protected def updateBalIndex() {
+    if(keysCache == 0) {
+      0
+    } else {
     balIndex = balIndex + 1 % keysCache.length
+    }
   }
 
 }

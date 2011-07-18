@@ -1,8 +1,5 @@
 package net.tomasherman.specus.server.api.grid
 
-import akka.actor.Channel
-import net.tomasherman.specus.common.api.grid.messages.NodeMessage
-
 /**
  * This file is part of Specus.
  *
@@ -21,12 +18,6 @@ import net.tomasherman.specus.common.api.grid.messages.NodeMessage
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-trait NodeLoadBalancer {
-  def registerChannel(ch: Channel[Any])
 
-  def unregisterChannel(ch: Channel[Any])
-
-  def bangNext(msg: NodeMessage)
-
-  def bangAll(msg: NodeMessage)
-}
+class NodeWithNameAlreadyRegisteredException(val name:String) extends Exception
+class NoNodeRegisteredException extends Exception

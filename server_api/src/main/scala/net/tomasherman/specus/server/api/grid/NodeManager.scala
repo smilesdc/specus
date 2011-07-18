@@ -1,5 +1,7 @@
 package net.tomasherman.specus.server.api.grid
 
+import net.tomasherman.specus.common.api.grid.messages.NodeMessage
+
 /**
  * This file is part of Specus.
  *
@@ -22,8 +24,8 @@ package net.tomasherman.specus.server.api.grid
 trait NodeManager {
   def registerNode(node: Node,name: String):NodeID
   def removeNode(id: NodeID)
-  def names: List[String]
+  def names: Set[String]
   def nodeId(name: String): Option[NodeID]
-  def writeToNode(id: NodeID,msg: AnyRef)
-  def balancedWrite(msg: AnyRef)
+  def writeToNode(id: NodeID,msg: NodeMessage)
+  def balancedWrite(msg: NodeMessage)
 }

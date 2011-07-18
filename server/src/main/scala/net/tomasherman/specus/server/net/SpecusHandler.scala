@@ -5,6 +5,8 @@ import net.tomasherman.specus.server.api.net.session.SessionManager
 import net.tomasherman.specus.common.api.net.session.SessionID
 import net.tomasherman.specus.common.api.grid.messages.PacketMessage
 import net.tomasherman.specus.common.api.net.Packet
+import net.tomasherman.specus.server.api.grid.NodeManager
+
 /**
  * This file is part of Specus.
  *
@@ -25,6 +27,7 @@ import net.tomasherman.specus.common.api.net.Packet
  */
 class SpecusHandler(val env: {
   val sessionManager: SessionManager
+  val nodeManager: NodeManager
 }) extends SimpleChannelHandler{
   override def channelConnected(ctx: ChannelHandlerContext, e: ChannelStateEvent) {
     val sid = env.sessionManager.createNewSession(e.getChannel)
@@ -39,8 +42,7 @@ class SpecusHandler(val env: {
 
   override def messageReceived(ctx: ChannelHandlerContext, e: MessageEvent) {
     val sid = sessionId(ctx)
-    //todo fix
-    env.nodeLoadBalancer.bangNext(new PacketMessage(sid,e.getMessage.asInstanceOf[Packet]))
+    env.nodeManager.balancedWrite(new PacketMessage(sid,e.getMessage.asInstanceOf[Packet]))
   }
 
   private def sessionId(ctx: ChannelHandlerContext) = {

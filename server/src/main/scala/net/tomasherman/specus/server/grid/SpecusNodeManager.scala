@@ -3,6 +3,7 @@ package net.tomasherman.specus.server.grid
 import collection.mutable.Map
 import net.tomasherman.specus.server.api.logging.Logging
 import net.tomasherman.specus.server.api.grid._
+import net.tomasherman.specus.common.api.grid.messages.NodeMessage
 
 /**
  * This file is part of Specus.
@@ -41,32 +42,28 @@ class SpecusNodeManager extends NodeManager with Logging {
   }
 
   def removeNode(id: NodeID) {
-    val t = nodeMap.keys.zipWithIndex.find(_._1 == id)
-    t match {
+    nodeMap.keys.find( _ == id ) match {
       case None => warn("Trying to remove node with non-existing id {}",id)
       case Some(x) => {
-        nameMap.remove(nodeMap(x._1)._2)
-        nodeMap.remove(x._1)
+        nameMap.remove(nodeMap(x)._2)
+        nodeMap.remove(x)
         updateCache()
-        if(x._2 == balIndex) {
-          updateBalIndex()
-        }
+        updateBalIndex()
       }
     }
   }
 
-  def names = nameMap.keys.toList
+  def names = nameMap.keys.toSet
 
   def nodeId(name: String) = {
     nameMap.get(name)
   }
 
-  def writeToNode(id: NodeID,msg: AnyRef) = nodeMap(id)._1.write(msg)
+  def writeToNode(id: NodeID,msg: NodeMessage) { nodeMap(id)._1.write(msg) }
 
-  def balancedWrite(msg: AnyRef) {
-    if(seq.length == 0) throw new NoNodeRegisteredException
-    val seq = nodeMap.keys.toIndexedSeq
-    writeToNode(seq(balIndex),msg)
+  def balancedWrite(msg: NodeMessage) {
+    if(keysCache.length == 0) throw new NoNodeRegisteredException
+    writeToNode(keysCache(balIndex),msg)
     updateBalIndex()
   }
 
@@ -75,10 +72,10 @@ class SpecusNodeManager extends NodeManager with Logging {
   }
 
   protected def updateBalIndex() {
-    if(keysCache == 0) {
+    if(keysCache.length == 0) {
       0
     } else {
-    balIndex = balIndex + 1 % keysCache.length
+      balIndex = (balIndex + 1) % keysCache.length
     }
   }
 

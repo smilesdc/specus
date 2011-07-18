@@ -1,5 +1,7 @@
 package net.tomasherman.specus.server.api.grid
 
+import net.tomasherman.specus.common.api.grid.messages.NodeMessage
+
 /**
  * This file is part of Specus.
  *
@@ -20,5 +22,5 @@ package net.tomasherman.specus.server.api.grid
  */
 
 trait Node {
-  def write(msg:AnyRef)
+  def write(msg:NodeMessage)
 }

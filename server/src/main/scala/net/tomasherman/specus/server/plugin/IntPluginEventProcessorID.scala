@@ -21,5 +21,13 @@ import net.tomasherman.specus.server.api.plugin.PluginEventProcessorId
  *
  */
 
+object IntPluginEventProcessorID {
+  var lastID = 0
+  def apply() = {
+    lastID = lastID + 1
+    new IntPluginEventProcessorID(lastID)
+  }
+}
+
 /** PluginEventProcessorId implementation using Integer as discriminator */
-case class IntPluginEventProcessorId(id: Int) extends PluginEventProcessorId
+case class IntPluginEventProcessorID(id: Int) extends PluginEventProcessorId

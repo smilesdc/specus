@@ -28,11 +28,9 @@ class SpecusPluginEventManager extends PluginEventManager{
 
   protected val mapping = Map[Class[_],List[PluginEventProcessorId]]()
   protected val idToProcessor = Map[PluginEventProcessorId,ActorRef]()
-  protected var lastId = 0
 
   def registerEventProcessor(processor: ActorRef, events: List[Class[_<:PluginEvent]]) = {
-    lastId = lastId+1
-    val newId = IntPluginEventProcessorId(lastId)
+    val newId = IntPluginEventProcessorID()
     events.foreach({ e =>
       val newList = mapping.getOrElse(e,List[PluginEventProcessorId]()) ::: List(newId)
       idToProcessor(newId) = processor

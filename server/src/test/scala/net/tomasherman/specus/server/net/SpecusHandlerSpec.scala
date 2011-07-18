@@ -9,7 +9,6 @@ import net.tomasherman.specus.common.api.net.session.SessionID
 import org.jboss.netty.channel._
 import net.tomasherman.specus.common.api.net.Packet
 import net.tomasherman.specus.common.api.grid.messages.PacketMessage
-import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
 import net.tomasherman.specus.server.api.di.DependencyConfig
 
 /**
@@ -31,14 +30,12 @@ import net.tomasherman.specus.server.api.di.DependencyConfig
  *
  */
 
-class SHSEnv(val sessionManager:SessionManager,val nodeLoadBalancer:NodeLoadBalancer)
+class SHSEnv(val sessionManager:SessionManager)
 
 trait SpecusHandlerSpecScope extends Scope with Mockito with ThrownExpectations {
   val smgr = mock[SessionManager]
-  val nlb = smartMock[NodeLoadBalancer]
   val env = mock[DependencyConfig]
   env.sessionManager returns smgr
-  env.nodeLoadBalancer returns nlb
   val handler = new SpecusHandler(env)
   val ctx = mock[ChannelHandlerContext]
   val event = mock[ChannelStateEvent]
@@ -49,8 +46,7 @@ trait SpecusHandlerSpecScope extends Scope with Mockito with ThrownExpectations 
   val packetMsg = new PacketMessage(id,packet)
   event.getChannel returns chnl
   smgr.createNewSession(chnl) returns id
-  nlb.bangNext(packetMsg) answers {msg => }
-
+//TODO receive tests
 }
 
 class SpecusHandlerSpec extends Specification {
@@ -72,7 +68,6 @@ class SpecusHandlerSpec extends Specification {
       msgEvnt.getMessage returns packet
       ctx.getAttachment returns id
       handler.messageReceived(ctx,msgEvnt)
-      there was one(nlb).bangNext(packetMsg)
     }
   }
 }

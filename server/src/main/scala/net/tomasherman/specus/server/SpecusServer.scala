@@ -1,13 +1,10 @@
 package net.tomasherman.specus.server
 
-import api.grid.NodeLoadBalancer
 import org.jboss.netty.channel.ChannelPipelineFactory
 import org.jboss.netty.bootstrap.ServerBootstrap
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory
 import java.util.concurrent.Executors
 import java.net.InetSocketAddress
-import akka.actor.Actor
-
 /**
  * This file is part of Specus.
  *
@@ -31,7 +28,6 @@ class SpecusServer(
   val port: Int,
   val env: {
     val nettyPipelineFactory: ChannelPipelineFactory
-    val nodeLoadBalancer: NodeLoadBalancer
   }){
   private var running = false
 

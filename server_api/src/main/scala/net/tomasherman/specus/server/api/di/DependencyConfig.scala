@@ -1,7 +1,6 @@
 package net.tomasherman.specus.server.api.di
 
 import net.tomasherman.specus.server.api.net.CodecRepository
-import net.tomasherman.specus.server.api.grid.NodeLoadBalancer
 import net.tomasherman.specus.server.api.net.session.SessionManager
 import net.tomasherman.specus.server.api.plugin.PluginManager
 import net.tomasherman.specus.server.api.config.Configuration
@@ -31,7 +30,6 @@ import org.jboss.netty.channel.{ChannelPipelineFactory, ChannelHandler}
 trait DependencyConfig {
   val codecRepository: CodecRepository
   val nettyPipelineFactory: ChannelPipelineFactory
-  val nodeLoadBalancer: NodeLoadBalancer
   val channelEncoder: ChannelHandler
   val channelDecoder: ChannelHandler
   val channelHandler: ChannelHandler

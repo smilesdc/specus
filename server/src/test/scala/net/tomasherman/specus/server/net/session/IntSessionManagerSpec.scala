@@ -55,7 +55,7 @@ class IntSessionManagerSpec extends Specification with Mockito {
     "should create session properly" in new ISMScope{
       val channel = mock[Channel]
       val sid = sessionMgr.createNewSession(channel)
-      there was one(m).update(sid,new NettySession(new IntSessionID(1),channel))
+      there was one(m).update(sid,new NettySession(channel))
     }
 
     "should close session properly" in new ISMScope{

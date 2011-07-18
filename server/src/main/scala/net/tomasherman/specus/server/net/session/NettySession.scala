@@ -3,8 +3,6 @@ package net.tomasherman.specus.server.net.session
 import net.tomasherman.specus.server.api.net.session.Session
 import net.tomasherman.specus.common.api.net.Packet
 import org.jboss.netty.channel.Channel
-import net.tomasherman.specus.common.api.net.session.SessionID
-
 /**
  * This file is part of Specus.
  *
@@ -25,7 +23,7 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  */
 
 /** Session implementation using Netty channels for writing stuff. */
-case class NettySession(id:SessionID,channel:Channel) extends Session{
+case class NettySession(channel:Channel) extends Session{
   def close() { channel.close() }
 
   def write(data: Packet) { channel.write(data) }

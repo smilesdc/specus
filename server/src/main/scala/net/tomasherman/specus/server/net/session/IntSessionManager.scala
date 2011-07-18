@@ -32,7 +32,7 @@ trait IntSessionManager extends SessionManager {
 
   def createNewSession(channel: Channel) = {
     val sid = IntSessionID()
-    sessions(sid) = new NettySession(sid,channel)
+    sessions(sid) = new NettySession(channel)
     sid
   }
   def closeSession(id: SessionID) {

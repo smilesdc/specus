@@ -24,6 +24,7 @@ package net.tomasherman.specus.server.api.config
   * (e.g. configuration.plugin.somefield)
   */
 trait Configuration {
+  
   /** Plugin related constants. */
   val plugin: PluginConfig
 }

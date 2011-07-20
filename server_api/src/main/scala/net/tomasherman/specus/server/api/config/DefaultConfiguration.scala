@@ -24,5 +24,13 @@ class DefaultConfiguration extends Configuration {
   val plugin = new PluginConfig {
     val pluginDefinitionFileName = "plugin.json"
     val folder = "plugins"
+    val definitions = new PluginDefinitionsConfig {
+      val identifierKey = "identifier"
+      val versionKey = "version"
+      val nameKey = "name"
+      val pluginClassKey = "pluginClass"
+      val authorKey = "author"
+      val dependenciesKey = "dependencies"
+    }
   }
 }

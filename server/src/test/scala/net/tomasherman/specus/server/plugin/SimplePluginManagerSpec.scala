@@ -5,7 +5,7 @@ import java.io.File
 import net.tomasherman.specus.server.api.plugin.Plugin
 import org.specs2.mock.Mockito
 import net.tomasherman.specus.server.api.di.DependencyConfig
-import net.tomasherman.specus.server.api.config.{Configuration, PluginConfig}
+import net.tomasherman.specus.server.api.config.{PluginConfig, Configuration}
 
 /**
  * This file is part of Specus.

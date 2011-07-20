@@ -19,16 +19,22 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
-/** Container of Plugin definition data.
-  * @param name Name of the plugin
-  * @param version Version of the plugin
-  * @param author Author of the plugin
-  * @param pluginClass String representation of a plugin entry point
-  */
-case class PluginDefinition(
-  name: String,
-  identifier: PluginIdentifier,
-  version: PluginVersion,
-  author: String,
-  pluginClass: String,
-  dependencies: PluginDependencies)
+trait PluginVersion {
+  def canCompare(other: PluginVersion):Boolean
+  protected def compare(other: PluginVersion): Option[Int]
+
+  def >=(other: PluginVersion) = {
+    safeResolve(other, _ >= 0 )
+  }
+
+  def ==(other: PluginVersion) = {
+    safeResolve(other, _ == 0)
+  }
+
+  private def safeResolve(other:PluginVersion, resolve: Int => Boolean) = {
+    compare(other) match {
+      case None => None
+      case Some(x) => Some(resolve(x))
+    }
+  }
+}

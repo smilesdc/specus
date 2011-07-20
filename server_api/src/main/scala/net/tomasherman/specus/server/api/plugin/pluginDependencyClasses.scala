@@ -19,16 +19,17 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
-/** Container of Plugin definition data.
-  * @param name Name of the plugin
-  * @param version Version of the plugin
-  * @param author Author of the plugin
-  * @param pluginClass String representation of a plugin entry point
-  */
-case class PluginDefinition(
-  name: String,
-  identifier: PluginIdentifier,
-  version: PluginVersion,
-  author: String,
-  pluginClass: String,
-  dependencies: PluginDependencies)
+case class PluginDependencies(dep:Vector[PluginDependency])
+case class PluginDependency(identifier:PluginIdentifier,version:PluginVersionConstraint)
+
+trait PluginVersionConstraint {
+  def matches(other:PluginVersion):Option[Boolean]
+}
+
+case class Eq(version:PluginVersion) extends PluginVersionConstraint{
+  def matches(other: PluginVersion) = version == other
+}
+case class EqGt(version:PluginVersion) extends PluginVersionConstraint{
+  def matches(other: PluginVersion) = version >= other
+}
+

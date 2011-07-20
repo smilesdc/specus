@@ -1,9 +1,9 @@
-package net.tomasherman.specus.server.plugin
+package net.tomasherman.specus.server.plugin.definitions
 
 import org.specs2.mutable.Specification
 import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
-import net.tomasherman.specus.server.api.plugin.PluginVersion
+import net.tomasherman.specus.server.api.plugin.definitions.PluginVersion
 
 /**
  * This file is part of Specus.

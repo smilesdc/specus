@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.api.plugin
+package net.tomasherman.specus.server.api.plugin.definitions
 
 /**
  * This file is part of Specus.
@@ -18,4 +18,17 @@ package net.tomasherman.specus.server.api.plugin
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-trait PluginIdentifier
+
+/** Container of Plugin definition data.
+  * @param name Name of the plugin
+  * @param version Version of the plugin
+  * @param author Author of the plugin
+  * @param pluginClass String representation of a plugin entry point
+  */
+case class PluginDefinition(
+  name: String,
+  identifier: PluginIdentifier,
+  version: PluginVersion,
+  author: String,
+  pluginClass: String,
+  dependencies: PluginDependencies)

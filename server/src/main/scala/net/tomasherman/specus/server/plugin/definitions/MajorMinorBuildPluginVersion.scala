@@ -1,7 +1,7 @@
-package net.tomasherman.specus.server.plugin
+package net.tomasherman.specus.server.plugin.definitions
 
-import net.tomasherman.specus.server.api.plugin.PluginVersion
 import net.tomasherman.specus.server.api.logging.Logging
+import net.tomasherman.specus.server.api.plugin.definitions.PluginVersion
 
 /**
  * This file is part of Specus.
@@ -22,8 +22,13 @@ import net.tomasherman.specus.server.api.logging.Logging
  *
  */
 
+object MajorMinorBuildPluginVersion {
+  def apply(value: String) = {
+    new MajorMinorBuildPluginVersion(1)
+  }
+}
 
-class MajorMinorBuildPluginVersion(val major: Option[Int], val minor: Option[Int], val build: Option[Int])
+case class MajorMinorBuildPluginVersion(major: Option[Int], minor: Option[Int], build: Option[Int])
   extends PluginVersion with Logging {
 
   def this(major: Int) = this(Some(major),None,None)

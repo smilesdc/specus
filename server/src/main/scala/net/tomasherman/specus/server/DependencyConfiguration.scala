@@ -37,4 +37,5 @@ class DependencyConfiguration extends DependencyConfig {
   lazy val sessionManager = new SpecusIntSessionManager
   lazy val pluginManager = new SimplePluginManager(this)
   lazy val config = new DefaultConfiguration
+  val pluginDefinitionLoader = null
 }

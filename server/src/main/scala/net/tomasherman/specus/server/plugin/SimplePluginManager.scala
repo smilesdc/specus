@@ -1,10 +1,11 @@
 package net.tomasherman.specus.server.plugin
 
 import java.io.File
-import net.tomasherman.specus.server.plugin.PluginDefinitionLoading._
 import net.tomasherman.specus.server.api.logging.Logging
 import net.tomasherman.specus.server.api.config.Configuration
 import net.tomasherman.specus.server.api.plugin._
+import net.tomasherman.specus.server.api.plugin.definitions.PluginDefinitionLoader
+
 /**
  * This file is part of Specus.
  *
@@ -26,7 +27,10 @@ import net.tomasherman.specus.server.api.plugin._
 
 
 /** Implementation of PluginManager. Expects to be injected with Configuration */
-class SimplePluginManager(val env: {val config: Configuration}) extends PluginManager with Logging{
+class SimplePluginManager(val env: {
+  val config: Configuration
+  val pluginDefinitionLoader: PluginDefinitionLoader
+}) extends PluginManager with Logging{
   private var plugins: List[Plugin] = List[Plugin]()
 
   /** Loads all valid plugins from given directory.
@@ -45,7 +49,7 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
     * @param f Directory in which the Plugin definitions file is expected to be.
     * @return Plugin instance. */
   private val loadPlugin = {f: File =>
-    val pd = loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
+    val pd = env.pluginDefinitionLoader.loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
     instantiatePlugin(pd.pluginClass)
   }
 
@@ -60,7 +64,6 @@ class SimplePluginManager(val env: {val config: Configuration}) extends PluginMa
     * @param file File that is being passed to the *in* function.
     * @param in Function that tries to
     * @return Option[] of loaded plugin. */
-
   private def handleExceptions(file: File,in: File => Plugin) = {
     try {
       Some(in(file))

@@ -1,4 +1,7 @@
-package net.tomasherman.specus.server.api.plugin
+package net.tomasherman.specus.server.plugin.definitions
+
+import net.tomasherman.specus.server.api.plugin.definitions.PluginIdentifier
+
 
 /**
  * This file is part of Specus.
@@ -19,17 +22,4 @@ package net.tomasherman.specus.server.api.plugin
  *
  */
 
-case class PluginDependencies(dep:Vector[PluginDependency])
-case class PluginDependency(identifier:PluginIdentifier,version:PluginVersionConstraint)
-
-trait PluginVersionConstraint {
-  def matches(other:PluginVersion):Option[Boolean]
-}
-
-case class Eq(version:PluginVersion) extends PluginVersionConstraint{
-  def matches(other: PluginVersion) = version == other
-}
-case class EqGt(version:PluginVersion) extends PluginVersionConstraint{
-  def matches(other: PluginVersion) = version >= other
-}
-
+case class StringPluginIdentifier(ident: String) extends PluginIdentifier

@@ -1,9 +1,7 @@
-package net.tomasherman.specus.server.plugin
+package net.tomasherman.specus.server.api.plugin.definitions
 
 import java.io.File
-import io.Source
-import net.liftweb.json._
-import net.tomasherman.specus.server.api.plugin.{PluginDefinitionFileNotFound, PluginDefinition, PluginDefinitionParsingFailed}
+import net.tomasherman.specus.server.api.plugin.PluginDefinitionFileNotFound
 
 /**
  * This file is part of Specus.
@@ -23,11 +21,7 @@ import net.tomasherman.specus.server.api.plugin.{PluginDefinitionFileNotFound, P
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-/** Fucntions for LoadingPlugins */
-object PluginDefinitionLoading{
-  implicit val formats = DefaultFormats
-
+trait PluginDefinitionLoader {
   /** Attempts to lookup and parse plugin definitions file.
     * @param dir Directory in which the file is being looked up.
     * @param pdfName File name of plugin definitions,
@@ -40,13 +34,7 @@ object PluginDefinitionLoading{
     * @param pdFile File with plugin definitions
     * @throws PluginDefinitionParsingFailed thrown if something goes wrong with parsing.
     * @return Representation of parsed data from the file. */
-  def parsePluginDefinition(pdFile: File) = {
-    try{
-      parse(Source.fromFile(pdFile).getLines().mkString).extract[PluginDefinition]
-    } catch {
-      case e: MappingException => throw new PluginDefinitionParsingFailed(pdFile,e)
-    }
-  }
+  def parsePluginDefinition(pdFile: File):PluginDefinition
 
   /** Loads Plugin definitions fro m file.
     * @param dir Directory in which the file is supposed to be.

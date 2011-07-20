@@ -23,7 +23,7 @@ package net.tomasherman.specus.common.api.grid.messages
 abstract class NodeLoadBalancerMessage
 
 /** Registers the sender as one of the possible processors */
-case class Register extends NodeLoadBalancerMessage
+case class Register() extends NodeLoadBalancerMessage
 
 /** Unregisters the sender */
-case class Unregister extends NodeLoadBalancerMessage
+case class Unregister() extends NodeLoadBalancerMessage

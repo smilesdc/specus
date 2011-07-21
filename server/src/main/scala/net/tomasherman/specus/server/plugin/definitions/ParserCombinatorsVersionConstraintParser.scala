@@ -1,7 +1,7 @@
 package net.tomasherman.specus.server.plugin.definitions
 
 import util.parsing.combinator.syntactical.StandardTokenParsers
-import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt, PluginVersionConstraint, VersionConstraintParser}
+import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt, PluginVersionConstraint, PluginVersionConstraintParser}
 /**
  * This file is part of Specus.
  *
@@ -23,7 +23,7 @@ import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt, Plu
 
 
 
-object ParserCombinatorsVersionConstraintParser extends StandardTokenParsers with VersionConstraintParser with MajorMinorBuildVersionPluginParser{
+object ParserCombinatorsVersionConstraintParser extends StandardTokenParsers with PluginVersionConstraintParser with MajorMinorBuildVersionPluginParser{
 
   trait ParsingResult
   case class OK(const:PluginVersionConstraint)

@@ -18,6 +18,6 @@ package net.tomasherman.specus.server.api.plugin.definitions
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-trait VersionConstraintParser {
+trait PluginVersionConstraintParser {
   def parse(data:String):Any
 }

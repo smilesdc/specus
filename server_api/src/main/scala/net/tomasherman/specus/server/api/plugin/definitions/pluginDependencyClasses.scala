@@ -26,8 +26,11 @@ trait PluginVersionConstraint {
   def matches(other:PluginVersion):Option[Boolean]
 }
 
-case class Eq(version:PluginVersion) extends PluginVersionConstraint{
-  def matches(other: PluginVersion) = version == other
+case class Interval(bounds:(PluginVersion,PluginVersion)) extends PluginVersionConstraint{
+ def matches(other: PluginVersion) = ((bounds._1 <= other),(bounds._1 > other)) match {
+   case (Some(x),Some(y)) => Some(x && y)
+   case _ => None
+ }
 }
 case class EqGt(version:PluginVersion) extends PluginVersionConstraint{
   def matches(other: PluginVersion) = version >= other

@@ -1,3 +1,4 @@
+import collection.immutable.Seq
 import sbt._
 import Keys._
 
@@ -53,7 +54,8 @@ object BuildSettings {
 
   val buildSettings = Defaults.defaultSettings ++ Seq (
     version      := buildVersion,
-    scalaVersion := buildScalaVersion
+    scalaVersion := buildScalaVersion,
+    scalacOptions := Seq("-deprecation", "-unchecked")
   )
 }
 

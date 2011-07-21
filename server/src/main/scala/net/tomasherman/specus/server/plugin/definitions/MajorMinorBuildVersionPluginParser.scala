@@ -25,14 +25,18 @@ trait MajorMinorBuildVersionPluginParser extends StandardTokenParsers{
   lexical.delimiters += (".")
 
   def version: Parser[(Option[Int],Option[Int],Option[Int])] =
-    (numericLit ~ "." ~ minor) ^^ {
+    (numericLit ~ "." ~ (minorSpecified | minorWildcard)) ^^ {
       case x ~ "." ~ y => (Some(x.toInt),y._1,y._2)
     }
 
-  def minor: Parser[(Option[Int],Option[Int])] =
-    ((numericLit | "_") ~ "." ~ build) ^^ {
-      case "_" ~ "." ~ None => (None,None)
+  def minorSpecified: Parser[(Option[Int],Option[Int])] =
+    (numericLit ~ "." ~ build) ^^ {
       case x ~ "." ~ build => (Some(x.toInt),build)
+    }
+
+  def minorWildcard: Parser[(Option[Int],Option[Int])] =
+    ("_" ~ "." ~ "_") ^^ {
+      _ => (None,None)
     }
 
   def build: Parser[Option[Int]] =

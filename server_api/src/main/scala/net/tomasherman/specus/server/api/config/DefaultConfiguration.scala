@@ -31,6 +31,8 @@ class DefaultConfiguration extends Configuration {
       val pluginClassKey = "pluginClass"
       val authorKey = "author"
       val dependenciesKey = "dependencies"
+      val dependency_version = "version"
+      val dependency_identifier = "identifier"
     }
   }
 }

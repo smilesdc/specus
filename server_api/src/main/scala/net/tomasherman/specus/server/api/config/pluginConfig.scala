@@ -37,4 +37,6 @@ trait PluginDefinitionsConfig {
   val pluginClassKey:String
   val nameKey:String
   val dependenciesKey:String
+  val dependency_version:String
+  val dependency_identifier:String
 }

@@ -4,7 +4,6 @@ import org.specs2.mutable.Specification
 import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
 import net.tomasherman.specus.server.api.plugin.definitions.PluginVersion
-
 /**
  * This file is part of Specus.
  *
@@ -23,9 +22,30 @@ import net.tomasherman.specus.server.api.plugin.definitions.PluginVersion
  * along with Specus.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 class MajorMinorBuildPluginVersionSpec extends Specification with Mockito with ThrownExpectations{
   type mmb = MajorMinorBuildPluginVersion
+
+  "MajorMinorBuildPluginVersionFactory" should {
+    "parse proper versions" in {
+      MajorMinorBuildPluginVersion("1.33.7") must_== Some(new mmb(1,33,7))
+      MajorMinorBuildPluginVersion("1._._") must_== Some(new mmb(1))
+      MajorMinorBuildPluginVersion("1.33._") must_== Some(new mmb(1,33))
+      MajorMinorBuildPluginVersion("O_O1.33.7") must_== None
+      MajorMinorBuildPluginVersion("_.33.7") must_== None
+      MajorMinorBuildPluginVersion("1._.7") must_== None
+      MajorMinorBuildPluginVersion("1.33") must_== None
+    }
+  }
+
+
   "MajorMinorBuildPluginVersion" should {
+    "equal properly" in {
+      val v1 = new mmb(1,33,7)
+      val v2 = new mmb(1,33,7)
+      v1 must_==  v2
+    }
+
     "canCompare properly" in {
       val v1 = new mmb(1,3,3)
       val v2 = mock[PluginVersion]

@@ -22,14 +22,24 @@ import net.tomasherman.specus.server.api.plugin.definitions.PluginVersion
  *
  */
 
-object MajorMinorBuildPluginVersion {
+object MajorMinorBuildPluginVersion extends MajorMinorBuildVersionPluginParser with Logging {
   def apply(value: String) = {
-    new MajorMinorBuildPluginVersion(1)
+    parse(value) match {
+      case None => None
+      case Some(x) => Some(new MajorMinorBuildPluginVersion(x._1,x._2,x._3))
+    }
+  }
+  private def parse(value: String) = {
+    version(new lexical.Scanner(value)) match {
+      case Success(ver,_) => Some(ver)
+      case Failure(msg,_) => error("Failed to parse a version - reason: {}",msg); None
+      case Error(msg,_) => error("Failed to parse a version - reason: {}",msg); None
+    }
   }
 }
 
 case class MajorMinorBuildPluginVersion(major: Option[Int], minor: Option[Int], build: Option[Int])
-  extends PluginVersion with Logging {
+  extends PluginVersion {
 
   def this(major: Int) = this(Some(major),None,None)
   def this(major: Int,minor: Int) = this(Some(major),Some(minor),None)

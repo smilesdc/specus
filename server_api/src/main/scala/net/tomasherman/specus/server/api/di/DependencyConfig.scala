@@ -6,7 +6,7 @@ import net.tomasherman.specus.server.api.plugin.PluginManager
 import net.tomasherman.specus.server.api.config.Configuration
 import org.jboss.netty.channel.{ChannelPipelineFactory, ChannelHandler}
 import net.tomasherman.specus.server.api.grid.NodeManager
-import net.tomasherman.specus.server.api.plugin.definitions.{PluginVersionConstraintParser, PluginDefinitionLoader}
+import net.tomasherman.specus.server.api.plugin.definitions.PluginDefinitionLoader
 
 /**
  * This file is part of Specus.
@@ -40,5 +40,4 @@ trait DependencyConfig {
   val pluginManager: PluginManager
   val config: Configuration
   val pluginDefinitionLoader: PluginDefinitionLoader
-  val pluginVersionParser: PluginVersionConstraintParser
 }

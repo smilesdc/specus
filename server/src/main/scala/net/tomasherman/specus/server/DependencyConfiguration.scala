@@ -4,7 +4,7 @@ import api.config.DefaultConfiguration
 import api.di.DependencyConfig
 import grid.SpecusNodeManager
 import net._
-import plugin.definitions.{JsonPluginDefinitionLoader, ParserCombinatorsVersionConstraintParser}
+import plugin.definitions.JsonPluginDefinitionLoader
 import plugin.SimplePluginManager
 import session.SpecusIntSessionManager
 
@@ -39,5 +39,4 @@ class DependencyConfiguration extends DependencyConfig {
   lazy val pluginManager = new SimplePluginManager(this)
   lazy val config = new DefaultConfiguration
   lazy val pluginDefinitionLoader = new JsonPluginDefinitionLoader(this)
-  lazy val pluginVersionParser = ParserCombinatorsVersionConstraintParser
 }

@@ -6,6 +6,7 @@ import io.Source
 import net.liftweb.json._
 import net.tomasherman.specus.server.api.plugin.definitions._
 import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersionConstraintParser.{Fail, IntervalParsed, EqGtParsed}
+import net.tomasherman.specus.server.api.plugin.PluginDefinitionParsingFailed
 
 /**
  * This file is part of Specus.
@@ -32,15 +33,16 @@ class JsonPluginDefinitionLoader(val env: {val config:Configuration}) extends Pl
     buildDefinitions(parse(data))
   }
   private def buildDefinitions(data:JValue) = {
-    val JString(author) = data \ env.config.plugin.definitions.authorKey
-    val JString(name) = data \ env.config.plugin.definitions.nameKey
-    val JString(identifier) = data \ env.config.plugin.definitions.identifierKey
-    val JString(version) = data \ env.config.plugin.definitions.versionKey
-    val JString(pluginClass) = data \ env.config.plugin.definitions.pluginClassKey
-    val JArray(dependencies) = data \ env.config.plugin.definitions.dependenciesKey
+    val author = getStringWithEx(data,env.config.plugin.definitions.authorKey)
+    val name = getStringWithEx(data,env.config.plugin.definitions.nameKey)
+    val identifier = getStringWithEx(data,env.config.plugin.definitions.identifierKey)
+    val version = getStringWithEx(data,env.config.plugin.definitions.versionKey)
+    val pluginClass = getStringWithEx(data,env.config.plugin.definitions.pluginClassKey)
+    val dependencies = getListWithEx(data,env.config.plugin.definitions.dependenciesKey)
 
     val dep = dependencies.map(buildDependency(_))
-      new PluginDefinition(
+
+    new PluginDefinition(
       name,
       new StringPluginIdentifier(identifier),
       MajorMinorBuildPluginVersion(version).get,
@@ -48,6 +50,27 @@ class JsonPluginDefinitionLoader(val env: {val config:Configuration}) extends Pl
       pluginClass,
       new PluginDependencies(dep)
     )
+  }
+
+  private def getJsonFieldWithEx(data: JValue, key: String) = {
+    data \ key match {
+      case JNothing => throw new PluginDefinitionParsingFailed("Field " + key + "wasn't found.")
+      case x => x
+    }
+  }
+
+  private def getStringWithEx(data: JValue,key: String) = {
+    getJsonFieldWithEx(data,key) match {
+      case JString(x) => x
+      case _ => throw new PluginDefinitionParsingFailed("Field " + key + " is supposed to be string!")
+    }
+  }
+
+  private def getListWithEx(data: JValue,key: String) = {
+    getJsonFieldWithEx(data,key) match {
+      case JArray(x) => x
+      case _ => throw new PluginDefinitionParsingFailed("Field " + key + " is supposed to be array!")
+    }
   }
 
   private def buildDependency(data: JValue) = {
@@ -58,7 +81,7 @@ class JsonPluginDefinitionLoader(val env: {val config:Configuration}) extends Pl
     val dep = ParserCombinatorsVersionConstraintParser.parse(version) match {
       case EqGtParsed(x) => new EqGt(x)
       case IntervalParsed(bounds) => new Interval(bounds)
-      case Fail(msg) => null
+      case Fail(msg) => throw new PluginDefinitionParsingFailed("Dependencies parsing failed: " + msg)
     }
     new PluginDependency(id,dep)
   }

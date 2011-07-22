@@ -9,6 +9,7 @@ import org.specs2.mutable.Specification
 import java.net.{URL, URI}
 import org.specs2.matcher.ThrownExpectations
 import net.tomasherman.specus.server.api.plugin.definitions._
+import net.tomasherman.specus.server.api.plugin.PluginDefinitionParsingFailed
 
 /**
 * This file is part of Specus.
@@ -34,7 +35,6 @@ trait JPDLScope extends Scope with Mockito with ThrownExpectations{
 
   val testValidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/valid/"))
   val testInvalidDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/invalid/"))
-  val testNonexistentDir= new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins/nonexisting/"))
   val pluginDefinitionFilename = "plugin.json"
   val validPdf = new File(testValidDir.getPath + "/" + pluginDefinitionFilename)
   val invalidPdf = new File(testInvalidDir.getPath + "/" + pluginDefinitionFilename)
@@ -78,6 +78,10 @@ class JsonPluginDefinitionLoaderSpec extends Specification {
       p.pluginClass must_== expected.pluginClass
 
       p must_== expected
+    }
+
+    "fail properly" in new JPDLScope {
+      loader.parsePluginDefinition(invalidPdf) must throwA[PluginDefinitionParsingFailed]
     }
   }
 }

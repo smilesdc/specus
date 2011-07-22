@@ -6,7 +6,6 @@ import io.Source
 import net.liftweb.json._
 import net.tomasherman.specus.server.api.plugin.definitions._
 import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersionConstraintParser.{Fail, IntervalParsed, EqGtParsed}
-import net.tomasherman.specus.server.api.plugin.PluginDefinitionParsingFailed
 
 /**
  * This file is part of Specus.

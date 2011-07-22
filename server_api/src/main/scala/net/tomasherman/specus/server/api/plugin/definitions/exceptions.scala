@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.api.plugin
+package net.tomasherman.specus.server.api.plugin.definitions
 
 import java.io.File
 
@@ -31,3 +31,6 @@ class PluginDefinitionFileNotFound(plugDefFname: String, pluginDir: File)
 
 class PluginDefinitionParsingFailed(details:String)
   extends Exception(String.format("Failed to parse plugin definition. Cause: %s",details))
+
+class PluginVersionMatchingException(c:PluginVersionConstraint,v:PluginVersion)
+  extends Exception(String.format("Version comparasson failed: %s %s",c,v))

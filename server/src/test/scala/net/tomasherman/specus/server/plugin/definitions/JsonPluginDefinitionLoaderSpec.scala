@@ -9,7 +9,6 @@ import org.specs2.mutable.Specification
 import java.net.{URL, URI}
 import org.specs2.matcher.ThrownExpectations
 import net.tomasherman.specus.server.api.plugin.definitions._
-import net.tomasherman.specus.server.api.plugin.PluginDefinitionParsingFailed
 
 /**
 * This file is part of Specus.

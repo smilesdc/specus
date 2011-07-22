@@ -61,8 +61,8 @@ class SpecusServer(
     env.pluginManager.bootupPlugins(dir)
   }
   private def setupCodecs() {
-    val codecs = env.pluginManager.getPlugins.flatMap(getCodecs(_))
-    codecs.foreach(env.codecRepository.registerCodec(_))
+//    val codecs = env.pluginManager.getPlugins.flatMap(getCodecs(_))
+//    codecs.foreach(env.codecRepository.registerCodec(_))
   }
   private def getCodecs(p:Plugin) = {
     p.getCodecs.getOrElse(Nil)

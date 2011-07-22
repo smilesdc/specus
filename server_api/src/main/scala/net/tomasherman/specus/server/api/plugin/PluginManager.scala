@@ -1,5 +1,6 @@
 package net.tomasherman.specus.server.api.plugin
 
+import definitions.PluginIdentifier
 import java.io.File
 
 /**
@@ -27,8 +28,8 @@ trait PluginManager {
   /** Initializes plugins from a directory.
     * @param dir Directory from which plugins are loaded.
     * @returns Loaded Plugin classes */
-  def bootupPlugins(dir: File): List[Plugin]
+  def bootupPlugins(dir: File)
 
   /** Returns loaded plugin classes */
-  def getPlugins: List[Plugin]
+  def getPluginIdentifiers: Set[PluginIdentifier]
 }

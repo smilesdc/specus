@@ -1,7 +1,6 @@
 package net.tomasherman.specus.server.api.plugin.definitions
 
 import java.io.File
-import net.tomasherman.specus.server.api.plugin.PluginDefinitionFileNotFound
 
 /**
  * This file is part of Specus.

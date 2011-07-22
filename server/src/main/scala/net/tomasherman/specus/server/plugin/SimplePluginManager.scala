@@ -4,7 +4,7 @@ import java.io.File
 import net.tomasherman.specus.server.api.logging.Logging
 import net.tomasherman.specus.server.api.config.Configuration
 import net.tomasherman.specus.server.api.plugin._
-import net.tomasherman.specus.server.api.plugin.definitions.PluginDefinitionLoader
+import net.tomasherman.specus.server.api.plugin.definitions.{PluginDefinition, PluginVersionMatchingException, PluginIdentifier, PluginDefinitionLoader}
 
 /**
  * This file is part of Specus.
@@ -31,18 +31,30 @@ class SimplePluginManager(val env: {
   val config: Configuration
   val pluginDefinitionLoader: PluginDefinitionLoader
 }) extends PluginManager with Logging{
-  private var plugins: List[Plugin] = List[Plugin]()
+
+  private var plugins = Map[PluginIdentifier,(PluginDefinition,Plugin)]()
 
   /** Loads all valid plugins from given directory.
     * @param dir Directory in which the plugins are looked up.
     * @returns List of loaded plugins. */
-  def bootupPlugins(dir: File): List[Plugin] = {
+  def bootupPlugins(dir: File) {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
-    plugins = dirs.flatMap(handleExceptions(_, loadPlugin))
-    getPlugins
+    plugins = dirs.map(loadPlugin(_)).toMap
+
   }
 
-  def getPlugins = plugins
+  def checkPluginDependencies = {
+    plugins.keys.foldLeft(true)({ (_,p) => //check if all the plugin dependencies are satisfied
+      plugins(p)._1.dependencies.dep.foldLeft(true)({ (_,d) =>  //check each the dependency is satisfied
+        d.version.matches(plugins(d.identifier)._1.version) match {
+          case Some(x) => x
+          case None => throw new PluginVersionMatchingException(d.version,plugins(d.identifier)._1.version)
+        }
+      })
+    })
+  }
+
+  def getPluginIdentifiers = plugins.keySet
 
   /** Helper plugin-loading function to make bootupPlugins a little more readable.
     * Handles PluginDefinitions loading as well as instantiating of new Plugin class
@@ -50,7 +62,7 @@ class SimplePluginManager(val env: {
     * @return Plugin instance. */
   private val loadPlugin = {f: File =>
     val pd = env.pluginDefinitionLoader.loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
-    instantiatePlugin(pd.pluginClass)
+    (pd.identifier,(pd,instantiatePlugin(pd.pluginClass)))
   }
 
   /** Creates new instance of class.
@@ -58,19 +70,5 @@ class SimplePluginManager(val env: {
     * @returns New instance of the desired class. */
   private def instantiatePlugin(c: String) = {
     Class.forName(c).newInstance().asInstanceOf[Plugin]
-  }
-
-  /** Helper function for nicer exception handling.
-    * @param file File that is being passed to the *in* function.
-    * @param in Function that tries to
-    * @return Option[] of loaded plugin. */
-  private def handleExceptions(file: File,in: File => Plugin) = {
-    try {
-      Some(in(file))
-    } catch {
-      case e:PluginDefinitionFileNotFound => error("Error during plugin-loading - Plugin definitions not found",e); None
-      case e:PluginDefinitionParsingFailed => error("Error during plugin-loading - Plugin definitions parsing failed",e); None
-      case e:ClassNotFoundException => error("Error during plugin-loading - Plugin class not found",e); None
-    }
   }
 }

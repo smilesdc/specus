@@ -23,7 +23,8 @@ import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt, Plu
 
 
 
-object ParserCombinatorsVersionConstraintParser extends StandardTokenParsers with PluginVersionConstraintParser with MajorMinorBuildVersionPluginParser{
+object ParserCombinatorsVersionConstraintParser extends StandardTokenParsers
+  with PluginVersionConstraintParser with MajorMinorBuildVersionPluginParser{
 
   trait ParsingResult
   case class OK(const:PluginVersionConstraint)

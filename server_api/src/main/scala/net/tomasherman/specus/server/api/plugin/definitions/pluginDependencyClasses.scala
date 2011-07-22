@@ -19,7 +19,7 @@ package net.tomasherman.specus.server.api.plugin.definitions
  *
  */
 
-case class PluginDependencies(dep:Vector[PluginDependency])
+case class PluginDependencies(dep:List[PluginDependency])
 case class PluginDependency(identifier:PluginIdentifier,version:PluginVersionConstraint)
 
 trait PluginVersionConstraint {

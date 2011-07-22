@@ -1,5 +1,7 @@
 package net.tomasherman.specus.server.api.plugin.definitions
 
+import net.tomasherman.specus.server.api.plugin.Plugin
+
 /**
  * This file is part of Specus.
  *
@@ -25,6 +27,18 @@ trait PluginVersion {
 
   def >=(other: PluginVersion) = {
     safeResolve(other, _ >= 0 )
+  }
+
+  def <=(other: PluginVersion) = {
+    safeResolve(other, _ <= 0)
+  }
+
+  def >(other: PluginVersion) = {
+    safeResolve(other, _ > 0 )
+  }
+
+  def <(other: PluginVersion) = {
+    safeResolve(other, _ < 0)
   }
 
   def ==(other: PluginVersion) = {

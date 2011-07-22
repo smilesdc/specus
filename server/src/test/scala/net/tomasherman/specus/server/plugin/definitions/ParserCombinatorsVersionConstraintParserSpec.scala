@@ -1,8 +1,8 @@
 package net.tomasherman.specus.server.plugin.definitions
 
 import org.specs2.mutable.Specification
-import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt}
-import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersionConstraintParser.{Fail, OK}
+import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersionConstraintParser.{IntervalParsed, EqGtParsed, Fail}
+
 /**
  * This file is part of Specus.
  *
@@ -24,9 +24,9 @@ import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersion
 class ParserCombinatorsVersionConstraintParserSpec extends Specification {
   "ParserCombinatorsVesionConstraintParser" should {
     "parse correctly EqGt" in {
-      p(">=1.11.111") must_== OK(new EqGt(v(1,11,111)))
-      p(">=1.1._") must_== OK(new EqGt(v(1,1)))
-      p(">=1._._") must_== OK(new EqGt(v(1)))
+      p(">=1.11.111") must_== EqGtParsed(v(1,11,111))
+      p(">=1.1._") must_== EqGtParsed(v(1,1))
+      p(">=1._._") must_== EqGtParsed(v(1))
     }
 
     "fail properly EqGt" in {
@@ -39,12 +39,12 @@ class ParserCombinatorsVersionConstraintParserSpec extends Specification {
     }
 
     "parse correctly Interval" in {
-      p("(1.11.111,2.1.1)") must_== OK(new Interval(v(1,11,111),v(2,1,1)))
-      p("(1._._,2.1.1)") must_== OK(new Interval(v(1),v(2,1,1)))
-      p("(1._._,2._._)") must_== OK(new Interval(v(1),v(2)))
-      p("(1.11._,2.1.1)") must_== OK(new Interval(v(1,11),v(2,1,1)))
-      p("(1.11.111,2.1._)") must_== OK(new Interval(v(1,11,111),v(2,1)))
-      p("(1._._,2.1._)") must_== OK(new Interval(v(1),v(2,1)))
+      val x = p("(1.11.111,2.1.1)") must_== IntervalParsed((v(1,11,111),v(2,1,1)))
+      p("(1._._,2.1.1)") must_== IntervalParsed((v(1),v(2,1,1)))
+      p("(1._._,2._._)") must_== IntervalParsed((v(1),v(2)))
+      p("(1.11._,2.1.1)") must_== IntervalParsed((v(1,11),v(2,1,1)))
+      p("(1.11.111,2.1._)") must_== IntervalParsed((v(1,11,111),v(2,1)))
+      p("(1._._,2.1._)") must_== IntervalParsed((v(1),v(2,1)))
      }
 
     "fail properly Interval" in {

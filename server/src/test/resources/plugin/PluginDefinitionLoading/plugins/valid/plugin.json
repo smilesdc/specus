@@ -7,10 +7,10 @@
     "dependencies":
         [{
             "identifier" : "anotherid",
-            "version" : "1.3.3"
+            "version" : ">=1.3.3"
         },{
             "identifier" : "somethingelse",
-            "version" : "133.7"
+            "version" : "(133.7._,144.7.1)"
         }]
 
 }

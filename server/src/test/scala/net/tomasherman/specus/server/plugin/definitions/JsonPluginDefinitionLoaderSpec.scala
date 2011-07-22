@@ -8,7 +8,7 @@ import net.tomasherman.specus.server.api.config.DefaultConfiguration
 import org.specs2.mutable.Specification
 import java.net.{URL, URI}
 import org.specs2.matcher.ThrownExpectations
-import net.tomasherman.specus.server.api.plugin.definitions.{PluginDefinition}
+import net.tomasherman.specus.server.api.plugin.definitions._
 
 /**
 * This file is part of Specus.
@@ -38,10 +38,8 @@ trait JPDLScope extends Scope with Mockito with ThrownExpectations{
   val pluginDefinitionFilename = "plugin.json"
   val validPdf = new File(testValidDir.getPath + "/" + pluginDefinitionFilename)
   val invalidPdf = new File(testInvalidDir.getPath + "/" + pluginDefinitionFilename)
-  val valid = new PluginDefinition("test_name",null,null,"test_author","net.tomasherman.specus.server.plugin.DummyPlugin",null) //todo fix
   val config = mock[DependencyConfig]
   config.config returns new DefaultConfiguration
-  config.pluginVersionParser returns ParserCombinatorsVersionConstraintParser
   val loader = new JsonPluginDefinitionLoader(config)
 
 }
@@ -50,26 +48,36 @@ trait JPDLScope extends Scope with Mockito with ThrownExpectations{
 class JsonPluginDefinitionLoaderSpec extends Specification {
   "JsonPluginDefinitionLoader" should {
     "parse properly" in new JPDLScope {
-      loader.parsePluginDefinition(validPdf) must_!= null
+      val expectedDependencies = new PluginDependencies(List(
+        new PluginDependency(
+          new StringPluginIdentifier("anotherid"),
+          new EqGt(new MajorMinorBuildPluginVersion(1,3,3))
+        ),
+       new PluginDependency(
+          new StringPluginIdentifier("somethingelse"),
+          new Interval(
+            new MajorMinorBuildPluginVersion(133,7),
+            new MajorMinorBuildPluginVersion(144,7,1)
+          )
+        )
+      ))
+      val expected = new PluginDefinition(
+        "test_name",
+        new StringPluginIdentifier("some-identifier"),
+        new MajorMinorBuildPluginVersion(1,33,7),
+        "test_author",
+        "net.tomasherman.specus.server.plugin.DummyPlugin",
+        expectedDependencies)
+      val p = loader.parsePluginDefinition(validPdf)
+
+      p.author must_== expected.author
+      p.identifier must_== expected.identifier
+      p.name must_== expected.name
+      p.version must_== expected.version
+      p.dependencies must_== expected.dependencies
+      p.pluginClass must_== expected.pluginClass
+
+      p must_== expected
     }
   }
 }
-
-//  "LooklupFile" should {
-//    "lookup existing file" in {
-//      lookupFile(testValidDir,pluginDefinitionFilename) must_== Some(validPdf)
-//    }
-//    "lookup nonexisting file" in {
-//      lookupFile(testNonexistentDir,pluginDefinitionFilename) must_== None
-//    }
-//  }
-//
-//  "ParsePluginDefinition" should {
-//    "parse plugin definition" in {
-//      parsePluginDefinition(validPdf) must_== valid
-//    }
-//    "parse invalid plugin definition" in {
-//      parsePluginDefinition(invalidPdf) must throwA[PluginDefinitionParsingFailed]
-//    }
-//  }
-//}

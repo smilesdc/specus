@@ -5,7 +5,7 @@ import net.tomasherman.specus.server.api.config.Configuration
 import io.Source
 import net.liftweb.json._
 import net.tomasherman.specus.server.api.plugin.definitions._
-import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersionConstraintParser.OK
+import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersionConstraintParser.{Fail, IntervalParsed, EqGtParsed}
 
 /**
  * This file is part of Specus.
@@ -26,7 +26,7 @@ import net.tomasherman.specus.server.plugin.definitions.ParserCombinatorsVersion
  *
  */
 
-class JsonPluginDefinitionLoader(val env: {val config:Configuration; val pluginVersionParser: PluginVersionConstraintParser}) extends PluginDefinitionLoader{
+class JsonPluginDefinitionLoader(val env: {val config:Configuration}) extends PluginDefinitionLoader{
   def parsePluginDefinition(pdFile: File) = {
     val data = Source.fromFile(pdFile).getLines().mkString
     buildDefinitions(parse(data))
@@ -39,8 +39,14 @@ class JsonPluginDefinitionLoader(val env: {val config:Configuration; val pluginV
     val JString(pluginClass) = data \ env.config.plugin.definitions.pluginClassKey
     val JArray(dependencies) = data \ env.config.plugin.definitions.dependenciesKey
 
-    new PluginDefinition(
-    name,new StringPluginIdentifier(identifier),MajorMinorBuildPluginVersion(version).get,author,pluginClass,new PluginDependencies(dependencies.map(buildDependency(_)))
+    val dep = dependencies.map(buildDependency(_))
+      new PluginDefinition(
+      name,
+      new StringPluginIdentifier(identifier),
+      MajorMinorBuildPluginVersion(version).get,
+      author,
+      pluginClass,
+      new PluginDependencies(dep)
     )
   }
 
@@ -50,8 +56,9 @@ class JsonPluginDefinitionLoader(val env: {val config:Configuration; val pluginV
 
     val id = new StringPluginIdentifier(identifier)
     val dep = ParserCombinatorsVersionConstraintParser.parse(version) match {
-      case OK(x) => x
-      case _ => null
+      case EqGtParsed(x) => new EqGt(x)
+      case IntervalParsed(bounds) => new Interval(bounds)
+      case Fail(msg) => null
     }
     new PluginDependency(id,dep)
   }

@@ -1,7 +1,8 @@
 package net.tomasherman.specus.server.plugin.definitions
 
 import util.parsing.combinator.syntactical.StandardTokenParsers
-import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt, PluginVersionConstraint, PluginVersionConstraintParser}
+import net.tomasherman.specus.server.api.plugin.definitions._
+
 /**
  * This file is part of Specus.
  *
@@ -24,30 +25,31 @@ import net.tomasherman.specus.server.api.plugin.definitions.{Interval, EqGt, Plu
 
 
 object ParserCombinatorsVersionConstraintParser extends StandardTokenParsers
-  with PluginVersionConstraintParser with MajorMinorBuildVersionPluginParser{
+  with MajorMinorBuildVersionPluginParser{
 
   trait ParsingResult
-  case class OK(const:PluginVersionConstraint)
-  case class Fail(error:String)
+  case class IntervalParsed(bounds: (PluginVersion,PluginVersion)) extends ParsingResult
+  case class EqGtParsed(value: PluginVersion) extends ParsingResult
+  case class Fail(error: String) extends ParsingResult
 
   lexical.delimiters += (">=","(",")",",")
 
-  def constraint: Parser[PluginVersionConstraint] =
-    ( gteqConstraint | intervalConstraint ) ^^ {case x => x}
+  def constraint: Parser[ParsingResult] =
+    ( eqgtConstraint | intervalConstraint ) ^^ {case x => x}
    
-  def gteqConstraint: Parser[PluginVersionConstraint] =
-    (">=" ~ version) ^^ {case ">=" ~ x => new EqGt(new MajorMinorBuildPluginVersion(x._1,x._2,x._3))}
+  def eqgtConstraint: Parser[EqGtParsed] =
+    (">=" ~ version) ^^ {case ">=" ~ x => new EqGtParsed(new MajorMinorBuildPluginVersion(x._1,x._2,x._3))}
 
-  def intervalConstraint: Parser[PluginVersionConstraint] =
+  def intervalConstraint: Parser[IntervalParsed] =
     ("(" ~ version ~ "," ~ version ~ ")") ^^ {
-      case "(" ~ x ~ "," ~ y ~ ")" => new Interval(
-        (new MajorMinorBuildPluginVersion(x._1,x._2,x._3),
+      case "(" ~ x ~ "," ~ y ~ ")" => new IntervalParsed((
+        new MajorMinorBuildPluginVersion(x._1,x._2,x._3),
         new MajorMinorBuildPluginVersion(y._1,y._2,y._3)))
     }
 
 
   def parse(data: String) = constraint(new lexical.Scanner(data)) match {
-    case Success(const, _) => OK(const)// ord is a ClientOrder
+    case Success(parsed, _) =>  parsed
     case Failure(msg, _) => Fail(msg)
     case Error(msg, _) => Fail(msg)
   }

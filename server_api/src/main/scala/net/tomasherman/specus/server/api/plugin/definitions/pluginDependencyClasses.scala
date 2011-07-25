@@ -27,7 +27,7 @@ trait PluginVersionConstraint {
 }
 
 case class Interval(bounds:(PluginVersion,PluginVersion)) extends PluginVersionConstraint{
- def matches(other: PluginVersion) = ((bounds._1 <= other),(bounds._1 > other)) match {
+ def matches(other: PluginVersion) = ((bounds._1 <= other),(bounds._2 > other)) match {
    case (Some(x),Some(y)) => Some(x && y)
    case _ => None
  }

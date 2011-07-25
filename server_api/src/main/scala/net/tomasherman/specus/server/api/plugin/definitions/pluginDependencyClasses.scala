@@ -33,6 +33,6 @@ case class Interval(bounds:(PluginVersion,PluginVersion)) extends PluginVersionC
  }
 }
 case class EqGt(version:PluginVersion) extends PluginVersionConstraint{
-  def matches(other: PluginVersion) = version >= other
+  def matches(other: PluginVersion) = version <= other
 }
 

@@ -40,27 +40,30 @@ class SimplePluginManager(val env: {
   def bootupPlugins(dir: File) {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
     plugins = dirs.map(loadPlugin(_)).toMap
-
+    checkPluginDependencies(plugins)
   }
 
-  def checkPluginDependencies = {
-    plugins.keys.foldLeft(true)({ (_,p) => //check if all the plugin dependencies are satisfied
-      plugins(p)._1.dependencies.dep.foldLeft(true)({ (_,d) =>  //check each the dependency is satisfied
-        d.version.matches(plugins(d.identifier)._1.version) match {
-          case Some(x) => x
-          case None => throw new PluginVersionMatchingException(d.version,plugins(d.identifier)._1.version)
+  def checkPluginDependencies(pluginMap:Map[PluginIdentifier,(PluginDefinition,Plugin)]) {
+    pluginMap.keys.foreach({ p => //check if all the plugin dependencies are satisfied
+      pluginMap(p)._1.dependencies.dep.foreach({ d =>  //check each the dependency is satisfied
+        d.version.matches(pluginMap(d.identifier)._1.version) match {
+          case None => throw new PluginVersionMatchingException(d.identifier,d.version,pluginMap(d.identifier)._1.version)
+          case Some(x) => x match {
+            case true => //version matching, can go to next iteration
+            case false => throw new PluginVersionMatchingException(d.identifier,d.version,pluginMap(d.identifier)._1.version)
+          }
         }
       })
     })
   }
 
-  def getPluginIdentifiers = plugins.keySet
+  def pluginIdentifiers = plugins.keySet
 
   /** Helper plugin-loading function to make bootupPlugins a little more readable.
     * Handles PluginDefinitions loading as well as instantiating of new Plugin class
     * @param f Directory in which the Plugin definitions file is expected to be.
     * @return Plugin instance. */
-  private val loadPlugin = {f: File =>
+  val loadPlugin = {f: File =>
     val pd = env.pluginDefinitionLoader.loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
     (pd.identifier,(pd,instantiatePlugin(pd.pluginClass)))
   }

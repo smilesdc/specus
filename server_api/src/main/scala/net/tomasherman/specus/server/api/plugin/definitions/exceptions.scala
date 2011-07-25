@@ -33,4 +33,4 @@ class PluginDefinitionParsingFailed(details:String)
   extends Exception(String.format("Failed to parse plugin definition. Cause: %s",details))
 
 class PluginVersionMatchingException(p:PluginIdentifier,c:PluginVersionConstraint,v:PluginVersion)
-  extends Exception(String.format("Version comparasson failed: %s %s",c,v))
+  extends Exception(String.format("Version comparasson failed for plugin %s: %s %s",p,c,v))

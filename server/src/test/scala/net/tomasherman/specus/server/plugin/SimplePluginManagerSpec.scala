@@ -1,11 +1,13 @@
 package net.tomasherman.specus.server.plugin
 
+import definitions.MajorMinorBuildPluginVersion
 import org.specs2.mutable.Specification
-import java.io.File
-import net.tomasherman.specus.server.api.plugin.Plugin
 import org.specs2.mock.Mockito
 import net.tomasherman.specus.server.api.di.DependencyConfig
-import net.tomasherman.specus.server.api.config.{PluginConfig, Configuration}
+import org.specs2.matcher.ThrownExpectations
+import org.specs2.specification.Scope
+import net.tomasherman.specus.server.api.plugin.definitions._
+import net.tomasherman.specus.server.api.plugin.Plugin
 
 /**
  * This file is part of Specus.
@@ -26,24 +28,55 @@ import net.tomasherman.specus.server.api.config.{PluginConfig, Configuration}
  *
  */
 
-class SimplePluginManagerSpec extends Specification with Mockito{
-  val testDir = new File(this.getClass.getResource("/plugin/PluginDefinitionLoading/plugins").toURI)
+trait SPMScope extends Scope with Mockito with ThrownExpectations{
+  type mmb = MajorMinorBuildPluginVersion
   val di = mock[DependencyConfig]
-  val di_conf = mock [Configuration]
-  val di_conf_plugin = mock[PluginConfig]
-  di.config returns di_conf
-  di_conf.plugin returns di_conf_plugin
-  di_conf_plugin.pluginDefinitionFileName returns "plugin.json"
-
   val pm = new SimplePluginManager(di)
 
+  val i1 = mock[PluginIdentifier]
+  val v1 = new mmb(1)
+  val i2 = mock[PluginIdentifier]
+  val v2 = new mmb(2)
+  val i3 = mock[PluginIdentifier]
+  val v3 = new mmb(1,1,5)
+
+  val defin1 = mock[PluginDefinition]
+  val dep1 = new PluginDependency(i2,new EqGt(new mmb(1)))
+  val deps1 = new PluginDependencies(List(dep1))
+  defin1.dependencies returns deps1
+  defin1.version returns v1
+
+  val defin2 = mock[PluginDefinition]
+  val dep2 = new PluginDependency(i3,new Interval(new mmb(1),new mmb(2)))
+  val deps2 = new PluginDependencies(List(dep2))
+  defin2.dependencies returns deps2
+  defin2.version returns v2
+
+  val defin3 = mock[PluginDefinition]
+  val dep3 = new PluginDependency(i1,new EqGt(new mmb(1)))
+  val deps3 = new PluginDependencies(List(dep3))
+  defin3.dependencies returns deps3
+  defin3.version returns v3
+
+  val p = mock[Plugin]
+}
+
+class SimplePluginManagerSpec extends Specification{
   "Simple plugin manager" should {
-    "load plugins" in {
-      pm.offTheRecords(
-        {
-          pm.bootupPlugins(testDir) must_== List[Plugin](new DummyPlugin)
-        }
-      )
+    "check plugin dependencies" in new SPMScope {
+      pm.checkPluginDependencies(Map((i1,(defin1,p)),(i2,(defin2,p)),(i3,(defin3,p)))) //shouldn't throw any exceptions
+    }
+    "invalid dependency" in new SPMScope {
+        val i4 = mock[PluginIdentifier]
+        val v4 = new mmb(1,1,5)
+        val defin4 = mock[PluginDefinition]
+        val dep4 = new PluginDependency(i1,new EqGt(new mmb(1000))) //this should fail
+        val deps4 = new PluginDependencies(List(dep4))
+        defin4.dependencies returns deps4
+        defin4.version returns v4
+      pm.checkPluginDependencies(
+        Map((i1,(defin1,p)),(i2,(defin2,p)),(i3,(defin3,p)),(i4,(defin4,p)))
+      ) must throwA[PluginVersionMatchingException]
     }
   }
 }

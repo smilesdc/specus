@@ -34,3 +34,6 @@ class PluginDefinitionParsingFailed(details:String)
 
 class PluginVersionMatchingException(p:PluginIdentifier,c:PluginVersionConstraint,v:PluginVersion)
   extends Exception(String.format("Version comparasson failed for plugin %s: %s %s",p,c,v))
+
+class PluginAlreadyRegisteredException(p:PluginIdentifier)
+  extends Exception(String.format("Plguin with identifier: %s already loaded.",p))

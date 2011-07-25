@@ -1,10 +1,9 @@
 package net.tomasherman.specus.server.plugin
 
 import java.io.File
-import net.tomasherman.specus.server.api.logging.Logging
 import net.tomasherman.specus.server.api.config.Configuration
 import net.tomasherman.specus.server.api.plugin._
-import net.tomasherman.specus.server.api.plugin.definitions.{PluginDefinition, PluginVersionMatchingException, PluginIdentifier, PluginDefinitionLoader}
+import net.tomasherman.specus.server.api.plugin.definitions._
 
 /**
  * This file is part of Specus.
@@ -30,7 +29,7 @@ import net.tomasherman.specus.server.api.plugin.definitions.{PluginDefinition, P
 class SimplePluginManager(val env: {
   val config: Configuration
   val pluginDefinitionLoader: PluginDefinitionLoader
-}) extends PluginManager with Logging{
+}) extends PluginManager{
 
   private var plugins = Map[PluginIdentifier,(PluginDefinition,Plugin)]()
 
@@ -39,7 +38,16 @@ class SimplePluginManager(val env: {
     * @returns List of loaded plugins. */
   def bootupPlugins(dir: File) {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
-    plugins = dirs.map(loadPlugin(_)).toMap
+    plugins = (dirs.foldLeft(List[(PluginIdentifier,(PluginDefinition,Plugin))]())(
+      (l,f) => {
+        val pd = loadPlugin(f)
+        if(l.find(_._1 == pd._1) != None) {
+          throw new PluginAlreadyRegisteredException(pd._1)
+        }else {
+          l ++ List(pd)
+        }
+      }
+    )).toMap
     checkPluginDependencies(plugins)
   }
 
@@ -49,7 +57,7 @@ class SimplePluginManager(val env: {
         d.version.matches(pluginMap(d.identifier)._1.version) match {
           case None => throw new PluginVersionMatchingException(d.identifier,d.version,pluginMap(d.identifier)._1.version)
           case Some(x) => x match {
-            case true => //version matching, can go to next iteration
+            case true => //versions match, can go to next iteration
             case false => throw new PluginVersionMatchingException(d.identifier,d.version,pluginMap(d.identifier)._1.version)
           }
         }
@@ -63,7 +71,7 @@ class SimplePluginManager(val env: {
     * Handles PluginDefinitions loading as well as instantiating of new Plugin class
     * @param f Directory in which the Plugin definitions file is expected to be.
     * @return Plugin instance. */
-  val loadPlugin = {f: File =>
+  def loadPlugin(f: File) = {
     val pd = env.pluginDefinitionLoader.loadPluginFromDir(f,env.config.plugin.pluginDefinitionFileName)
     (pd.identifier,(pd,instantiatePlugin(pd.pluginClass)))
   }

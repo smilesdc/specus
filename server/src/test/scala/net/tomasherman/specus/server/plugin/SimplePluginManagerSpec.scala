@@ -66,6 +66,7 @@ class SimplePluginManagerSpec extends Specification{
     "check plugin dependencies" in new SPMScope {
       pm.checkPluginDependencies(Map((i1,(defin1,p)),(i2,(defin2,p)),(i3,(defin3,p)))) //shouldn't throw any exceptions
     }
+
     "invalid dependency" in new SPMScope {
         val i4 = mock[PluginIdentifier]
         val v4 = new mmb(1,1,5)
@@ -74,7 +75,7 @@ class SimplePluginManagerSpec extends Specification{
         val deps4 = new PluginDependencies(List(dep4))
         defin4.dependencies returns deps4
         defin4.version returns v4
-      pm.checkPluginDependencies(
+        pm.checkPluginDependencies(
         Map((i1,(defin1,p)),(i2,(defin2,p)),(i3,(defin3,p)),(i4,(defin4,p)))
       ) must throwA[PluginVersionMatchingException]
     }

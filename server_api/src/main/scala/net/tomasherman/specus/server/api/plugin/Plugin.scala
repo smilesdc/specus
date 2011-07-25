@@ -27,7 +27,6 @@ import akka.actor.Actor
 /** Trait encapsulating data about plugins. */
 trait Plugin {
 
-  //TODO refactor to use Actor
   /** Chance for plugin to initialize it's stuff, start up actors etc. */
   def initialize(dependencies: DependencyConfig) {}
 

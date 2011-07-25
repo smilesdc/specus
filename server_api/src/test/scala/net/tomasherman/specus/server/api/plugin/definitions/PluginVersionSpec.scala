@@ -22,26 +22,26 @@ import org.specs2.mutable.Specification
  */
 
 
-class ImplPV(val v:Int) extends PluginVersion{
+class ImplPVV(val v:Int) extends PluginVersion{
   def canCompare(other: PluginVersion) = {
     other match {
-      case x:ImplPV => true
+      case x:ImplPVV => true
       case _ => false
     }
   }
 
   protected def compare(other: PluginVersion) = {
     other match {
-      case other: ImplPV => Some(this.v.compare(other.v))
+      case other: ImplPVV => Some(this.v.compare(other.v))
       case _ => None
     }
   }
 }
 
 class PluginVersionSpec extends Specification {
-  val v1 = new ImplPV(1)
-  val v2 = new ImplPV(2)
-  val v3 = new ImplPV(3)
+  val v1 = new ImplPVV(1)
+  val v2 = new ImplPVV(2)
+  val v3 = new ImplPVV(3)
   implicit def optToBoolean(o:Option[Boolean]) = o.get
   "PluginVersion" should {
     ">" in {

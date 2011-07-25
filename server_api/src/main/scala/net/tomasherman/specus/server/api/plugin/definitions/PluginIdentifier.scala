@@ -19,4 +19,6 @@ package net.tomasherman.specus.server.api.plugin.definitions
  *
  */
 
-trait PluginIdentifier
+trait PluginIdentifier{
+  def matches(str:String):Boolean
+}

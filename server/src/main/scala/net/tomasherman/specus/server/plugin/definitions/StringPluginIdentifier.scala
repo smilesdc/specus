@@ -22,4 +22,6 @@ import net.tomasherman.specus.server.api.plugin.definitions.PluginIdentifier
  *
  */
 
-case class StringPluginIdentifier(ident: String) extends PluginIdentifier
+case class StringPluginIdentifier(ident: String) extends PluginIdentifier{
+  def matches(str: String) = str == ident
+}

@@ -5,7 +5,6 @@ import org.specs2.specification.Scope
 import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
 import net.tomasherman.specus.server.api.grid.{NoNodeRegisteredException, NodeID, NodeWithNameAlreadyRegisteredException, Node}
-
 /**
  * This file is part of Specus.
  *
@@ -31,6 +30,8 @@ class testableSNM extends SpecusNodeManager {
   def setIdx(i:Int) { balIndex = i }
   def nameM = this.nameMap
   def nodeM = this.nodeMap
+  def setNameM(map:Map[String,NodeID]) {this.nameMap = map}
+  def setNodeM(map:Map[NodeID,(Node,String)]) {this.nodeMap = map}
   def updateC = this.updateCache
 }
 trait SNMSScope extends Scope with Mockito with ThrownExpectations{
@@ -48,8 +49,8 @@ trait SNMSScope extends Scope with Mockito with ThrownExpectations{
   val id2 = mock[NodeID]
 
   def prepareMaps() {
-    mgr.nodeM.+=((id1,(n1,name1)),(id2,(n2,name2)))
-    mgr.nameM.+=((name1,id1),(name2,id2))
+    mgr.setNodeM(Map((id1,(n1,name1)),(id2,(n2,name2))))
+    mgr.setNameM(Map((name1,id1),(name2,id2)))
     mgr.updateC
   }
 }

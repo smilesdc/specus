@@ -31,5 +31,5 @@ trait PluginManager {
   def bootupPlugins(dir: File)
 
   /** Returns loaded plugin classes */
-  def getPluginIdentifiers: Set[PluginIdentifier]
+  def pluginIdentifiers: Set[PluginIdentifier]
 }

@@ -3,9 +3,9 @@ package net.tomasherman.specus.server.plugin
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 import org.specs2.mock.Mockito
-import net.tomasherman.specus.server.api.plugin.PluginEvent
 import akka.actor.ActorRef
 import collection.immutable.Map
+import net.tomasherman.specus.server.api.plugin.{PluginEventProcessorId, PluginEvent}
 
 /**
  * This file is part of Specus.
@@ -32,6 +32,8 @@ class e3 extends PluginEvent
 class TestableSPEM extends SpecusPluginEventManager {
   def getMapping = mapping
   def getIdmapping = idToProcessor
+  def setMapping(map:Map[Class[_],List[PluginEventProcessorId]]) {this.mapping = map}
+  def setIDmapping(map:Map[PluginEventProcessorId,ActorRef]) {this.idToProcessor = map}
 }
 trait SPEMScope extends Scope with Mockito{
   val mgr = new TestableSPEM
@@ -69,8 +71,8 @@ class SpecusPluginEventManagerSpec extends Specification {
       }
 
       "remove processors properly" in new SPEMScope {
-        mgr.getMapping.+=((e1,exp1),(e2,exp12),(e3,exp2))
-        mgr.getIdmapping.+=((id1,p1),(id2,p2))
+        mgr.setMapping(Map((e1,exp1),(e2,exp12),(e3,exp2)))
+        mgr.setIDmapping(Map((id1,p1),(id2,p2)))
         mgr.removeEventProcessor(id1)
         mgr.getIdmapping must_== Map((id2,p2))
         mgr.getMapping must_== Map((e1,List()),(e2,exp2),(e3,exp2))

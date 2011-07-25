@@ -1,6 +1,5 @@
 package net.tomasherman.specus.server.grid
 
-import collection.mutable.Map
 import net.tomasherman.specus.server.api.logging.Logging
 import net.tomasherman.specus.server.api.grid._
 import net.tomasherman.specus.common.api.grid.messages.NodeMessage
@@ -26,8 +25,8 @@ import net.tomasherman.specus.common.api.grid.messages.NodeMessage
 
 class SpecusNodeManager extends NodeManager with Logging {
 
-  protected val nodeMap = Map[NodeID, (Node,String)]()
-  protected val nameMap = Map[String, NodeID]()
+  protected var nodeMap = Map[NodeID, (Node,String)]()
+  protected var nameMap = Map[String, NodeID]()
   protected var keysCache = nodeMap.keys.toIndexedSeq
   
   protected var balIndex = 0
@@ -35,8 +34,8 @@ class SpecusNodeManager extends NodeManager with Logging {
   def registerNode(node: Node, name: String) = {
     if(nameMap.contains(name)) throw new NodeWithNameAlreadyRegisteredException(name)
     val id = IntNodeID()
-    nodeMap(id) = (node,name)
-    nameMap(name) = id
+    nodeMap = nodeMap + ((id,(node,name)))
+    nameMap = nameMap + ((name,id))
     updateCache()
     id
   }
@@ -45,8 +44,8 @@ class SpecusNodeManager extends NodeManager with Logging {
     nodeMap.keys.find( _ == id ) match {
       case None => warn("Trying to remove node with non-existing id {}",id)
       case Some(x) => {
-        nameMap.remove(nodeMap(x)._2)
-        nodeMap.remove(x)
+        nameMap = nameMap - (nodeMap(x)._2)
+        nodeMap = nodeMap - (x)
         updateCache()
         updateBalIndex()
       }

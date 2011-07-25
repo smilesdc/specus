@@ -3,7 +3,6 @@ package net.tomasherman.specus.server.net.session
 import net.tomasherman.specus.server.api.net.session.{Session,SessionManager}
 import org.jboss.netty.channel.Channel
 import net.tomasherman.specus.common.api.net.Packet
-import collection.mutable.Map
 import net.tomasherman.specus.common.api.net.session.SessionID
 
 /**
@@ -28,11 +27,11 @@ import net.tomasherman.specus.common.api.net.session.SessionID
 /** SessionManager implementation using IntSessionID implementation of
   * SessionID */
 trait IntSessionManager extends SessionManager {
-  protected val sessions:Map[SessionID,Session]
+  protected var sessions:Map[SessionID,Session]
 
   def createNewSession(channel: Channel) = {
     val sid = IntSessionID()
-    sessions(sid) = new NettySession(channel)
+    sessions = sessions + ((sid,new NettySession(channel)))
     sid
   }
   def closeSession(id: SessionID) {

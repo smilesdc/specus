@@ -1,6 +1,5 @@
 package net.tomasherman.specus.server.plugin
 
-import collection.mutable.Map
 import akka.actor.ActorRef
 import net.tomasherman.specus.server.api.plugin.{PluginEventProcessorId, PluginEvent, PluginEventManager}
 
@@ -26,22 +25,22 @@ import net.tomasherman.specus.server.api.plugin.{PluginEventProcessorId, PluginE
 /** Implementation of PluginEventManager */
 class SpecusPluginEventManager extends PluginEventManager{
 
-  protected val mapping = Map[Class[_],List[PluginEventProcessorId]]()
-  protected val idToProcessor = Map[PluginEventProcessorId,ActorRef]()
+  protected var mapping = Map[Class[_],List[PluginEventProcessorId]]()
+  protected var idToProcessor = Map[PluginEventProcessorId,ActorRef]()
 
   def registerEventProcessor(processor: ActorRef, events: List[Class[_<:PluginEvent]]) = {
     val newId = IntPluginEventProcessorID()
     events.foreach({ e =>
       val newList = mapping.getOrElse(e,List[PluginEventProcessorId]()) ::: List(newId)
-      idToProcessor(newId) = processor
-      mapping(e) = newList
+      idToProcessor = idToProcessor + ((newId,processor))
+      mapping = mapping + ((e,newList))
     })
     newId
   }
 
   def removeEventProcessor(processor:PluginEventProcessorId) {
-    mapping.filter({ p => p._2.contains(processor)}).foreach( { q => mapping(q._1) = q._2.filterNot({ x => x == processor })})
-    idToProcessor remove processor
+    mapping.filter({ p => p._2.contains(processor)}).foreach( { q => mapping = mapping + ((q._1,q._2.filterNot({ x => x == processor })))})
+    idToProcessor = idToProcessor - processor
   }
 
   def sendEvent(event:PluginEvent) {

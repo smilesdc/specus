@@ -1,7 +1,6 @@
 package net.tomasherman.specus.server.net.session
 
 import org.specs2.mutable.Specification
-import collection.mutable.Map
 import net.tomasherman.specus.server.api.net.session.Session
 import org.specs2.mock.Mockito
 import org.jboss.netty.channel.Channel
@@ -29,7 +28,7 @@ import net.tomasherman.specus.common.api.net.session.SessionID
  */
 
 class ISMImpl(mock:Map[SessionID,Session]) extends IntSessionManager {
-  protected val sessions = mock
+  var sessions = mock
 }
 
 protected trait ISMScope extends Scope with Mockito{
@@ -53,9 +52,10 @@ class IntSessionManagerSpec extends Specification with Mockito {
   "IntSessionManager" should {
 
     "should create session properly" in new ISMScope{
+      override val sessionMgr = new ISMImpl(Map[SessionID,Session]())
       val channel = mock[Channel]
       val sid = sessionMgr.createNewSession(channel)
-      there was one(m).update(sid,new NettySession(channel))
+      sessionMgr.sessions.keySet == Set(sid)
     }
 
     "should close session properly" in new ISMScope{

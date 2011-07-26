@@ -4,6 +4,8 @@ import java.io.File
 import net.tomasherman.specus.server.api.config.Configuration
 import net.tomasherman.specus.server.api.plugin._
 import net.tomasherman.specus.server.api.plugin.definitions._
+import akka.actor.Actor.actorOf
+import net.tomasherman.specus.server.api.net.CodecRepository
 
 /**
  * This file is part of Specus.
@@ -29,13 +31,15 @@ import net.tomasherman.specus.server.api.plugin.definitions._
 class SimplePluginManager(val env: {
   val config: Configuration
   val pluginDefinitionLoader: PluginDefinitionLoader
+  val pluginEventManager: PluginEventManager
+  val codecRepository: CodecRepository
 }) extends PluginManager{
-
+  private var eventProcessors = Map[PluginIdentifier,PluginEventProcessorId]()
   private var plugins = Map[PluginIdentifier,(PluginDefinition,Plugin)]()
 
   /** Loads all valid plugins from given directory.
     * @param dir Directory in which the plugins are looked up.
-    * @returns List of loaded plugins. */
+    * @return List of loaded plugins. */
   def bootupPlugins(dir: File) {
     val dirs = dir.listFiles().filter(_.isDirectory).toList
     plugins = (dirs.foldLeft(List[(PluginIdentifier,(PluginDefinition,Plugin))]())(
@@ -49,6 +53,10 @@ class SimplePluginManager(val env: {
       }
     )).toMap
     checkPluginDependencies(plugins)
+    pluginIdentifiers foreach { x=>
+      registerEventHandlers(x,env.pluginEventManager)
+      registerCodecs(x,env.codecRepository)
+    }
   }
 
   def checkPluginDependencies(pluginMap:Map[PluginIdentifier,(PluginDefinition,Plugin)]) {
@@ -65,7 +73,30 @@ class SimplePluginManager(val env: {
     })
   }
 
+  def plugin(ident: PluginIdentifier) = plugins(ident)._2
+  def pluginDefinitions(ident: PluginIdentifier) = plugins(ident)._1
+  def eventProcessorId(ident: PluginIdentifier) = eventProcessors(ident)
   def pluginIdentifiers = plugins.keySet
+
+  def registerCodecs(ident:PluginIdentifier,codecRepository:CodecRepository) {
+    plugin(ident).getCodecs match {
+      case None => //done
+      case Some(x) => x foreach {env.codecRepository.registerCodec(_)}
+    }
+  }
+
+  def registerEventHandlers(ident:PluginIdentifier,mgr:PluginEventManager) {
+    val p = plugin(ident)
+    p.eventProcessorClass match {
+      case None => //done
+      case Some(x) => {
+        val ref = actorOf(x)
+        val id = env.pluginEventManager.registerEventProcessor(ref,p.registerForEvents.getOrElse(List()))
+        eventProcessors = eventProcessors + ((ident,id))
+      }
+    }
+  }
+
 
   /** Helper plugin-loading function to make bootupPlugins a little more readable.
     * Handles PluginDefinitions loading as well as instantiating of new Plugin class
@@ -78,7 +109,7 @@ class SimplePluginManager(val env: {
 
   /** Creates new instance of class.
     * @param String representation of the class to be created.
-    * @returns New instance of the desired class. */
+    * @return New instance of the desired class. */
   private def instantiatePlugin(c: String) = {
     Class.forName(c).newInstance().asInstanceOf[Plugin]
   }

@@ -2,11 +2,11 @@ package net.tomasherman.specus.server.api.di
 
 import net.tomasherman.specus.server.api.net.CodecRepository
 import net.tomasherman.specus.server.api.net.session.SessionManager
-import net.tomasherman.specus.server.api.plugin.PluginManager
 import net.tomasherman.specus.server.api.config.Configuration
 import org.jboss.netty.channel.{ChannelPipelineFactory, ChannelHandler}
 import net.tomasherman.specus.server.api.grid.NodeManager
 import net.tomasherman.specus.server.api.plugin.definitions.PluginDefinitionLoader
+import net.tomasherman.specus.server.api.plugin.{PluginEventManager, PluginManager}
 
 /**
  * This file is part of Specus.
@@ -40,4 +40,5 @@ trait DependencyConfig {
   val pluginManager: PluginManager
   val config: Configuration
   val pluginDefinitionLoader: PluginDefinitionLoader
+  val pluginEventManager: PluginEventManager
 }

@@ -44,7 +44,7 @@ class SimpleCodecRepository extends CodecRepository{
   /**
    * Registers codec for lookup. Note that registration fails should any other codec be registered with same packet class or packet id as registering codec.
    * @param codecClass Class of the codec to be registered. New instance is created automatically.
-   * @returns True if the codec was registered correctly. False if registration failed
+   * @return True if the codec was registered correctly. False if registration failed
    */
   def registerCodec(codecClass: Class[_<: Codec[_<: Packet]]): Boolean = {
     if(codecClass == null) return false

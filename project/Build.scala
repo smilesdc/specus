@@ -52,11 +52,19 @@ object BuildSettings {
   val buildVersion      = "0.0.0"
   val buildScalaVersion = "2.9.0-1"
 
+  val localMvnPublishId = "localMvn"
+  val localMvnPublishDir = ".mvn-local-publish-dir"
+
   val buildSettings = Defaults.defaultSettings ++ Seq (
     version      := buildVersion,
     scalaVersion := buildScalaVersion,
-    scalacOptions := Seq("-deprecation", "-unchecked")
-  )
+    scalacOptions := Seq("-deprecation", "-unchecked"),
+    //code to force publish-local to generate maven stuff rather then ivy stuff
+    otherResolvers := Seq(Resolver.file(localMvnPublishId, file(localMvnPublishDir))),
+    publishLocalConfiguration <<= (packagedArtifacts, deliverLocal, ivyLoggingLevel) map {
+      (arts, _, level) => new PublishConfiguration(None,localMvnPublishId,arts,level )
+    }
+   )
 }
 
 
@@ -70,7 +78,6 @@ object Resolvers {
 object Dependencies {
 
   val akka_version = "1.1.3"
-
   val netty = "org.jboss.netty" % "netty" % "3.2.4.Final" withSources //Apache2
   val lift_json = "net.liftweb" %% "lift-json" % "2.4-M2"
   val logback = "ch.qos.logback" % "logback-classic" % "0.9.29"

@@ -6,3 +6,4 @@ project/boot
 lib_managed
 src_managed
 .DS_Store
+/.mvn-local-publish-dir

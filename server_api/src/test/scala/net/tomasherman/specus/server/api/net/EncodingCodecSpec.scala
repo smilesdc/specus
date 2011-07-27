@@ -1,4 +1,4 @@
-package net.tomasherman.specus.server.net
+package net.tomasherman.specus.server.api.net
 
 import org.specs2.mutable.Specification
 import net.tomasherman.specus.common.api.net.Packet

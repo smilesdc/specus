@@ -7,9 +7,9 @@ import net.tomasherman.specus.server.api.net.EncodingUtils._
 import org.jboss.netty.buffer.{ChannelBuffers, ChannelBuffer}
 import org.specs2.mock.Mockito
 import org.jboss.netty.handler.codec.embedder.{CodecEmbedderException, EncoderEmbedder}
-import net.tomasherman.specus.server.api.net.{PacketEncoderNotFoundException, CodecRepository}
 import org.specs2.matcher.ThrownExpectations
 import net.tomasherman.specus.server.api.di.DependencyConfig
+import net.tomasherman.specus.server.api.net.{EncodingCodec, PacketEncoderNotFoundException, CodecRepository}
 
 /**
  * This file is part of Specus.

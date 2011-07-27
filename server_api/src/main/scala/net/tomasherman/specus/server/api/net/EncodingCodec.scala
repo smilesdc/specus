@@ -1,6 +1,5 @@
-package net.tomasherman.specus.server.net
+package net.tomasherman.specus.server.api.net
 
-import net.tomasherman.specus.server.api.net.Codec
 import net.tomasherman.specus.common.api.net.Packet
 import org.jboss.netty.buffer.ChannelBuffer
 /**

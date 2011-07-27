@@ -20,31 +20,31 @@ object SpecusBuild extends Build {
 	lazy val server = Project(
 		"server",
 		file("server"),
-		settings = commonSettings
+		settings = commonSettings ++ Seq(name := "server", version := "0.0.0")
 	) dependsOn (server_api,common_api)
 	
 	lazy val server_api = Project(
 		"server_api",
 		file("server_api"),
-		settings = commonSettings
+		settings = commonSettings ++ Seq(name := "server_api", version := "0.0.0")
 	) dependsOn (common_api)
 	
 	lazy val node = Project(
 		"node",
 		file("node"),
-		settings = commonSettings
+		settings = commonSettings ++ Seq(name := "node", version := "0.0.0")
 	) dependsOn (node_api, common_api)
 	
 	lazy val node_api = Project(
 		"node",
 		file("node_api"),
-		settings = commonSettings
+		settings = commonSettings ++ Seq(name := "node_api", version := "0.0.0")
 	) dependsOn (common_api)
 
   lazy val common_api = Project(
     "common_api",
     file("common_api"),
-    settings = buildSettings
+    settings = buildSettings ++ Seq(name := "common_api", version := "0.0.0")
   )
 }
 
@@ -56,7 +56,9 @@ object BuildSettings {
   val localMvnPublishDir = ".mvn-local-publish-dir"
 
   val buildSettings = Defaults.defaultSettings ++ Seq (
-    version      := buildVersion,
+    organization := "net.tomasherman",
+    version := "0.0.0-SNAPSHOT",
+
     scalaVersion := buildScalaVersion,
     scalacOptions := Seq("-deprecation", "-unchecked"),
     //code to force publish-local to generate maven stuff rather then ivy stuff

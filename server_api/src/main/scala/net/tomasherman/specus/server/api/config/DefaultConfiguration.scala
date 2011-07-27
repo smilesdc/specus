@@ -23,7 +23,7 @@ package net.tomasherman.specus.server.api.config
 class DefaultConfiguration extends Configuration {
   val plugin = new PluginConfig {
     val pluginDefinitionFileName = "plugin.json"
-    val folder = "plugins"
+    val directory = "plugins"
     val definitions = new PluginDefinitionsConfig {
       val identifierKey = "identifier"
       val versionKey = "version"

@@ -2,7 +2,7 @@ package net.tomasherman.specus.server.api.net
 
 import org.specs2.mutable.Specification
 import net.tomasherman.specus.common.api.net.Packet
-import org.jboss.netty.buffer.{ChannelBuffers, ChannelBuffer}
+import org.jboss.netty.buffer.ChannelBuffer
 import org.specs2.specification.Scope
 
 /**
@@ -25,14 +25,12 @@ import org.specs2.specification.Scope
  */
 class TestPacketDecoding extends Packet
 
-class TestCodecDecoding extends EncodingCodec[TestPacketDecoding](0x01.toByte,classOf[TestPacketDecoding]){
+class TestCodecDecoding extends EncodingCodec[TestPacketDecoding](0x01.toByte,classOf[TestPacketDecoding],0,true){
   def decode(buffer: ChannelBuffer) = null //insignificant
 
   protected def encodeDataToBuffer(packet: TestPacketDecoding, buffer: ChannelBuffer) {
     buffer.writeBytes(Array[Byte](0x00,0x01,0x02))
   }
-
-  protected def createChannelBuffer = ChannelBuffers.dynamicBuffer()
 }
 trait EncodingCodecScope extends Scope{
   val codec:EncodingCodec[TestPacketDecoding] = new TestCodecDecoding

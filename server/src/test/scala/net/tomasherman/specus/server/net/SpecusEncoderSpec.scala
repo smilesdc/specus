@@ -33,8 +33,7 @@ import net.tomasherman.specus.server.api.net.{EncodingCodec, PacketEncoderNotFou
 case class TestPacketEncoding(p1:Int,p2:String,p3:Byte) extends Packet
 case class FailTestPacket() extends Packet
 
-class TestCodec extends EncodingCodec(0x01:Byte,classOf[TestPacketEncoding]){
-  protected def createChannelBuffer = ChannelBuffers.dynamicBuffer()
+class TestCodec extends EncodingCodec(0x01:Byte,classOf[TestPacketEncoding],0,true){
 
   protected def encodeDataToBuffer(packet: TestPacketEncoding, buffer: ChannelBuffer) {
     encodeInt(packet.p1,buffer)

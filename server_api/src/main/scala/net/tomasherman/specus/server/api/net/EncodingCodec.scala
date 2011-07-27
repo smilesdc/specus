@@ -2,6 +2,7 @@ package net.tomasherman.specus.server.api.net
 
 import net.tomasherman.specus.common.api.net.Packet
 import org.jboss.netty.buffer.ChannelBuffer
+import org.jboss.netty.buffer.ChannelBuffers.{dynamicBuffer,buffer}
 /**
  * This file is part of Specus.
  *
@@ -23,21 +24,20 @@ import org.jboss.netty.buffer.ChannelBuffer
 
 /** Abstract Codec implementation providing support for easier encoding. Removes
   * the need to write packet id manually. */
-abstract class EncodingCodec[T<: Packet](packetId: Byte,packetClass: Class[T])
+abstract class EncodingCodec[T<: Packet](packetId: Byte,packetClass: Class[T],val expected:Int, val dynamic:Boolean)
   extends Codec(packetId,packetClass){
 
-  def encode(packet: T) = {
-    val buffer = createChannelBuffer
-    buffer.writeByte(packetId)
-    encodeDataToBuffer(packet,buffer)
-    buffer
-  }
+  def this(packetId: Byte,packetClass: Class[T],expected:Int) = this(packetId,packetClass,expected,false)
 
-  /** Returns new ChannelBuffer into which the stuff will be encoded. It is
-    * recommended for codecs that always have exactly N bytes to use static
-    * channel buffers. Codecs that use strings or have non-constant bytes can
-    * use dynamic channel buffers.*/
-  protected def createChannelBuffer:ChannelBuffer
+  def encode(packet: T) = {
+    val bfr = dynamic match {
+      case true => dynamicBuffer(expected+1) //1 byte for id
+      case false => buffer(expected+1)
+    }
+    bfr.writeByte(packetId)
+    encodeDataToBuffer(packet,bfr)
+    bfr
+  }
 
   /** Encodes Packet into bytes and writes them to ChannelBuffer
     * @param packet Packet to be encoded
